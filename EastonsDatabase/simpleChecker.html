@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <select id="word-select"></select>
+    <button onclick="showInfo()">Show Info</button>
+    <div id="word-info"></div>
+
+    <script src="finalDatabase.js"></script>
+    <script>
+        let wordSelect = document.getElementById("word-select");
+        let resultDiv = document.getElementById("word-info");
+        for (let i = 0; i < finalDatabase.length; i++) {
+            //for (let j = 0; j < finalDatabase[i]["entries"].length; j++) {
+            let option = document.createElement("option");
+            option.text = finalDatabase[i]["word"];
+            wordSelect.add(option);
+            //}
+        }
+
+        function showInfo() {
+            //let value = e.options[e.selectedIndex].value;
+            let selectedWord = wordSelect.options[wordSelect.selectedIndex].text;
+            let resultEntries = getEntries(selectedWord);
+
+            //loop through entries
+            let str = "";
+            for (let i = 0; i < resultEntries.length; i++) {
+
+                str += "<hr>";
+                //loopp through keys
+                for (const key in resultEntries[i]) {
+                    str += "<h3>" + key + "</h3>";
+                    str += "<p>";
+                    str += resultEntries[i][key];
+                    str += "</p>"
+                }
+            }
+            str += "<hr>";
+
+            resultDiv.innerHTML = str;
+            console.log(resultEntries);
+
+        }
+
+        function getEntries(soughtWord) {
+            for (let i = 0; i < finalDatabase.length; i++) {
+                //for (let j = 0; j < finalDatabase[i]["entries"].length; j++) {
+                if (soughtWord === finalDatabase[i]["word"]) {
+                    return JSON.parse(JSON.stringify(finalDatabase[i]["entries"]));
+                }
+                //}
+            }
+        }
+    </script>
+</body>
+
+</html>
