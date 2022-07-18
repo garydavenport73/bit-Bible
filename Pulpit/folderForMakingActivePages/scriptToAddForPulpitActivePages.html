@@ -1,0 +1,202 @@
+<script>
+    console.log("loaded the script");
+
+    nameDictionaryBigToSmall = {
+        "Genesis": "Gen",
+        "Exodus": "Exod",
+        "Leviticus": "Lev",
+        "Numbers": "Num",
+        "Deuteronomy": "Deut",
+        "Joshua": "Josh",
+        "Judges": "Judg",
+        "Ruth": "Ruth",
+        "1 Samuel": "1Sam",
+        "2 Samuel": "2Sam",
+        "1 Kings": "1Kgs",
+        "2 Kings": "2Kgs",
+        "1 Chronicles": "1Chr",
+        "2 Chronicles": "2Chr",
+        "Ezra": "Ezra",
+        "Nehemiah": "Neh",
+        "Esther": "Esth",
+        "Job": "Job",
+        "Psalm": "Ps",
+        "Proverbs": "Prov",
+        "Ecclesiastes": "Eccl",
+        "Song of Solomon": "Song",
+        "Isaiah": "Isa",
+        "Jeremiah": "Jer",
+        "Lamentations": "Lam",
+        "Ezekiel": "Ezek",
+        "Daniel": "Dan",
+        "Hosea": "Hos",
+        "Joel": "Joel",
+        "Amos": "Amos",
+        "Obadiah": "Obad",
+        "Jonah": "Jonah",
+        "Micah": "Mic",
+        "Nahum": "Nah",
+        "Habakkuk": "Hab",
+        "Zephaniah": "Zeph",
+        "Haggai": "Hag",
+        "Zechariah": "Zech",
+        "Malachi": "Mal",
+        "Matthew": "Matt",
+        "Mark": "Mark",
+        "Luke": "Luke",
+        "John": "John",
+        "Acts": "Acts",
+        "Romans": "Rom",
+        "1 Corinthians": "1Cor",
+        "2 Corinthians": "2Cor",
+        "Galatians": "Gal",
+        "Ephesians": "Eph",
+        "Philippians": "Phil",
+        "Colossians": "Col",
+        "1 Thessalonians": "1Thess",
+        "2 Thessalonians": "2Thess",
+        "1 Timothy": "1Tim",
+        "2 Timothy": "2Tim",
+        "Titus": "Titus",
+        "Philemon": "Phlm",
+        "Hebrews": "Heb",
+        "James": "Jas",
+        "1 Peter": "1Pet",
+        "2 Peter": "2Pet",
+        "1 John": "1John",
+        "2 John": "2John",
+        "3 John": "3John",
+        "Jude": "Jude",
+        "Revelation": "Rev"
+    }
+
+
+    versetitles = document.getElementsByClassName("versenum");
+    for (versetitle of versetitles) {
+        versetitle.style.backgroundColor = "yellow"
+    };
+    for (versetitle of versetitles) {
+        versetitle.innerHTML = versetitle.innerText.replaceAll(" ", "")
+    };
+    for (versetitle of versetitles) {
+        versetitle.innerHTML = "VERSETITLESTART" + versetitle.innerText + "VERSETITLEEND"
+    };
+
+    topHeadings = document.querySelectorAll("#topheading");
+    for (heading of topHeadings) {
+        heading.style.backgroundColor = "orange"
+    };
+
+    for (heading of topHeadings) {
+        heading.innerText = heading.innerText.replaceAll("◄", "")
+    };
+    for (heading of topHeadings) {
+        heading.innerText = heading.innerText.replaceAll("►", "")
+    };
+    for (heading of topHeadings) {
+        heading.innerText = heading.innerText.trim();
+    };
+
+    for (heading of topHeadings) {
+        tempArray = heading.innerText.split(" ");
+        tempArray[tempArray.length - 1] = "." + tempArray[tempArray.length - 1];
+        heading.innerText = tempArray.join(" ");
+        heading.innerText = heading.innerText.replaceAll(" .", ".");
+    };
+
+    for (heading of topHeadings) {
+        heading.innerText = "HEADINGSTART" + heading.innerText + "HEADINGEND";
+    };
+
+    for (heading of topHeadings) {
+
+        for (const bigName in nameDictionaryBigToSmall) {
+            console.log(bigName, nameDictionaryBigToSmall[bigName])
+            if (heading.innerText.includes(bigName)) {
+                console.log("includes!!!!!!!!!!!!!!!!!!!!!!!");
+                heading.innerText = heading.innerText.replaceAll(bigName, nameDictionaryBigToSmall[bigName]);
+            }
+        }
+    };
+
+    for (heading of topHeadings) {
+        heading.innerHTML = heading.innerText
+    };
+
+    let verses = document.getElementsByClassName("verse");
+    for (verse of verses) {
+        verse.style.backgroundColor = "lightblue"
+    };
+    for (verse of verses) {
+        verse.innerText = "VERSESTART" + verse.innerText + "VERSEEND"
+    };
+    for (verse of verses) {
+        verse.innerHTML = verse.innerText
+    };
+
+    let pulpitHeadings = document.querySelectorAll(".vheading");
+    for (pulpitHeading of pulpitHeadings) {
+        pulpitHeading.style.backgroundColor = "lightgreen"
+    };
+    for (pulpitHeading of pulpitHeadings) {
+        pulpitHeading.innerText = "PULPITSTART" + pulpitHeading.innerText + "PULPITEND"
+    };
+    for (pulpitHeading of pulpitHeadings) {
+        pulpitHeading.innerHTML = pulpitHeading.innerText
+    };
+
+
+    unwanteds = document.querySelectorAll("#left,#right,#botleft,#botright,#bot,#botbox,#main-frame-error,#sub-frame-error,#icon-page-error");
+    for (unwanted of unwanteds) {
+        unwanted.style.backgroundColor = "red"
+    };
+    for (unwanted of unwanteds) {
+        unwanted.parentNode.removeChild(unwanted);
+    };
+
+    let myText = document.getElementsByTagName("body")[0].innerText;
+    myText = myText.replaceAll("\n", "NEWLINE");
+
+    myText = myText.replaceAll('\"', '\\\"');
+    myText = myText.replaceAll('\\ ', "  ");
+
+    myText = myText.replaceAll('\\)', " )");
+
+    //myText = myText.replaceAll('\"', '\\\"');
+
+    myText = myText.replaceAll("", " ");
+
+    myText = myText.replaceAll('HEADINGSTART', '","HEADINGSTART');
+    myText = myText.replaceAll('HEADINGEND', 'HEADINGEND":');
+    myText = myText.replaceAll('NEWLINEPULPITSTART', 'PULPITSTART')
+    myText = myText.replaceAll('PULPITSTART', '"PULPITSTART');
+    myText = myText.slice(2, );
+    //myText = myText + "\",";
+
+    myText = myText.replaceAll('HEADINGSTART', '');
+    myText = myText.replaceAll('HEADINGEND', '');
+
+    myText = myText + "\",";
+
+    myText = JSON.stringify(JSON.parse(myText));
+
+    function saveStringToTextFile(str1, filename) {
+        let saveFileName = filename;
+        let blobOfText = new Blob([str1], {
+            type: "text/plain"
+        });
+        let urlToTextBlob = window.URL.createObjectURL(blobOfText);
+        let downloadLink = document.createElement("a");
+        downloadLink.style.display = "none";
+        downloadLink.download = saveFileName;
+        downloadLink.href = urlToTextBlob;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        downloadLink.parentElement.removeChild(downloadLink);
+    }
+
+    pathArray = window.location.pathname.split("/");
+    filename = pathArray[pathArray.length - 1];
+    filename = filename.replace(".all.html", ".json");
+    saveStringToTextFile(myText, filename);
+</script>
