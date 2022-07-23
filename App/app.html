@@ -52,10 +52,23 @@
             align-items: center;
         }
         
+        
+        h1{
+			background-color:orange;
+			width:320px;
+			text-align:center;
+			}
         nav {
             display: flex;
             flex-wrap: wrap;
+            background-color:yellow;
+            min-width:320px;
+            max-width:320px;
+            justify-content:center;
         }
+        button{
+			background-color:lightgrey;
+			}
         
         main {
             display: flex;
@@ -67,31 +80,62 @@
             min-width: 320px;
             max-width: 320px;
             border: 1px solid black;
+            display: none;
         }
     </style>
 </head>
 
 <body>
+	<h1>bitBible</h1>
     <nav>
-        <button>Reading</button>
-        <button>Bible</button>
-        <button>Dictionary</button>
-        <button>Map</button>
-        <button>Commentary</button>
+        <button class="nav-button" id="btn-reading">Plan</button>
+        <button class="nav-button" id="btn-bible">Bible</button>
+        <button class="nav-button" id="btn-dictionary">Dict</button>
+        <button class="nav-button" id="btn-map">Map</button>
+        <button class="nav-button" id="btn-commentary">Commentary</button>
+        <button >&#9921;</button>
+        <button class="nav-button" id="btn-help">?</button>
+        <!--<button>&#9920;</button>-->
     </nav>
     <main>
-        <div class="app" id="reading-plan">READINGPLANLorem ipsum dolor sit, amet consectetur adipisicing elit. Quia corrupti est itaque alias aspernatur aperiam molestias porro libero voluptas voluptatem cupiditate, voluptatibus quis nostrum doloribus, nihil ab optio! Nostrum, cum!</div>
-        <div class="app" id="bible">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur mollitia, est nam eveniet architecto, neque veniam fugit qui fuga non itaque quod similique. Accusamus aut molestiae id maiores, ea dolore?Lorem ipsum dolor sit amet consectetur
+        <div class="app" id="app-reading">READINGPLANLorem ipsum dolor sit, amet consectetur adipisicing elit. Quia corrupti est itaque alias aspernatur aperiam molestias porro libero voluptas voluptatem cupiditate, voluptatibus quis nostrum doloribus, nihil ab optio! Nostrum, cum!</div>
+        <div class="app" id="app-bible">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur mollitia, est nam eveniet architecto, neque veniam fugit qui fuga non itaque quod similique. Accusamus aut molestiae id maiores, ea dolore?Lorem ipsum dolor sit amet consectetur
             adipisicing elit. Id molestiae, repudiandae eum laboriosam dicta veniam inventore, quibusdam reprehenderit dolorum optio iusto, assumenda adipisci odit rem numquam dolore sint quos Lorem ipsum, dolor sit amet consectetur adipisicing elit.
             Inventore dolores accusamus deserunt laborum illum. Modi, vero nostrum unde, dignissimos odit eligendi rem veniam, voluptate eos voluptatem hic molestias maiores optio.</et>
         </div>
-        <div class="app" id="dictionary">DICTIONARYLorem ipsum dolor sit amet consectetur adipisicing elit. Facilis sit soluta, assumenda dolorum suscipit aliquam quasi quod eveniet sint, molestiae amet, debitis illo deserunt explicabo qui ex nobis modi! Voluptatibus.</div>
-        <div class="app" id="map">MAPLorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur, repellendus dicta maxime itaque odit iusto eaque voluptatum veritatis perspiciatis, molestias temporibus. Culpa aperiam assumenda odio saepe fugiat adipisci, deserunt nisi?</div>
-        <div class="app" id="commentary">COMMENTARYLorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat animi aperiam voluptatem nihil? Tenetur ratione corporis, autem, doloremque at repudiandae minus tempora beatae possimus unde, enim odit deleniti sed dolorum.</div>
+        <div class="app" id="app-dictionary">DICTIONARYLorem ipsum dolor sit amet consectetur adipisicing elit. Facilis sit soluta, assumenda dolorum suscipit aliquam quasi quod eveniet sint, molestiae amet, debitis illo deserunt explicabo qui ex nobis modi! Voluptatibus.</div>
+        <div class="app" id="app-map">MAPLorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur, repellendus dicta maxime itaque odit iusto eaque voluptatum veritatis perspiciatis, molestias temporibus. Culpa aperiam assumenda odio saepe fugiat adipisci, deserunt nisi?</div>
+        <div class="app" id="app-commentary">COMMENTARYLorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat animi aperiam voluptatem nihil? Tenetur ratione corporis, autem, doloremque at repudiandae minus tempora beatae possimus unde, enim odit deleniti sed dolorum.</div>
+        <div class="app" id="app-help">COMMENTARYLorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat animi aperiam voluptatem nihil? Tenetur ratione corporis, autem, doloremque at repudiandae minus tempora beatae possimus unde, enim odit deleniti sed dolorum.</div>
 
     </main>
-
-
+<script>
+	let navButtons=document.getElementsByClassName("nav-button");
+	for (let i=0;i<navButtons.length;i++){
+		navButtons[i].addEventListener("click",(evt)=>{toggleApp(evt)});	
+	}
+	let apps=document.getElementsByClassName("app");
+	for (let i=0;i<apps.length;i++){
+		apps[i].style.display="none";
+	}
+	document.getElementById("btn-help").style.backgroundColor="green";
+	document.getElementById("app-help").style.display="block";		
+	function toggleApp(evt){
+		//ert(evt.target.id);
+		let appId="app-"+evt.target.id.split("btn-").join("");
+		let app=document.getElementById(appId);
+		console.log(app.style.display.toString());
+		if (app.style.display==="none"){
+			app.style.display="block";
+			evt.target.style.backgroundColor="green";
+		}
+		else{
+			app.style.display="none";
+			evt.target.style.backgroundColor="lightgrey";
+		}	
+	}
+	
+</script>
 </body>
 
 </html>
