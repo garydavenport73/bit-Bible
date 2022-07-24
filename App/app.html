@@ -13,6 +13,7 @@
         html {
             box-sizing: border-box;
             font-size: 16px;
+            font-family: Sans;
         }
         
         *,
@@ -96,6 +97,9 @@
         .open-verse:hover{
 			background-color:orange;
 			}
+		#bible-bc-selection,#dictionary-selection{
+			max-width:200px;
+			}
     </style>
 </head>
 
@@ -121,7 +125,11 @@
 			<button onclick="showBibleSelection()">Show</button>
 			<div id="bible-result"></div>
         </div>
-        <div class="app" id="app-dictionary">DICTIONARYLorem ipsum dolor sit amet consectetur adipisicing elit. Facilis sit soluta, assumenda dolorum suscipit aliquam quasi quod eveniet sint, molestiae amet, debitis illo deserunt explicabo qui ex nobis modi! Voluptatibus.</div>
+        <div class="app" id="app-dictionary">
+            <select name="dictionary-selection" id="dictionary-selection" ">Selection</select>
+			<button onclick="showDictionarySelection()">Show</button>
+			<div id="dictionary-result"></div>
+			</div>
         <div class="app" id="app-map">MAPLorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur, repellendus dicta maxime itaque odit iusto eaque voluptatum veritatis perspiciatis, molestias temporibus. Culpa aperiam assumenda odio saepe fugiat adipisci, deserunt nisi?</div>
         <div class="app" id="app-commentary">COMMENTARYLorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat animi aperiam voluptatem nihil? Tenetur ratione corporis, autem, doloremque at repudiandae minus tempora beatae possimus unde, enim odit deleniti sed dolorum.</div>
         <div class="app" id="app-help">COMMENTARYLorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat animi aperiam voluptatem nihil? Tenetur ratione corporis, autem, doloremque at repudiandae minus tempora beatae possimus unde, enim odit deleniti sed dolorum.</div>
@@ -155,6 +163,7 @@
 </script>
     <script src="../workingFolder/arraysAndObjects/bookChapterKeys.js"></script>
     <script src="../JSONBibles/ChapterBibles/ChapterBiblesWithExtraHeadingsAndParagraphs/NASBChapterBible.js"></script>
+    <script src="../workingFolder/EastonsRelated/finalDatabase.js"></script>    
     <script> //alert("reading in");
 			let tempStr=JSON.stringify(theChapterBible);
 			tempStr=tempStr.split("HEADINGSTART").join("<h2>");
@@ -218,6 +227,55 @@ for (let i=0;i<openVerses.length;i++){
 selectBibleVerse("Gen.1");
 
 		
+    </script>
+    
+    <script>
+        let dictionarySelection = document.getElementById("dictionary-selection");
+        let dictionaryResult = document.getElementById("dictionary-result");
+
+        for (let i = 0; i < eastons.length; i++) {
+            console.log(eastons[i]);
+            let option = document.createElement("option");
+            option.text = eastons[i]["word"];
+            dictionarySelection.add(option);
+        }
+        
+        function showDictionarySelection() {
+            //let value = e.options[e.selectedIndex].value;
+            let selectedWord = dictionarySelection.options[dictionarySelection.selectedIndex].text;
+            let resultEntries = getEntries(selectedWord);
+
+            //loop through entries
+            let str = "";
+            for (let i = 0; i < resultEntries.length; i++) {
+
+                str += "<hr>";
+                //loopp through keys
+                for (const key in resultEntries[i]) {
+                    str += "<h3>" + key + "</h3>";
+                    str += "<p>";
+                    str += resultEntries[i][key];
+                    str += "</p>"
+                }
+            }
+            str += "<hr>";
+
+            dictionaryResult.innerHTML = str;
+            console.log(resultEntries);
+
+        }
+
+        function getEntries(soughtWord) {
+            for (let i = 0; i < eastons.length; i++) {
+                //for (let j = 0; j < finalDatabase[i]["entries"].length; j++) {
+                if (soughtWord === eastons[i]["word"]) {
+                    return JSON.parse(JSON.stringify(eastons[i]["entries"]));
+                }
+                //}
+            }
+        }        
+        
+        
     </script>
 </body>
 

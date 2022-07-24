@@ -1,4 +1,4 @@
-let finalDatabase = [{
+let eastons = [{
     "word": "A",
     "entries": [{
         "dictLookup": "A",
