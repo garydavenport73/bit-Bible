@@ -33,9 +33,9 @@ for (let i=14;i<32;i++){ //14 through 31 appear to not affect text, //unused  us
 	keysArray.push(String.fromCharCode(i));
 }
 /////trying to add extra keys
-for (let i=161;i<192;i++){ 
-	keysArray.push(String.fromCharCode(i));
-}
+//for (let i=161;i<192;i++){ 
+//	keysArray.push(String.fromCharCode(i));
+//}
 //////////////////////////
 console.log(keysArray);
 //			To Compress	
@@ -56,6 +56,7 @@ function cleanString(str){
 }
 
 str = cleanString(str);
+//cleanedString=str;
 fs.writeFileSync("output.txt",str,"utf8")
 
 //   if any of the keys are in words, replace with space	str to str
@@ -167,7 +168,37 @@ function compressString(str, keysArray,wordsArray){
 	return str;
 }
 
-fs.writeFileSync("NASBChapterBible.json.compressed.txt",compressString(str, keysArray, wordsArray),"utf8");
+let compressedString=compressString(str, keysArray, wordsArray)
+fs.writeFileSync("NASBChapterBible.json.compressed.txt",compressedString,"utf8");
+
+let checker=fs.readFileSync("NASBChapterBible.json.compressed.txt");
+console.log(compressedString==checker);
+
+function uncompressString(str){
+	let arr=str.split("SPLITHERE");
+	let header=arr[0];
+	let content=arr[1];
+	let keyCodeArray=header.split(",");
+	//console.log(keyCodeArray);
+	//let keys={};
+	for (let i=0;i<keyCodeArray.length;i++){
+		let key=keyCodeArray[i].split(":")[0];
+		console.log(JSON.stringify(key));
+		let word=keyCodeArray[i].split(":")[1];
+		content=content.split(key).join(word);
+	}
+	//console.log(keys);
+
+	return content;
+}
+
+let uncompressedString = uncompressString(compressedString);
+
+
+fs.writeFileSync("checkcompress.json",compressedString,"utf8");
+console.log(fs.readFileSync("checkcompress.json","utf8")==fs.readFileSync("output.txt","utf8"));
+
+
 
 /*
 for (let i=0;i<wordObjectsArray.length;i++){

@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Document</title> 
+	<link rel="stylesheet" href="style.css">
     <style>
         /* reset begins */
         
@@ -58,6 +59,13 @@
 			width:320px;
 			text-align:center;
 			}
+		h2{
+			padding:5px;
+			margin:5px;
+			}
+		p{ padding:5px;
+			margin:5px;
+			}
         nav {
             display: flex;
             flex-wrap: wrap;
@@ -81,7 +89,13 @@
             max-width: 320px;
             border: 1px solid black;
             display: none;
+            max-height:400px;
+            overflow-y:auto;
         }
+        
+        .open-verse:hover{
+			background-color:orange;
+			}
     </style>
 </head>
 
@@ -98,10 +112,14 @@
         <!--<button>&#9920;</button>-->
     </nav>
     <main>
-        <div class="app" id="app-reading">READINGPLANLorem ipsum dolor sit, amet consectetur adipisicing elit. Quia corrupti est itaque alias aspernatur aperiam molestias porro libero voluptas voluptatem cupiditate, voluptatibus quis nostrum doloribus, nihil ab optio! Nostrum, cum!</div>
-        <div class="app" id="app-bible">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur mollitia, est nam eveniet architecto, neque veniam fugit qui fuga non itaque quod similique. Accusamus aut molestiae id maiores, ea dolore?Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Id molestiae, repudiandae eum laboriosam dicta veniam inventore, quibusdam reprehenderit dolorum optio iusto, assumenda adipisci odit rem numquam dolore sint quos Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-            Inventore dolores accusamus deserunt laborum illum. Modi, vero nostrum unde, dignissimos odit eligendi rem veniam, voluptate eos voluptatem hic molestias maiores optio.</et>
+        <div class="app" id="app-reading">
+			READINGPLAN<br>
+			<span class="open-verse">Rev.1</span>
+		</div>
+        <div class="app" id="app-bible">
+            <select name="bible-bc-selection" id="bible-bc-selection" ">Selection</select>
+			<button onclick="showBibleSelection()">Show</button>
+			<div id="bible-result"></div>
         </div>
         <div class="app" id="app-dictionary">DICTIONARYLorem ipsum dolor sit amet consectetur adipisicing elit. Facilis sit soluta, assumenda dolorum suscipit aliquam quasi quod eveniet sint, molestiae amet, debitis illo deserunt explicabo qui ex nobis modi! Voluptatibus.</div>
         <div class="app" id="app-map">MAPLorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur, repellendus dicta maxime itaque odit iusto eaque voluptatum veritatis perspiciatis, molestias temporibus. Culpa aperiam assumenda odio saepe fugiat adipisci, deserunt nisi?</div>
@@ -118,8 +136,8 @@
 	for (let i=0;i<apps.length;i++){
 		apps[i].style.display="none";
 	}
-	document.getElementById("btn-help").style.backgroundColor="green";
-	document.getElementById("app-help").style.display="block";		
+	document.getElementById("btn-bible").style.backgroundColor="green";
+	document.getElementById("app-bible").style.display="block";
 	function toggleApp(evt){
 		//ert(evt.target.id);
 		let appId="app-"+evt.target.id.split("btn-").join("");
@@ -134,8 +152,73 @@
 			evt.target.style.backgroundColor="lightgrey";
 		}	
 	}
-	
 </script>
+    <script src="../workingFolder/arraysAndObjects/bookChapterKeys.js"></script>
+    <script src="../JSONBibles/ChapterBibles/ChapterBiblesWithExtraHeadingsAndParagraphs/NASBChapterBible.js"></script>
+    <script> //alert("reading in");
+			let tempStr=JSON.stringify(theChapterBible);
+			tempStr=tempStr.split("HEADINGSTART").join("<h2>");
+			tempStr=tempStr.split("HEADINGEND").join("</h2>");
+			tempStr=tempStr.split("HEADINGEND").join("</h2>");
+			tempStr=tempStr.split("PARAGRAPHSTARTS").join("<p>");
+			tempStr=tempStr.split("PARAGRAPHENDS").join("</p>");
+			tempStr=tempStr.split("VERSESTART").join("<sup>");
+			tempStr=tempStr.split("VERSEEND").join("</sup>");
+			//alert("converted");
+			//console.log(theChapterBible);	
+			theChapterBible=JSON.parse(tempStr);
+    </script>
+    
+    
+
+    <script>
+        let bibleBCSelection = document.getElementById("bible-bc-selection");
+        let bibleResult = document.getElementById("bible-result");
+
+        for (let i = 0; i < bookChapterKeys.length; i++) {
+            console.log(bookChapterKeys[i]);
+            let option = document.createElement("option");
+            option.text = bookChapterKeys[i];
+            bibleBCSelection.add(option);
+        }
+
+        function showBibleSelection() {
+            //alert(theChapterBible[bibleBCSelection.options[bibleBCSelection.selectedIndex].value]);
+            bibleResult.innerHTML = theChapterBible[bibleBCSelection.options[bibleBCSelection.selectedIndex].value];
+
+        }
+        
+
+        
+function selectBibleVerse(osisRef){
+	let index=-1;
+	for (let i=0;i<bibleBCSelection.options.length;i++){
+		console.log(bibleBCSelection.options[i].innerText);
+		if (osisRef==bibleBCSelection.options[i].innerText){
+			index=i;
+		}
+	}
+	if (index!=-1){
+		bibleBCSelection.selectedIndex=index.toString();
+	}
+	showBibleSelection();
+	
+}
+
+let openVerses=document.getElementsByClassName("open-verse");
+for (let i=0;i<openVerses.length;i++){
+	openVerses[i].addEventListener("click",(evt)=>{selectBibleVerse(evt.target.innerText)});
+}
+		
+//console.log(bibleBCSelection.options);
+//for (let i=0;i<bibleBCSelection.options.length;i++){
+//	console.log(bibleBCSelection.options[i].innerText);
+//}
+			
+selectBibleVerse("Gen.1");
+
+		
+    </script>
 </body>
 
 </html>

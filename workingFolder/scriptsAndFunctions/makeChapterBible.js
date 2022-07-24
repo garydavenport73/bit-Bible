@@ -34,7 +34,7 @@ function makeChapterBibleFromBible(jsonBible, osisReferencesArray, useExtras = t
                     if (paragraphLocations[osisRef] != undefined) { wholeChapterText += paragraphLocations[osisRef] };
                 }
 
-                if (jsonBible[osisRef] != undefined) { wholeChapterText += "[" + verse + "]" + jsonBible[osisRef] };
+                if (jsonBible[osisRef] != undefined) { wholeChapterText += "VERSESTART" + verse + "VERSEEND" + jsonBible[osisRef] };
                 if (useExtras) {
                     if (paragraphEndLocations[osisRef] != undefined) { wholeChapterText += paragraphEndLocations[osisRef] };
                 }
@@ -48,7 +48,7 @@ function makeChapterBibleFromBible(jsonBible, osisReferencesArray, useExtras = t
                     if (paragraphLocations[osisRef] != undefined) { wholeChapterText += paragraphLocations[osisRef] };
                 }
 
-                if (jsonBible[osisRef] != undefined) { wholeChapterText += "[" + verse + "]" + jsonBible[osisRef] };
+                if (jsonBible[osisRef] != undefined) { wholeChapterText += "VERSESTART" + verse + "VERSEEND" + jsonBible[osisRef] };
                 if (useExtras) {
                     if (paragraphEndLocations[osisRef] != undefined) { wholeChapterText += paragraphEndLocations[osisRef] };
                 }
@@ -105,14 +105,19 @@ if (filename != undefined) {
 
     let baseName = filename.split(".json").join("");
     baseName = baseName.split("Bible").join("");
+    let baseNameJS = "";
     //console.log(baseName);
     if (useExtras) {
         baseName = baseName + "ChapterBible.json";
+        baseNameJS = baseName.split(".json").join(".js");
     } else {
         baseName = baseName + "ChapterBibleNoExtras.json";
+        baseNameJS = baseName.split(".json").join(".js");
     }
 
-    fs.writeFileSync(baseName, JSON.stringify(theChapterBible));
+    fs.writeFileSync(baseName, JSON.stringify(theChapterBible), "utf8");
+    fs.writeFileSync(baseNameJS, "let theChapterBible = " + JSON.stringify(theChapterBible) + ";", "utf8");
+
 } else {
     console.log("\nPlease use the filename (example KJVBible.json) as argument.\n");
     console.log("There is a second optional argument (true or false) to use extra headings and paragraph markers (default is true).");
