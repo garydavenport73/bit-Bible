@@ -1,0 +1,14 @@
+(?<=\(/)(.*?)(?=\))    finds interior osis references
+
+
+(?<=\[)(.*?)(?=\])    finds interior of traditional references replaced with nothing
+
+replace [] with nothing
+
+(?<=\(/)(.*?)(?=\#) replace with nothing beginning of osis reference
+
+/# replace with nothing
+
+(( replace with (
+
+)) replace with )

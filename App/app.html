@@ -166,7 +166,7 @@
 		//ert(evt.target.id);
 		let appId="app-"+evt.target.id.split("btn-").join("");
 		let app=document.getElementById(appId);
-		console.log(app.style.display.toString());
+		//console.log(app.style.display.toString());
 		if (app.style.display==="none"){
 			app.style.display="block";
 			evt.target.style.backgroundColor="green";
@@ -201,7 +201,7 @@
         let bibleResult = document.getElementById("bible-result");
 
         for (let i = 0; i < bookChapterKeys.length; i++) {
-            console.log(bookChapterKeys[i]);
+            //console.log(bookChapterKeys[i]);
             let option = document.createElement("option");
             option.text = bookChapterKeys[i];
             bibleBCSelection.add(option);
@@ -295,7 +295,7 @@ let dictionarySelection = document.getElementById("dictionary-selection");
 let dictionaryResult = document.getElementById("dictionary-result");
 
 for (let i = 0; i < eastons.length; i++) {
-	console.log(eastons[i]);
+	//console.log(eastons[i]);
 	let option = document.createElement("option");
 	option.text = eastons[i]["word"];
 	dictionarySelection.add(option);
@@ -408,7 +408,7 @@ function showDictionarySelection() {
 	str += "<hr>";
 
 	dictionaryResult.innerHTML = str;
-	console.log(resultEntries);
+	//console.log(resultEntries);
 	addEventListenersToNestedMenus();
 	addEventListenersToOpenVerses();
 	addEventListenersToOpenDictionaryEntries();
@@ -429,7 +429,7 @@ function openDictionaryEntry(word, entry){
 function selectDictionaryWord(word){
 	let index=-1;
 	for (let i=0;i<dictionarySelection.options.length;i++){
-		console.log(dictionarySelection.options[i].innerText);
+		//console.log(dictionarySelection.options[i].innerText);
 		if (word==dictionarySelection.options[i].innerText){
 			index=i;
 		}
@@ -519,8 +519,8 @@ function closeWordEntries(){
 	let wordEntries = document.getElementsByClassName("word-entry");
 	//console.log(wordEntries);
 	for (let i=0;i<wordEntries.length;i++){
-		console.log(wordEntries[i]);
-		console.log(wordEntries[i].id);
+		//console.log(wordEntries[i]);
+		//console.log(wordEntries[i].id);
 		closeSiblings(wordEntries[i].id);
 		//let siblings = wordEntries[i].parentElement.children;
 		//for (let sibling of siblings) {
