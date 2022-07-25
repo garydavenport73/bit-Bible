@@ -100,7 +100,11 @@
 		#bible-bc-selection,#dictionary-selection{
 			max-width:200px;
 			}
+		.color-hover:hover{
+			background-color:orange;
+			}
     </style>
+    
 </head>
 
 <body>
@@ -118,7 +122,7 @@
     <main>
         <div class="app" id="app-reading">
 			READINGPLAN<br>
-			<span class="open-verse">Rev.1</span>
+			<span class="open-chapter color-hover">Rev.1</span>
 		</div>
         <div class="app" id="app-bible">
             <select name="bible-bc-selection" id="bible-bc-selection" ">Selection</select>
@@ -128,7 +132,19 @@
         <div class="app" id="app-dictionary">
             <select name="dictionary-selection" id="dictionary-selection" ">Selection</select>
 			<button onclick="showDictionarySelection()">Show</button>
-			<div id="dictionary-result"></div>
+			<div id="dictionary-result">
+				<div> 
+					<h3 class='nested-menu word-entry' id="word1">word1</h3>
+					<h4>definition is ...
+
+					</h4>
+				</div>
+				<div>
+					<div class='nested-menu word-entry' id="word2">word2</div>
+					<div>definition is ...</div>			
+				</div>
+
+			</div>
 			</div>
         <div class="app" id="app-map">MAPLorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur, repellendus dicta maxime itaque odit iusto eaque voluptatum veritatis perspiciatis, molestias temporibus. Culpa aperiam assumenda odio saepe fugiat adipisci, deserunt nisi?</div>
         <div class="app" id="app-commentary">COMMENTARYLorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat animi aperiam voluptatem nihil? Tenetur ratione corporis, autem, doloremque at repudiandae minus tempora beatae possimus unde, enim odit deleniti sed dolorum.</div>
@@ -199,10 +215,10 @@
         
 
         
-function selectBibleVerse(osisRef){
+function selectBibleChapter(osisRef){
 	let index=-1;
 	for (let i=0;i<bibleBCSelection.options.length;i++){
-		console.log(bibleBCSelection.options[i].innerText);
+		//console.log(bibleBCSelection.options[i].innerText);
 		if (osisRef==bibleBCSelection.options[i].innerText){
 			index=i;
 		}
@@ -211,71 +227,319 @@ function selectBibleVerse(osisRef){
 		bibleBCSelection.selectedIndex=index.toString();
 	}
 	showBibleSelection();
-	
 }
 
-let openVerses=document.getElementsByClassName("open-verse");
-for (let i=0;i<openVerses.length;i++){
-	openVerses[i].addEventListener("click",(evt)=>{selectBibleVerse(evt.target.innerText)});
+function selectBibleVerse(osisRef){
+	osisRefArray=osisRef.split(".");
+	osisRefArray.pop();
+	osisRef=osisRefArray.join(".");
+	selectBibleChapter(osisRef);
+	}
+
+function addEventListenersToOpenVerses(){
+	let openVerses=document.getElementsByClassName("open-verse");
+	for (let i=0;i<openVerses.length;i++){
+		openVerses[i].addEventListener("click",(evt)=>{selectBibleVerse(evt.target.innerText)});
+	}	
 }
+
+function addEventListenersToOpenChapters(){
+	let openChapters=document.getElementsByClassName("open-chapter");
+	for (let i=0;i<openChapters.length;i++){
+		openChapters[i].addEventListener("click",(evt)=>{selectBibleChapter(evt.target.innerText)});
+	}	
+}
+
+function addEventListenersToOpenDictionaryEntries(){
+	let openDictionaryEntries=document.getElementsByClassName("open-dictionary-entry");
+	for (let i=0;i<openDictionaryEntries.length;i++){
+		openDictionaryEntries[i].addEventListener("click",(evt)=>{openDictionaryEntry(getWordFromEntry(evt.target.innerText),evt.target.innerText)});
+	}	
+}
+
+
+
+function getWordFromEntry(dictLookup){
+	//loop through words in dictionary
+	//loop through entries in words
+	//if entry ===dictLookup
+	//return word
+	for (let i=0;i<eastons.length;i++){
+		let word=eastons[i]["word"];
+		let entries=eastons[i]["entries"];
+		for (let j=0;j<entries.length;j++){
+			if (dictLookup===entries[j]["dictLookup"]){
+				return word;
+			}
+		}
 		
+	}
+	
+}	
+
+addEventListenersToOpenVerses();
+addEventListenersToOpenChapters();
+addEventListenersToOpenDictionaryEntries();		
 //console.log(bibleBCSelection.options);
 //for (let i=0;i<bibleBCSelection.options.length;i++){
 //	console.log(bibleBCSelection.options[i].innerText);
 //}
 			
-selectBibleVerse("Gen.1");
+selectBibleChapter("Gen.1");
 
 		
     </script>
-    
+    <!--DICTIONARY STUFF HERE-->
     <script>
-        let dictionarySelection = document.getElementById("dictionary-selection");
-        let dictionaryResult = document.getElementById("dictionary-result");
+let dictionarySelection = document.getElementById("dictionary-selection");
+let dictionaryResult = document.getElementById("dictionary-result");
 
-        for (let i = 0; i < eastons.length; i++) {
-            console.log(eastons[i]);
-            let option = document.createElement("option");
-            option.text = eastons[i]["word"];
-            dictionarySelection.add(option);
+for (let i = 0; i < eastons.length; i++) {
+	console.log(eastons[i]);
+	let option = document.createElement("option");
+	option.text = eastons[i]["word"];
+	dictionarySelection.add(option);
+}
+        
+function showDictionarySelection() {
+	//let value = e.options[e.selectedIndex].value;
+	let selectedWord = dictionarySelection.options[dictionarySelection.selectedIndex].text;
+	let resultEntries = getEntries(selectedWord);
+
+	//loop through entries
+	let str = "";
+	for (let i = 0; i < resultEntries.length; i++) {
+
+		str += "<hr>";
+		//loopp through keys
+		str +="<div>";
+		for (const key in resultEntries[i]) {
+			//handle every key type lookup here
+			//dictLookup
+			//dictText
+			//verseReferences
+			//location
+			//mother
+			//father
+			//partners
+			//children
+			//siblings
+			//halfSiblingsSameMother
+			//halfSiblingsSameFather
+			if (key==="dictLookup"){
+				let id=resultEntries[i][key];
+				str += "<h3 class='nested-menu word-entry color-hover' id='"+id+"'>" + resultEntries[i][key] + "</h3>";
+			}
+			//handl
+			else if(key=="dictText"){
+				str +="<h3>Text:</h3>";
+				str += "<p>";
+				str += resultEntries[i][key];
+				str += "</p>";
+				//str += "<h3>" + key + "</h3>";
+				//str += "<p>";
+				//str += resultEntries[i][key];
+				//str += "</p>";
+			}
+			else if(key=="verseReferences"){
+				str +="<h3>References:</h3>";
+				str += "<p>";
+				let versesArray=resultEntries[i][key].split(",");
+				str+="<span class='open-verse color-hover'>";
+				str+=resultEntries[i][key].split(",").join("</span>,<span class='open-verse color-hover'>");
+				str+="</span>";
+				str += "</p>";
+			}
+			else if(
+			(key==="mother") || 
+			(key==="father") || 
+			(key==="partners") || 
+			(key==="children") || 
+			(key==="siblings")|| 
+			(key==="halfSiblingsSameMother") || 
+			(key==="halfSiblingsSameFather")
+			){
+				
+			if(key==="mother"){str +="<h3>Mother:</h3>";} 
+			else if(key==="father"){str +="<h3>Father:</h3>";} 
+			else if(key==="partners"){str +="<h3>Partner:</h3>";} 
+			else if(key==="children"){str +="<h3>Children:</h3>";} 
+			else if(key==="siblings"){str +="<h3>Siblings:</h3>";} 
+			else if(key==="halfSiblingsSameMother"){str +="<h3>Half-Sibling (same mother):</h3>";} 
+			else if(key==="halfSiblingsSameFather"){str +="<h3>Half-Sibling (same father):</h3>";}
+			
+			//mother
+			//father
+			//partners
+			//children
+			//siblings
+			//halfSiblingsSameMother
+			//halfSiblingsSameFather
+				
+				
+				str += "<p>";
+				let peopleArray=resultEntries[i][key].split(",");
+				
+				for (let j=0;j<peopleArray.length;j++){
+					if (peopleArray[j].indexOf("no entry")==-1){//no entry in dictionary
+						str+="<span class='open-dictionary-entry color-hover'>";
+						str+=peopleArray[j];
+						str+="</span>,"
+					}
+					else{ //entry in dictionary
+						str+="<span>";
+						str+=peopleArray[j];
+						str+="</span>,"
+					}
+				}
+				str=str.slice(0,-1);				
+				
+				str += "</p>";
+			}
+			else{
+				str += "<h3>" + key + "</h3>";
+				str += "<p>";
+				str += resultEntries[i][key];
+				str += "</p>";
+				}
+		}
+		str+="</div>";
+	}
+	str += "<hr>";
+
+	dictionaryResult.innerHTML = str;
+	console.log(resultEntries);
+	addEventListenersToNestedMenus();
+	addEventListenersToOpenVerses();
+	addEventListenersToOpenDictionaryEntries();
+
+	
+	//if there is just one leave open
+	if (resultEntries.length>1){
+		closeWordEntries();
+	}
+}
+
+function openDictionaryEntry(word, entry){
+	selectDictionaryWord(word);
+	openSiblings(entry);
+}
+			
+			
+function selectDictionaryWord(word){
+	let index=-1;
+	for (let i=0;i<dictionarySelection.options.length;i++){
+		console.log(dictionarySelection.options[i].innerText);
+		if (word==dictionarySelection.options[i].innerText){
+			index=i;
+		}
+	}
+	if (index!=-1){
+		dictionarySelection.selectedIndex=index.toString();
+	}
+	showDictionarySelection();
+}
+
+function selectDictionaryEntry(dictLookup){
+	//find parent of the dictlookup
+	//open the word and
+
+}
+			
+function openSiblings(id){
+	let menu=document.getElementById(id);
+    let siblings = menu.parentElement.children;
+    for (let sibling of siblings) {
+        if (sibling === menu) {
+            //alert("found self!");
+        } else {
+            //if (sibling.style.display === "none") {
+                sibling.style.display = "inherit";
+            //} else {
+            //    sibling.style.display = "none";
+            //}
         }
-        
-        function showDictionarySelection() {
-            //let value = e.options[e.selectedIndex].value;
-            let selectedWord = dictionarySelection.options[dictionarySelection.selectedIndex].text;
-            let resultEntries = getEntries(selectedWord);
+    }
+}
 
-            //loop through entries
-            let str = "";
-            for (let i = 0; i < resultEntries.length; i++) {
-
-                str += "<hr>";
-                //loopp through keys
-                for (const key in resultEntries[i]) {
-                    str += "<h3>" + key + "</h3>";
-                    str += "<p>";
-                    str += resultEntries[i][key];
-                    str += "</p>"
-                }
-            }
-            str += "<hr>";
-
-            dictionaryResult.innerHTML = str;
-            console.log(resultEntries);
-
+function closeSiblings(id){
+	let menu=document.getElementById(id);
+    let siblings = menu.parentElement.children;
+    for (let sibling of siblings) {
+        if (sibling === menu) {
+            //alert("found self!");
+        } else {
+            //if (sibling.style.display === "none") {
+                sibling.style.display = "none";
+            //} else {
+            //    sibling.style.display = "none";
+            //}
         }
+    }
+}
 
-        function getEntries(soughtWord) {
-            for (let i = 0; i < eastons.length; i++) {
-                //for (let j = 0; j < finalDatabase[i]["entries"].length; j++) {
-                if (soughtWord === eastons[i]["word"]) {
-                    return JSON.parse(JSON.stringify(eastons[i]["entries"]));
-                }
-                //}
+function getEntries(soughtWord) {
+	for (let i = 0; i < eastons.length; i++) {
+		//for (let j = 0; j < eastons[i]["entries"].length; j++) {
+		if (soughtWord === eastons[i]["word"]) {
+			return JSON.parse(JSON.stringify(eastons[i]["entries"]));
+		}
+		//}
+	}
+}        
+        
+
+
+    </script>
+    <!--NESTED MENU STUFF-->
+    <script>
+function addEventListenersToNestedMenus(){
+    ﻿let nestedMenues = document.getElementsByClassName("nested-menu");
+	for (let nestedmenu of nestedMenues) {
+		nestedmenu.addEventListener("click", (evt) => { toggleNest(evt.target) });
+	}
+}
+
+function toggleNest(menu) {
+    let siblings = menu.parentElement.children;
+    for (let sibling of siblings) {
+        if (sibling === menu) {
+            //alert("found self!");
+        } else {
+            if (sibling.style.display === "none") {
+                sibling.style.display = "inherit";
+            } else {
+                sibling.style.display = "none";
             }
-        }        
-        
-        
+        }
+    }
+}
+
+function closeWordEntries(){
+	let wordEntries = document.getElementsByClassName("word-entry");
+	//console.log(wordEntries);
+	for (let i=0;i<wordEntries.length;i++){
+		console.log(wordEntries[i]);
+		console.log(wordEntries[i].id);
+		closeSiblings(wordEntries[i].id);
+		//let siblings = wordEntries[i].parentElement.children;
+		//for (let sibling of siblings) {
+		//	if (sibling === wordEntries[i]) {
+            //alert("found self!");
+		//	} else {
+		//	sibling.style.display = "none";
+		//	}
+		//}
+	}
+}
+
+//selectDictionaryWord("Micah");
+
+addEventListenersToNestedMenus();
+//closeWordEntries();
+//openSiblings("word2");
+openDictionaryEntry("Enchantments","Enchantments 2");
+selectBibleVerse("1Chr.23.1");
     </script>
 </body>
 
