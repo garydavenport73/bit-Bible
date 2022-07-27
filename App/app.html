@@ -178,6 +178,7 @@
 	}
 </script>
     <script src="../workingFolder/arraysAndObjects/bookChapterKeys.js"></script>
+    <script src="../workingFolder/arraysAndObjects/osisReferencesArray.js"></script>
     <script src="../JSONBibles/ChapterBibles/ChapterBiblesWithExtraHeadingsAndParagraphs/NASBChapterBible.js"></script>
     <script src="../workingFolder/EastonsRelated/finalDatabase.js"></script>    
     <script> //alert("reading in");
@@ -189,9 +190,37 @@
 			tempStr=tempStr.split("PARAGRAPHENDS").join("</p>");
 			tempStr=tempStr.split("VERSESTART").join("<sup>");
 			tempStr=tempStr.split("VERSEEND").join("</sup>");
+			tempStr=tempStr.split("FOUNDWORDSTART").join("<span class='color-hover found-bible-word'>");
+			tempStr=tempStr.split("FOUNDWORDEND").join("</span>");
+			
+			
 			//alert("converted");
 			//console.log(theChapterBible);	
 			theChapterBible=JSON.parse(tempStr);
+			
+			tempStr=JSON.stringify(eastons);
+			
+			tempStr=tempStr.split("VERSEREFSTART").join("<span class='open-verse color-hover'>");
+			tempStr=tempStr.split("VERSEREFEND").join("</span>");
+			tempStr=tempStr.split("CHAPTERREFSTART").join("<span class='open-chapter color-hover'>");
+			tempStr=tempStr.split("CHAPTERREFEND").join("</span>");
+			
+			eastons=JSON.parse(tempStr);
+    </script>
+    
+    <script>
+		
+		//	console.log("stringifying eastons");
+		//	let tempStrEastons=JSON.stringify(eastons);
+		//	for (let i=0;i<osisReferencesArray.length;i++){
+		//		let osisRef=osisReferencesArray[i];
+		//		console.log("replacing",osisRef);
+
+		//		tempStrEastons = tempStrEastons.split("("+osisRef+")").join("(<span class='open-verse color-hover'>"+osisRef+"</span>)");
+		//	}
+			
+		//	eastons=JSON.parse(tempStrEastons);
+			
     </script>
     
     
@@ -210,12 +239,14 @@
         function showBibleSelection() {
             //alert(theChapterBible[bibleBCSelection.options[bibleBCSelection.selectedIndex].value]);
             bibleResult.innerHTML = theChapterBible[bibleBCSelection.options[bibleBCSelection.selectedIndex].value];
+			addEventListenersToFoundBibleWords();
 
         }
         
 
         
 function selectBibleChapter(osisRef){
+	//console.log("called");
 	let index=-1;
 	for (let i=0;i<bibleBCSelection.options.length;i++){
 		//console.log(bibleBCSelection.options[i].innerText);
@@ -226,7 +257,9 @@ function selectBibleChapter(osisRef){
 	if (index!=-1){
 		bibleBCSelection.selectedIndex=index.toString();
 	}
+	//console.log(index);
 	showBibleSelection();
+	addEventListenersToFoundBibleWords();
 }
 
 function selectBibleVerse(osisRef){
@@ -245,6 +278,7 @@ function addEventListenersToOpenVerses(){
 
 function addEventListenersToOpenChapters(){
 	let openChapters=document.getElementsByClassName("open-chapter");
+	//console.log(openChapters);
 	for (let i=0;i<openChapters.length;i++){
 		openChapters[i].addEventListener("click",(evt)=>{selectBibleChapter(evt.target.innerText)});
 	}	
@@ -257,7 +291,65 @@ function addEventListenersToOpenDictionaryEntries(){
 	}	
 }
 
+function addEventListenersToFoundBibleWords(){
+	let foundBibleWords=document.getElementsByClassName("found-bible-word");
+	for (let i=0;i<foundBibleWords.length;i++){
+		foundBibleWords[i].addEventListener("click",(evt)=>{openDictionaryEntry(evt.target.innerText,getBestDefinitionEntry(evt.target.innerText));});
+	}	
+}
 
+function getBestDefinitionEntry(word){
+	console.log(word);
+	word=word.charAt(0).toUpperCase()+word.slice(1);//capitalizes first letter
+	
+	osisChapter=bibleBCSelection.options[bibleBCSelection.selectedIndex].value;
+	
+	//find the right index for the word
+	
+	index=getIndexOfWord(word);
+	
+	let entries=eastons[index]["entries"];
+	for (let i=0;i<entries.length;i++){
+		//if the entry contains the verse, then 
+		//return the dictlookup of entry
+		//console.log(entries[i]["verseReferences"]);
+		let verseReferencesArray=entries[i]["verseReferences"].split(",");
+		//console.log(verseReferencesArray);
+		
+		for (let j=0;j<verseReferencesArray.length;j++){
+			console.log(verseReferencesArray[j]);
+			console.log(osisChapter);
+			console.log(verseReferencesArray[j].indexOf(osisChapter));
+			
+			let compareVerse=verseReferencesArray[j].split("<span class='open-verse color-hover'>").join("").split("</span>").join("");
+			console.log(compareVerse);
+			let compareChapter=compareVerse.split(".")[0]+"."+compareVerse.split(".")[1];
+			console.log(compareChapter);
+			if (compareChapter===osisChapter){
+				console.log("!!!!!!!!!!!!!!!!found at ",entries[i]["dictLookup"]);
+				return entries[i]["dictLookup"];
+			}
+		}
+	
+	}
+	
+	//use entries with that index
+	
+	
+	osisChapter=bibleBCSelection.options[bibleBCSelection.selectedIndex].value;
+	console.log(osisChapter);
+	
+}
+
+function getIndexOfWord(word){
+	for (let i=0;i<eastons.length;i++){
+	if (eastons[i]["word"]===word){
+		//console.log("found at",i);
+			return i;
+		};
+	}
+	return -1;
+}
 
 function getWordFromEntry(dictLookup){
 	//loop through words in dictionary
@@ -280,6 +372,7 @@ function getWordFromEntry(dictLookup){
 addEventListenersToOpenVerses();
 addEventListenersToOpenChapters();
 addEventListenersToOpenDictionaryEntries();		
+addEventListenersToFoundBibleWords();
 //console.log(bibleBCSelection.options);
 //for (let i=0;i<bibleBCSelection.options.length;i++){
 //	console.log(bibleBCSelection.options[i].innerText);
@@ -344,10 +437,13 @@ function showDictionarySelection() {
 			else if(key=="verseReferences"){
 				str +="<h3>References:</h3>";
 				str += "<p>";
-				let versesArray=resultEntries[i][key].split(",");
-				str+="<span class='open-verse color-hover'>";
-				str+=resultEntries[i][key].split(",").join("</span>,<span class='open-verse color-hover'>");
-				str+="</span>";
+				
+				//let versesArray=resultEntries[i][key].split(",");
+				//str+="<span class='open-verse color-hover'>";
+				//str+=resultEntries[i][key].split(",").join("</span>,<span class='open-verse color-hover'>");
+				//str+="</span>";
+				str+=resultEntries[i][key];
+				
 				str += "</p>";
 			}
 			else if(
@@ -411,8 +507,8 @@ function showDictionarySelection() {
 	//console.log(resultEntries);
 	addEventListenersToNestedMenus();
 	addEventListenersToOpenVerses();
+	addEventListenersToOpenChapters();
 	addEventListenersToOpenDictionaryEntries();
-
 	
 	//if there is just one leave open
 	if (resultEntries.length>1){
@@ -422,11 +518,17 @@ function showDictionarySelection() {
 
 function openDictionaryEntry(word, entry){
 	selectDictionaryWord(word);
-	openSiblings(entry);
+	console.log(entry);
+	if (entry!=undefined){
+			openSiblings(entry);
+		}
+	
+
 }
 			
 			
 function selectDictionaryWord(word){
+	word=word.charAt(0).toUpperCase()+word.slice(1);//capitalizes first letter
 	let index=-1;
 	for (let i=0;i<dictionarySelection.options.length;i++){
 		//console.log(dictionarySelection.options[i].innerText);
@@ -538,8 +640,8 @@ function closeWordEntries(){
 addEventListenersToNestedMenus();
 //closeWordEntries();
 //openSiblings("word2");
-openDictionaryEntry("Enchantments","Enchantments 2");
-selectBibleVerse("1Chr.23.1");
+openDictionaryEntry("Jesus","Jesus 2");
+selectBibleVerse("John.3.16");
     </script>
 </body>
 

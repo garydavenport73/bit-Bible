@@ -195,10 +195,10 @@ let bibleAbbreviation = process.argv[2];
 
 if (bibleAbbreviation != undefined) {
     const fs = require('fs');
-    let allBiblesCSVString = fs.readFileSync("../CSVBibles/byOsisRef/CSVBibles.csv", "utf8");
+    let allBiblesCSVString = fs.readFileSync("../../CSVBibles/CSVBibles.csv", "utf8");
     let allBiblesTable = readCSV(allBiblesCSVString, true);
     let thisBible = makeBible(bibleAbbreviation, allBiblesTable);
-    fs.writeFileSync(bibleAbbreviation + "Bible.json", JSON.stringify(thisBible));
+    fs.writeFileSync(bibleAbbreviation + "BibleNoWordTags.json", JSON.stringify(thisBible));
 } else {
     console.log("You need to supply an Bible Abbreviation, (NASB, KJV, etc) as an argument.");
 }

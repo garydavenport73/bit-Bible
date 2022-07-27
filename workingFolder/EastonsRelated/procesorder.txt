@@ -4,3 +4,4 @@ addPlaces.js
 addPeople.js
 trimDatabase.js
 regex replacements by hand in xed
+addTagsToReferences.js

@@ -1,0 +1,20 @@
+
+node addFoundWords NASBBibleNoWordTags.json
+node addFoundWords BSBBibleNoWordTags.json
+node addFoundWords KJVBibleNoWordTags.json
+node addFoundWords ASVBibleNoWordTags.json
+node addFoundWords AKJVBibleNoWordTags.json
+node addFoundWords CPDVBibleNoWordTags.json
+node addFoundWords DBTBibleNoWordTags.json
+node addFoundWords DRBBibleNoWordTags.json
+node addFoundWords ERVBibleNoWordTags.json
+node addFoundWords JPSWEYBibleNoWordTags.json
+node addFoundWords NHEBBibleNoWordTags.json
+node addFoundWords SLTBibleNoWordTags.json
+node addFoundWords WBTBibleNoWordTags.json
+node addFoundWords WEBBibleNoWordTags.json
+node addFoundWords YLTBibleNoWordTags.json
+node addFoundWords NIVBibleNoWordTags.json
+node addFoundWords ESVBibleNoWordTags.json
+node addFoundWords NKJVBibleNoWordTags.json
+node addFoundWords AMPBibleNoWordTags.json

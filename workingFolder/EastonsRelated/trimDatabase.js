@@ -140,4 +140,4 @@ const fullDictionary = JSON.parse(fs.readFileSync("EastonsReorganizedWithReferen
 let trimmedDictionary = trimEntries(fullDictionary);
 trimmedDictionary = trimPersonLookups(trimmedDictionary);
 trimmedDictionary = trimPlaceLookups(trimmedDictionary);
-fs.writeFileSync("finalDatabase.json", JSON.stringify(trimmedDictionary));
+fs.writeFileSync("finalDatabaseNeedsVerseChapterTags.json", JSON.stringify(trimmedDictionary));
