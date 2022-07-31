@@ -111,7 +111,8 @@ fileInput.onchange = (e) => {
     reader.readAsDataURL(file);
 };
 
-let grayRamp = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+~<>i!lI;:,"^`\'. ';
+//let grayRamp = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+~<>i!lI;:,"^`\'. ';
+let grayRamp = '@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+~<>i!lI;:,^. ';
 //let grayRamp = '@%&M*akdqmOQCUXcuxjt|){[?_~>!I:"`\' ';
 
 const rampLength = grayRamp.length;
