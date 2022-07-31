@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ascii Art Converter</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header>
+        <h1>Ascii Art Converter</h1>
+        <!-- <p>Upload a picture and turn it into pure ASCII masterpiece!</p> -->
+    </header>
+
+    <div class="flex-column" id="file-load-div">
+        <input type="file" name="picture" />
+    </div>
+    <div class="flex-column" id="buttons-div">
+        <input type="number" id="character-width" value="50"><label for="character-width">width in characters</label>
+        <input type="number" id="pixel-width" value="50"><label for="pixel-width">width in pixel</label>
+        <button onclick="draw()">Draw</button>
+    </div>
+
+    <div id="result"></div>
+    <hr>
+    <div id="save-tools">
+        <button onclick="copyToClipBoard(asciiImage.innerText)">Copy to Clip Board</button>
+        <button onclick="saveStringToTextFile(asciiImage.innerText,'myAsciiArt','.txt')">Save File</button>
+        <button onclick="window.location.reload();">Start Over</button>
+    </div>
+    <hr>
+    <canvas id="preview" S></canvas>
+    <pre id="ascii"></pre>
+
+    <!-- <footer>
+        <p><a href="#">How does it works?</a> &bull; <a href="#">Source code (GitHub)</a></p>
+    </footer> -->
+    <script src="javascript.js"></script>
+</body>
+
+</html>
