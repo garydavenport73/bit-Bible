@@ -4,6 +4,7 @@ html {
     box-sizing: border-box;
     font-size: 16px;
     font-family: Sans;
+    /* font-family:'Courier New', Courier, monospace; */
 }
 
 *,
@@ -123,6 +124,7 @@ main {
     border: 1px solid black;
     margin: 0;
     padding: 0;
+    vertical-align: top;
 }
 
 #ascii-map {
@@ -140,7 +142,3 @@ main {
     transform: translateX(-50%);
     transform: translateY(-50%);
 }
-/* #coordinates-label,#map-location{
-    white-space: nowrap;
-} */
-

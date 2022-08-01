@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>bitBible</h1>
+    <nav>
+        <button class="nav-button" id="btn-reading">Plan</button>
+        <button class="nav-button" id="btn-bible">Bible</button>
+        <button class="nav-button" id="btn-dictionary">Dict</button>
+        <button class="nav-button" id="btn-map">Map</button>
+        <!-- <button class="nav-button" id="btn-commentary">Commentary</button>
+        <button>&#9921;</button> -->
+        <button class="nav-button" id="btn-help">?</button>
+        <!--<button>&#9920;</button>-->
+    </nav>
+    <main>
+        <div class="app" id="app-reading">
+            <nav>
+                <button onclick="loadReadingProgress();">Load Progress</button>
+                <button onclick="saveReadingProgress();">Save Progress</button>
+                <button onclick="toggleReadingDates();">Show Dates</button>
+            </nav>
+            <table id="reading-plan-table"></table>
+        </div>
+        <div class="app" id="app-bible">
+            <select name="bible-bc-selection" id="bible-bc-selection">Selection</select>
+            <button onclick="showBibleSelection()">Show</button>
+            <div id="bible-result">LOADING...</div>
+        </div>
+        <div class="app" id="app-dictionary">
+            <select name="dictionary-selection" id="dictionary-selection">Selection</select>
+            <button onclick="showDictionarySelection()">Show</button>
+            <div id="dictionary-result">
+                <div>
+                    <h3 class='nested-menu word-entry' id="word1">word1</h3>
+                    <h4>definition is ...
+
+                    </h4>
+                </div>
+                <div>
+                    <div class='nested-menu word-entry' id="word2">word2</div>
+                    <div>definition is ...</div>
+                </div>
+            </div>
+        </div>
+        <div class="app" id="app-map">
+            <nav>
+                <button>OT</button>
+                <button>NT</button>
+                <button onclick="clearBullsEyes()">Clear</button>
+                <button onclick="openGoogleMap()">Google Maps</button>
+            </nav>
+            <span id="coordinates-label"></span>&nbsp;<span id="map-location"></span>
+
+            <!-- <div id="map-name">Old Testament</div> -->
+            <div id="map-container"><pre id="ascii-map"></pre></div>
+        </div>
+        <div class="app" id="app-commentary">COMMENTARYLorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat animi aperiam voluptatem nihil? Tenetur ratione corporis, autem, doloremque at repudiandae minus tempora beatae possimus unde, enim odit deleniti sed dolorum.</div>
+        <div class="app" id="app-help">COMMENTARYLorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat animi aperiam voluptatem nihil? Tenetur ratione corporis, autem, doloremque at repudiandae minus tempora beatae possimus unde, enim odit deleniti sed dolorum.</div>
+
+    </main>
+<script>
+window.onbeforeunload = askConfirm;
+function askConfirm() {
+    return "Close?";
+}
+
+let showDates=true;
+
+function saveReadingProgress(){
+    let saveData={}
+    for (let i=1 ; i<366;i++){
+        let checkBoxId="reading-check-"+i.toString();
+        if (checkBox=document.getElementById(checkBoxId)!=null){
+            let checkBox=document.getElementById(checkBoxId);
+            //console.log(checkBoxId, checkBox.checked);
+            saveData[checkBoxId]=checkBox.checked;
+        }
+    }
+    saveData["show-dates"]=showDates;
+    //console.log(JSON.stringify(saveData));
+    saveStringToTextFile(JSON.stringify(saveData));
+}    
+function saveStringToTextFile(str1, basename = "readingPlanProgress", fileType = ".json") {
+    let filename = basename + fileType;
+    let blobVersionOfText = new Blob([str1], {
+        type: "text/plain"
+    });
+    let urlToBlob = window.URL.createObjectURL(blobVersionOfText);
+    let downloadLink = document.createElement("a");
+    downloadLink.style.display = "none";
+    downloadLink.download = filename;
+    downloadLink.href = urlToBlob;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    downloadLink.parentElement.removeChild(downloadLink);
+}
+
+
+function loadReadingProgress() {
+            let fileContents = "";
+            let inputTypeIsFile = document.createElement('input');
+            inputTypeIsFile.type = "file";
+            inputTypeIsFile.addEventListener("change", function() {
+                let fileInput = inputTypeIsFile.files[0];
+                let fileReader = new FileReader();
+                fileReader.onload = function(fileLoadedEvent) {
+                    readingPlanData=JSON.parse(fileLoadedEvent.target.result);
+                    //console.log(readingPlanData);
+                    for (readingDay in readingPlanData){
+                        let checkBoxId=readingDay;
+                        if (document.getElementById(checkBoxId)!=undefined){
+                            document.getElementById(checkBoxId).checked=readingPlanData[readingDay];
+                        }
+                    }
+                    if (readingPlanData["show-dates"]!=undefined){
+                        //console.log("not undefined, show-dates is "+readingPlanData["show-dates"]+"in json loaded in");
+
+                        showDates=readingPlanData["show-dates"];
+
+                        if (showDates===true){
+                            showReadingDates();
+                        }
+                        else{
+                            //console.log("calling hideReadingDates");
+                            hideReadingDates();
+                        }
+                    }
+                };
+                fileReader.readAsText(fileInput, "UTF-8");
+            });
+            inputTypeIsFile.click();
+        }
+</script>
+
+
+
+    <script>
+        function openGoogleMap() {
+            //alert("called");
+            //let location='31.777444,35.234935';
+            let location = document.getElementById("map-location").innerText;
+
+            window.open("http://maps.google.com/maps?q=" + location);
+        }
+
+        let navButtons = document.getElementsByClassName("nav-button");
+        for (let i = 0; i < navButtons.length; i++) {
+            navButtons[i].addEventListener("click", (evt) => {
+                toggleApp(evt)
+            });
+        }
+        let apps = document.getElementsByClassName("app");
+        for (let i = 0; i < apps.length; i++) {
+            apps[i].style.display ="none";
+        }
+        document.getElementById("btn-bible").style.backgroundColor ="green";
+        document.getElementById("app-bible").style.display ="block";
+        document.getElementById("btn-map").style.backgroundColor ="green";
+        document.getElementById("app-map").style.display ="block";
+
+        function toggleApp(evt) {
+            //ert(evt.target.id);
+            let appId ="app-" + evt.target.id.split("btn-").join("");
+            let app = document.getElementById(appId);
+            //console.log(app.style.display.toString());
+            if (app.style.display ==="none") {
+                app.style.display ="block";
+                evt.target.style.backgroundColor ="green";
+            } else {
+                app.style.display ="none";
+                evt.target.style.backgroundColor ="lightgrey";
+            }
+        }
+    </script>
+    <script src="bookChapterKeys.js"></script>
+    <script src="osisReferencesArray.js"></script>
+    <script src="NASBChapterBible.js"></script>
+    <script src="chronologicalReadingPlan.js"></script> 
+    
+    <script>
+        //console.log(theChapterBible);
+    </script>
+
+
+    <script>
+    function makeReadingTable(readingPlan){
+    //console.log(readingPlan);
+    let readingTable="<tr>";
+    let now=new Date();
+    let currentYear=now.getFullYear();
+    for (let day in readingPlan){
+        let intDay=parseInt(day.split("Day").join("").trim());
+        //console.log(intDay);
+        //console.log(day,readingPlan[day]);
+        let dayArray=readingPlan[day].split(",");
+        readingTable+="<td><ul><input type='checkbox' id='reading-check-"+intDay.toString()+"'><label><b>"+intDay.toString()+"</b></label></li>";
+        readingTable+="<li class='day-of-year' style='display:none'>"+getDateString(currentYear,intDay)+"</li>";            
+            
+        for (readingChapter of dayArray){
+            readingTable+="<li class='open-chapter color-hover'>"+readingChapter+"</li>";
+        }
+        readingTable+="</ul></td>";
+        if (intDay%7===0){
+            //console.log("break week here");
+            readingTable+="</tr><tr>";
+        }
+        if (intDay%28===0){
+            //console.log("break month here");
+            readingTable+="<td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr>";
+        }
+    }
+    readingTable+="</tr>";
+    return readingTable;
+}
+
+function getTodaysDate() {
+    let now = new Date();
+    let day = ("0" + now.getDate()).slice(-2);
+    let month = ("0" + (now.getMonth() + 1)).slice(-2);
+    let today = now.getFullYear() + "-" + month + "-" + day;
+    return today;
+}
+
+function getDateString(year, dayInteger){
+    const d = new Date(year,0,dayInteger);
+    return (d.getFullYear().toString()+"-"+
+        ("0"+(d.getMonth()+1).toString()).slice(-2)+"-"+
+        ("0"+d.getDate().toString()).slice(-2));
+}
+
+function toggleReadingDates(){
+    let readingDates=document.getElementsByClassName('day-of-year');
+    //console.log(readingDates);
+    let today=getTodaysDate();
+
+    for (let i=0; i<readingDates.length; i++){
+        if(readingDates[i].style.display==='none'){
+            readingDates[i].style.display='list-item';
+            if (readingDates[i].innerText===today){
+                //console.log("today found! at", today);
+                readingDates[i].style.backgroundColor="orange"; 
+            }
+            showDates=true;
+        }
+        else{
+            readingDates[i].style.display='none';
+            showDates=false;
+        }
+
+    }
+}
+
+function showReadingDates(){
+    let today=getTodaysDate();
+    let readingDates=document.getElementsByClassName('day-of-year');
+    for (let i=0; i<readingDates.length; i++){
+        readingDates[i].style.display='list-item';
+        if (readingDates[i].innerText===today){
+                //console.log("today found! at", today);
+                readingDates[i].style.backgroundColor="orange"; 
+            }
+        }
+    showDates=true;
+}
+function hideReadingDates(){
+    let readingDates=document.getElementsByClassName('day-of-year');
+    for (let i=0; i<readingDates.length; i++){
+        readingDates[i].style.display='none';
+        }
+    showDates=false;
+}
+
+
+
+document.getElementById('reading-plan-table').innerHTML = makeReadingTable(readingPlan);
+toggleReadingDates();
+
+
+
+
+    </script>
+
+    <script src="finalDatabase.js"></script>
+    <script src="baseMap.js"></script>
+    <script>
+        //alert("reading in");
+        let tempStr = JSON.stringify(theChapterBible);
+        tempStr = tempStr.split("HEADINGSTART").join("<h2>");
+        tempStr = tempStr.split("HEADINGEND").join("</h2>");
+        tempStr = tempStr.split("HEADINGEND").join("</h2>");
+        tempStr = tempStr.split("PARAGRAPHSTARTS").join("<p>");
+        tempStr = tempStr.split("PARAGRAPHENDS").join("</p>");
+        tempStr = tempStr.split("VERSESTART").join("<sup>");
+        tempStr = tempStr.split("VERSEEND").join("</sup>");
+        tempStr = tempStr.split("FOUNDWORDSTART").join("<span class='color-hover found-bible-word'>");
+        tempStr = tempStr.split("FOUNDWORDEND").join("</span>");
+
+
+        //alert("converted");
+        //console.log(theChapterBible);	
+        theChapterBible = JSON.parse(tempStr);
+
+        tempStr = JSON.stringify(eastons);
+
+        tempStr = tempStr.split("VERSEREFSTART").join("<span class='open-verse color-hover'>");
+        tempStr = tempStr.split("VERSEREFEND").join("</span>");
+        tempStr = tempStr.split("CHAPTERREFSTART").join("<span class='open-chapter color-hover'>");
+        tempStr = tempStr.split("CHAPTERREFEND").join("</span>");
+
+        eastons = JSON.parse(tempStr);
+    </script>
+
+    <script>
+        //	//console.log("stringifying eastons");
+        //	let tempStrEastons=JSON.stringify(eastons);
+        //	for (let i=0;i<osisReferencesArray.length;i++){
+        //		let osisRef=osisReferencesArray[i];
+        //		//console.log("replacing",osisRef);
+
+        //		tempStrEastons = tempStrEastons.split("("+osisRef+")").join("(<span class='open-verse color-hover'>"+osisRef+"</span>)");
+        //	}
+
+        //	eastons=JSON.parse(tempStrEastons);
+    </script>
+
+
+
+    <script>
+        let bibleBCSelection = document.getElementById("bible-bc-selection");
+        let bibleResult = document.getElementById("bible-result");
+
+        for (let i = 0; i < bookChapterKeys.length; i++) {
+            //console.log(bookChapterKeys[i]);
+            let option = document.createElement("option");
+            option.text = bookChapterKeys[i];
+            bibleBCSelection.add(option);
+        }
+
+        function showBibleSelection() {
+            //alert(theChapterBible[bibleBCSelection.options[bibleBCSelection.selectedIndex].value]);
+            bibleResult.innerHTML = theChapterBible[bibleBCSelection.options[bibleBCSelection.selectedIndex].value];
+            addEventListenersToFoundBibleWords();
+
+        }
+
+
+
+        function selectBibleChapter(osisRef) {
+            //console.log("called");
+            let index = -1;
+            for (let i = 0; i < bibleBCSelection.options.length; i++) {
+                //console.log(bibleBCSelection.options[i].innerText);
+                if (osisRef == bibleBCSelection.options[i].innerText) {
+                    index = i;
+                }
+            }
+            if (index != -1) {
+                bibleBCSelection.selectedIndex = index.toString();
+            }
+            //console.log(index);
+            showBibleSelection();
+            addEventListenersToFoundBibleWords();
+        }
+
+        function selectBibleVerse(osisRef) {
+            osisRefArray = osisRef.split(".");
+            osisRefArray.pop();
+            osisRef = osisRefArray.join(".");
+            selectBibleChapter(osisRef);
+        }
+
+        function addEventListenersToOpenVerses() {
+            let openVerses = document.getElementsByClassName("open-verse");
+            for (let i = 0; i < openVerses.length; i++) {
+                openVerses[i].addEventListener("click", (evt) => {
+                    selectBibleVerse(evt.target.innerText)
+                });
+            }
+        }
+
+        function addEventListenersToOpenChapters() {
+            let openChapters = document.getElementsByClassName("open-chapter");
+            //console.log(openChapters);
+            for (let i = 0; i < openChapters.length; i++) {
+                openChapters[i].addEventListener("click", (evt) => {
+                    selectBibleChapter(evt.target.innerText)
+                });
+            }
+        }
+
+        function addEventListenersToOpenDictionaryEntries() {
+            let openDictionaryEntries = document.getElementsByClassName("open-dictionary-entry");
+            for (let i = 0; i < openDictionaryEntries.length; i++) {
+                openDictionaryEntries[i].addEventListener("click", (evt) => {
+                    openDictionaryEntry(getWordFromEntry(evt.target.innerText), evt.target.innerText)
+                });
+            }
+        }
+
+        function addEventListenersToFoundBibleWords() {
+            let foundBibleWords = document.getElementsByClassName("found-bible-word");
+            for (let i = 0; i < foundBibleWords.length; i++) {
+                foundBibleWords[i].addEventListener("click", (evt) => {
+                    openDictionaryEntry(evt.target.innerText, getBestDefinitionEntry(evt.target.innerText));
+                });
+            }
+        }
+
+        function addEventListenersToDictionaryLocations() {
+            let dictionaryLocations = document.getElementsByClassName("dictionary-location");
+            for (let i = 0; i < dictionaryLocations.length; i++) {
+                dictionaryLocations[i].addEventListener("click", (evt) => {
+                    document.getElementById("map-location").innerHTML = evt.target.innerText;
+                    document.getElementById("coordinates-label").innerHTML = dictionarySelection.options[dictionarySelection.selectedIndex].text;
+                    plotOnMap(evt.target.innerText);
+                });
+            }
+        }
+
+        let mapContainer=document.getElementById("map-container");
+        let asciiMap=document.getElementById("ascii-map");
+
+        function plotOnMap(location){
+            if (document.getElementById("app-map").style.display==="none"){
+                //do nothing 
+            }
+            else{
+
+            let labelText=dictionarySelection.options[dictionarySelection.selectedIndex].text;
+            
+            let latitude=parseFloat(location.split(",")[0]);
+            let longitude=parseFloat(location.split(",")[1]);
+            let x=convertLongitude(longitude);
+            let y=convertLatitude(latitude);
+            //console.log(latitude,longitude);
+            //console.log(x,y);
+
+            let bullsEye=document.createElement("span");
+            bullsEye.classList.add("bulls-eye");
+            bullsEye.style.position="absolute";
+            bullsEye.style.left=x.toString()+"px";
+            bullsEye.style.top=y.toString()+"px";
+            //bullsEye.innerHTML="o<span class='bulls-eye-extra-label'>yooyoyoyoyoyoyoyo</span>";
+            bullsEye.innerHTML="o";
+            
+
+            bullsEyeLabel=document.createElement("span");
+            bullsEyeLabel.classList.add("bulls-eye-label");
+            bullsEyeLabel.style.position="absolute";
+            bullsEyeLabel.style.left=(x+10).toString()+"px";
+            bullsEyeLabel.style.top=y.toString()+"px";
+            bullsEyeLabel.innerHTML=labelText;
+
+
+
+            mapContainer.appendChild(bullsEye);
+            mapContainer.appendChild(bullsEyeLabel);
+
+        }
+
+
+
+        }
+
+        function convertLongitude(longitude){
+            //the map is about 320px wide //get computed width
+            //longitude starts at 33.5 and ends at 36.5
+            let width=320;
+            //width=parseFloat(asciiMap.width.slice(0,-2));
+            width=asciiMap.offsetWidth;
+            //console.log("calculatoed width",width);
+            
+            let x=(width*longitude - width*33.5)/(36.5-33.5);
+            //console.log(x);
+            return x;
+
+        }
+
+        function convertLatitude(latitude){
+            //the map is about 620px high
+            //latitude starts at 34 and goes to 29
+            let height=620;
+            //height=parseFloat(asciiMap.height.slice(0,-2));
+            height=asciiMap.offsetHeight;
+            //console.log("calculated height",height);
+            let slope = (height)/(29-34);
+            let y = slope*latitude - slope*34;
+            //console.log(y);
+            return y; 
+        }
+
+        function clearBullsEyes(){
+            let bullsEyes = document.getElementsByClassName("bulls-eye");
+            let bullsEyeLabels = document.getElementsByClassName("bulls-eye-label");
+            
+            // for (let i=0;i<bullsEyes.length;i++){
+            //     bullsEyes[i].remove();
+            // }
+
+            // for (let i=0;i<bullsEyeLabels.length;i++){
+            //     bullsEyeLabels[i].remove();
+            // }
+
+            for (let i=bullsEyes.length-1;i>=0;i--){
+                bullsEyes[i].remove();
+            }
+
+            for (let i=bullsEyeLabels.length-1;i>=0;i--){
+                bullsEyeLabels[i].remove();
+            }
+
+
+        }
+
+
+
+        function getBestDefinitionEntry(word) {
+            //console.log(word);
+            word = word.charAt(0).toUpperCase() + word.slice(1); //capitalizes first letter
+
+            osisChapter = bibleBCSelection.options[bibleBCSelection.selectedIndex].value;
+
+            //find the right index for the word
+
+            index = getIndexOfWord(word);
+
+            let entries = eastons[index]["entries"];
+            for (let i = 0; i < entries.length; i++) {
+                //if the entry contains the verse, then 
+                //return the dictlookup of entry
+                //console.log(entries[i]["verseReferences"]);
+                let verseReferencesArray = entries[i]["verseReferences"].split(",");
+                //console.log(verseReferencesArray);
+
+                for (let j = 0; j < verseReferencesArray.length; j++) {
+                    //console.log(verseReferencesArray[j]);
+                    //console.log(osisChapter);
+                    //console.log(verseReferencesArray[j].indexOf(osisChapter));
+
+                    let compareVerse = verseReferencesArray[j].split("<span class='open-verse color-hover'>").join("").split("</span>").join("");
+                    //console.log(compareVerse);
+                    let compareChapter = compareVerse.split(".")[0] +"." + compareVerse.split(".")[1];
+                    //console.log(compareChapter);
+                    if (compareChapter === osisChapter) {
+                        //console.log("!!!!!!!!!!!!!!!!found at ", entries[i]["dictLookup"]);
+                        return entries[i]["dictLookup"];
+                    }
+                }
+
+            }
+
+            //use entries with that index
+
+
+            osisChapter = bibleBCSelection.options[bibleBCSelection.selectedIndex].value;
+            //console.log(osisChapter);
+
+        }
+
+        function getIndexOfWord(word) {
+            for (let i = 0; i < eastons.length; i++) {
+                if (eastons[i]["word"] === word) {
+                    //console.log("found at",i);
+                    return i;
+                };
+            }
+            return -1;
+        }
+
+        function getWordFromEntry(dictLookup) {
+            //loop through words in dictionary
+            //loop through entries in words
+            //if entry ===dictLookup
+            //return word
+            for (let i = 0; i < eastons.length; i++) {
+                let word = eastons[i]["word"];
+                let entries = eastons[i]["entries"];
+                for (let j = 0; j < entries.length; j++) {
+                    if (dictLookup === entries[j]["dictLookup"]) {
+                        return word;
+                    }
+                }
+
+            }
+
+        }
+
+        addEventListenersToOpenVerses();
+        addEventListenersToOpenChapters();
+        addEventListenersToOpenDictionaryEntries();
+        addEventListenersToFoundBibleWords();
+        addEventListenersToDictionaryLocations();
+        //console.log(bibleBCSelection.options);
+        //for (let i=0;i<bibleBCSelection.options.length;i++){
+        //	//console.log(bibleBCSelection.options[i].innerText);
+        //}
+
+        //selectBibleChapter("Gen.1");
+    </script>
+    <!--DICTIONARY STUFF HERE-->
+    <script>
+        let dictionarySelection = document.getElementById("dictionary-selection");
+        let dictionaryResult = document.getElementById("dictionary-result");
+
+        for (let i = 0; i < eastons.length; i++) {
+            //console.log(eastons[i]);
+            let option = document.createElement("option");
+            option.text = eastons[i]["word"];
+            dictionarySelection.add(option);
+        }
+
+        function showDictionarySelection() {
+            //let value = e.options[e.selectedIndex].value;
+            let selectedWord = dictionarySelection.options[dictionarySelection.selectedIndex].text;
+            let resultEntries = getEntries(selectedWord);
+
+            //loop through entries
+            let str = "";
+            for (let i = 0; i < resultEntries.length; i++) {
+
+                str += "<hr>";
+                //loopp through keys
+                str += "<div>";
+                for (const key in resultEntries[i]) {
+                    //handle every key type lookup here
+                    //dictLookup
+                    //dictText
+                    //verseReferences
+                    //location
+                    //mother
+                    //father
+                    //partners
+                    //children
+                    //siblings
+                    //halfSiblingsSameMother
+                    //halfSiblingsSameFather
+                    if (key === "dictLookup") {
+                        let id = resultEntries[i][key];
+                        str += "<h3 class='nested-menu word-entry color-hover' id='" + id + "'>" + resultEntries[i][key] + "</h3>";
+                    }
+                    //handl
+                    else if (key == "dictText") {
+                        str += "<h3>Text:</h3>";
+                        str += "<p>";
+                        str += resultEntries[i][key];
+                        str += "</p>";
+                        //str += "<h3>" + key + "</h3>";
+                        //str += "<p>";
+                        //str += resultEntries[i][key];
+                        //str += "</p>";
+                    } else if (key == "verseReferences") {
+                        str += "<h3>References:</h3>";
+                        str += "<p>";
+
+                        //let versesArray=resultEntries[i][key].split(",");
+                        //str+="<span class='open-verse color-hover'>";
+                        //str+=resultEntries[i][key].split(",").join("</span>,<span class='open-verse color-hover'>");
+                        //str+="</span>";
+                        str += resultEntries[i][key];
+
+                        str += "</p>";
+                    } else if (
+                        (key === "mother") ||
+                        (key === "father") ||
+                        (key === "partners") ||
+                        (key === "children") ||
+                        (key === "siblings") ||
+                        (key === "halfSiblingsSameMother") ||
+                        (key === "halfSiblingsSameFather")
+                    ) {
+
+                        if (key === "mother") {
+                            str += "<h3>Mother:</h3>";
+                        } else if (key === "father") {
+                            str += "<h3>Father:</h3>";
+                        } else if (key === "partners") {
+                            str += "<h3>Partner:</h3>";
+                        } else if (key === "children") {
+                            str += "<h3>Children:</h3>";
+                        } else if (key === "siblings") {
+                            str += "<h3>Siblings:</h3>";
+                        } else if (key === "halfSiblingsSameMother") {
+                            str += "<h3>Half-Sibling (same mother):</h3>";
+                        } else if (key === "halfSiblingsSameFather") {
+                            str += "<h3>Half-Sibling (same father):</h3>";
+                        }
+
+                        //mother
+                        //father
+                        //partners
+                        //children
+                        //siblings
+                        //halfSiblingsSameMother
+                        //halfSiblingsSameFather
+
+
+                        str += "<p>";
+                        let peopleArray = resultEntries[i][key].split(",");
+
+                        for (let j = 0; j < peopleArray.length; j++) {
+                            if (peopleArray[j].indexOf("no entry") == -1) { //no entry in dictionary
+                                str += "<span class='open-dictionary-entry color-hover'>";
+                                str += peopleArray[j];
+                                str += "</span>,"
+                            } else { //entry in dictionary
+                                str += "<span>";
+                                str += peopleArray[j];
+                                str += "</span>,"
+                            }
+                        }
+                        str = str.slice(0, -1);
+
+                        str += "</p>";
+                    } else if (key === "location") {
+                        str += "<h3>Location:</h3>";
+                        str += "<p>";
+                        str += "<span class='dictionary-location color-hover'>" + resultEntries[i][key] + "</span>";
+                        str += "</p>";
+                    } else {
+                        str += "<h3>" + key + "</h3>";
+                        str += "<p>";
+                        str += resultEntries[i][key];
+                        str += "</p>";
+                    }
+                }
+                str += "</div>";
+            }
+            str += "<hr>";
+
+            dictionaryResult.innerHTML = str;
+            //console.log(resultEntries);
+            addEventListenersToNestedMenus();
+            addEventListenersToOpenVerses();
+            addEventListenersToOpenChapters();
+            addEventListenersToOpenDictionaryEntries();
+            addEventListenersToDictionaryLocations();
+            //if there is just one leave open
+            if (resultEntries.length > 1) {
+                closeWordEntries();
+            }
+        }
+
+
+
+        function openDictionaryEntry(word, entry) {
+            selectDictionaryWord(word);
+            //console.log(entry);
+            if (entry != undefined) {
+                openSiblings(entry);
+            }
+
+
+        }
+
+
+        function selectDictionaryWord(word) {
+            word = word.charAt(0).toUpperCase() + word.slice(1); //capitalizes first letter
+            let index = -1;
+            for (let i = 0; i < dictionarySelection.options.length; i++) {
+                //console.log(dictionarySelection.options[i].innerText);
+                if (word == dictionarySelection.options[i].innerText) {
+                    index = i;
+                }
+            }
+            if (index != -1) {
+                dictionarySelection.selectedIndex = index.toString();
+            }
+            showDictionarySelection();
+        }
+
+        function selectDictionaryEntry(dictLookup) {
+            //find parent of the dictlookup
+            //open the word and
+
+        }
+
+        function openSiblings(id) {
+            let menu = document.getElementById(id);
+            let siblings = menu.parentElement.children;
+            for (let sibling of siblings) {
+                if (sibling === menu) {
+                    //alert("found self!");
+                } else {
+                    //if (sibling.style.display === "none") {
+                    sibling.style.display = "inherit";
+                    //} else {
+                    //    sibling.style.display = "none";
+                    //}
+                }
+            }
+        }
+
+        function closeSiblings(id) {
+            let menu = document.getElementById(id);
+            let siblings = menu.parentElement.children;
+            for (let sibling of siblings) {
+                if (sibling === menu) {
+                    //alert("found self!");
+                } else {
+                    //if (sibling.style.display === "none") {
+                    sibling.style.display = "none";
+                    //} else {
+                    //    sibling.style.display = "none";
+                    //}
+                }
+            }
+        }
+
+        function getEntries(soughtWord) {
+            for (let i = 0; i < eastons.length; i++) {
+                //for (let j = 0; j < eastons[i]["entries"].length; j++) {
+                if (soughtWord === eastons[i]["word"]) {
+                    return JSON.parse(JSON.stringify(eastons[i]["entries"]));
+                }
+                //}
+            }
+        }
+    </script>
+    <!--NESTED MENU STUFF-->
+    <script>
+        function addEventListenersToNestedMenus() {
+            let nestedMenues = document.getElementsByClassName("nested-menu");
+            for (let nestedmenu of nestedMenues) {
+                nestedmenu.addEventListener("click", (evt) => {
+                    toggleNest(evt.target)
+                });
+            }
+        }
+
+        function toggleNest(menu) {
+            let siblings = menu.parentElement.children;
+            for (let sibling of siblings) {
+                if (sibling === menu) {
+                    //alert("found self!");
+                } else {
+                    if (sibling.style.display === "none") {
+                        sibling.style.display = "inherit";
+                    } else {
+                        sibling.style.display = "none";
+                    }
+                }
+            }
+        }
+
+        function closeWordEntries() {
+            let wordEntries = document.getElementsByClassName("word-entry");
+            //console.log(wordEntries);
+            for (let i = 0; i < wordEntries.length; i++) {
+                //console.log(wordEntries[i]);
+                //console.log(wordEntries[i].id);
+                closeSiblings(wordEntries[i].id);
+                //let siblings = wordEntries[i].parentElement.children;
+                //for (let sibling of siblings) {
+                //	if (sibling === wordEntries[i]) {
+                //alert("found self!");
+                //	} else {
+                //	sibling.style.display = "none";
+                //	}
+                //}
+            }
+        }
+
+
+
+        //selectDictionaryWord("Micah");
+
+        addEventListenersToNestedMenus();
+        //closeWordEntries();
+        //openSiblings("word2");
+        openDictionaryEntry("Jesus", "Jesus 2");
+        selectBibleVerse("John.3.16");
+
+        document.getElementById("ascii-map").innerText = baseMap;
+
+
+
+function setSizeOfPre() {
+
+    asciiMap.style.fontSize = "20px";
+    let floatFontSize = 20;
+    //console.log(floatFontSize);
+    let pixelWidth = 320;
+    console.log(asciiMap.offsetWidth);
+    while (asciiMap.offsetWidth >= pixelWidth) {
+        floatFontSize = parseFloat(asciiMap.style.fontSize.slice(0, -2));
+        console.log(asciiMap.offsetWidth);
+        console.log(floatFontSize);
+
+        floatFontSize = floatFontSize - 0.5;
+        asciiMap.style.fontSize = floatFontSize + 'px';
+
+        if (floatFontSize <= 0.5) {
+            break;
+        }
+    }
+
+    // if (window.screen.width<450){
+    //     asciiMap.style.fontSize="2px";
+    // }
+    // else{
+    //     asciiMap.style.fontSize="7px";
+    // }
+    //asciiLength = asciiImage.innerText.length;
+    //asciiImage.style.fontSize = 30 - asciiImage.innerHTML.length / 6 + 'px';
+    //elem.style.fontSize = 30 - elem.innerHTML.length / 6 + 'px';
+    //let result = document.getElementById("result");
+    //console.log(`Use font size ${floatFontSize}<br>for width of ${asciiImage.offsetWidth}px.<br><br>File size is:${asciiLength} bytes`);
+    //result.innerHTML = `Use font size ${floatFontSize}<br>for width of ${asciiImage.offsetWidth}px.<br><br>File size is:${asciiLength} bytes`;
+}
+setSizeOfPre();
+document.getElementById("btn-map").style.backgroundColor ="lightgrey";
+document.getElementById("app-map").style.display ="none";
+
+
+    </script>
+
+</body>
+
+</html>

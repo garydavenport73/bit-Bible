@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    td{
+        max-width: 100px;
+        vertical-align: top;
+    }
+
+    ul{
+        list-style-type: none;
+    }
+
+</style>
+</head>
+<body>
+    <table id="reading-plan-table">
+        <tr>
+            <td>
+                <ul>
+                    <li><input type="checkbox"><label><b>365</b></label></li>
+                    <li class="open-chapter color-hover">Titus.1</li>
+                    <li class="open-chapter color-hover">Gen.1</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li><input type="checkbox"><label><b>365</b></label></li>
+                    <li class="open-chapter color-hover">Titus.1</li>
+                    <li class="open-chapter color-hover">Gen.1</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li><input type="checkbox"><label><b>365</b></label></li>
+                    <li class="open-chapter color-hover">Titus.1</li>
+                    <li class="open-chapter color-hover">Gen.1</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li><input type="checkbox"><label><b>365</b></label></li>
+                    <li class="open-chapter color-hover">Titus.1</li>
+                    <li class="open-chapter color-hover">Gen.1</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li><input type="checkbox"><label><b>365</b></label></li>
+                    <li class="open-chapter color-hover">Titus.1</li>
+                    <li class="open-chapter color-hover">Gen.1</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li><input type="checkbox"><label><b>365</b></label></li>
+                    <li class="open-chapter color-hover">Titus.1</li>
+                    <li class="open-chapter color-hover">Gen.1</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li><input type="checkbox"><label><b>365</b></label></li>
+                    <li class="open-chapter color-hover">Titus.1</li>
+                    <li class="open-chapter color-hover">1John.31</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <ul>
+                    <li><input type="checkbox"><label><b>365</b></label></li>
+                    <li class="open-chapter color-hover">Titus.1</li>
+                    <li class="open-chapter color-hover">Gen.1</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li><input type="checkbox"><label><b>365</b></label></li>
+                    <li class="open-chapter color-hover">Titus.1</li>
+                    <li class="open-chapter color-hover">Gen.1</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li><input type="checkbox"><label><b>365</b></label></li>
+                    <li class="open-chapter color-hover">Titus.1</li>
+                    <li class="open-chapter color-hover">Gen.1</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li><input type="checkbox"><label><b>365</b></label></li>
+                    <li class="open-chapter color-hover">Titus.1</li>
+                    <li class="open-chapter color-hover">Gen.1</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li><input type="checkbox"><label><b>365</b></label></li>
+                    <li class="open-chapter color-hover">Titus.1</li>
+                    <li class="open-chapter color-hover">Gen.1</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li><input type="checkbox"><label><b>365</b></label></li>
+                    <li class="open-chapter color-hover">Titus.1</li>
+                    <li class="open-chapter color-hover">Gen.1</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li><input type="checkbox"><label><b>365</b></label></li>
+                    <li class="open-chapter color-hover">Titus.1</li>
+                    <li class="open-chapter color-hover">1John.31</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+
+
+<script src="chronologicalReadingPlan.js"></script>
+<script>
+
+function makeReadingTable(readingPlan){
+    console.log(readingPlan);
+    let readingTable="<tr>";
+    for (let day in readingPlan){
+        let intDay=parseInt(day.split("Day").join("").trim());
+        console.log(intDay);
+        console.log(day,readingPlan[day]);
+        let dayArray=readingPlan[day].split(",");
+        readingTable+="<td><ul><input type='checkbox'><label><b>"+intDay.toString()+"</b></label></li>";
+        for (readingChapter of dayArray){
+            readingTable+="<li class='open-chapter color-hover'>"+readingChapter+"</li>";
+        }
+        readingTable+="</ul></td>";
+        if (intDay%7===0){
+            console.log("break week here");
+            readingTable+="</tr><tr>";
+        }
+        if (intDay%28===0){
+            console.log("break month here");
+            readingTable+="<td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr><tr>";
+        }
+    }
+    readingTable+="</tr>";
+    return readingTable;
+}
+
+document.getElementById('reading-plan-table').innerHTML=makeReadingTable(readingPlan);
+
+</script>
