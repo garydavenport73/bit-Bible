@@ -4,21 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <h1>bitBible</h1>
-    <nav>
+    <nav id="top-nav">
         <button class="nav-button" id="btn-reading">Plan</button>
         <button class="nav-button" id="btn-bible">Bible</button>
         <button class="nav-button" id="btn-dictionary">Dict</button>
         <button class="nav-button" id="btn-map">Map</button>
         <!-- <button class="nav-button" id="btn-commentary">Commentary</button>
         <button>&#9921;</button> -->
-        <button class="nav-button" id="btn-help">?</button>
+        <!-- <button class="nav-button" id="btn-help">?</button> -->
         <!--<button>&#9920;</button>-->
     </nav>
     <main>
@@ -33,7 +34,7 @@
         <div class="app" id="app-bible">
             <select name="bible-bc-selection" id="bible-bc-selection">Selection</select>
             <button onclick="showBibleSelection()">Show</button>
-            <div id="bible-result"></div>
+            <div id="bible-result">LOADING...</div>
         </div>
         <div class="app" id="app-dictionary">
             <select name="dictionary-selection" id="dictionary-selection">Selection</select>
@@ -63,8 +64,8 @@
             <!-- <div id="map-name">Old Testament</div> -->
             <div id="map-container"><pre id="ascii-map"></pre></div>
         </div>
-        <div class="app" id="app-commentary">COMMENTARYLorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat animi aperiam voluptatem nihil? Tenetur ratione corporis, autem, doloremque at repudiandae minus tempora beatae possimus unde, enim odit deleniti sed dolorum.</div>
-        <div class="app" id="app-help">COMMENTARYLorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat animi aperiam voluptatem nihil? Tenetur ratione corporis, autem, doloremque at repudiandae minus tempora beatae possimus unde, enim odit deleniti sed dolorum.</div>
+        <!-- <div class="app" id="app-commentary">COMMENTARYLorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat animi aperiam voluptatem nihil? Tenetur ratione corporis, autem, doloremque at repudiandae minus tempora beatae possimus unde, enim odit deleniti sed dolorum.</div>
+        <div class="app" id="app-help">COMMENTARYLorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat animi aperiam voluptatem nihil? Tenetur ratione corporis, autem, doloremque at repudiandae minus tempora beatae possimus unde, enim odit deleniti sed dolorum.</div> -->
 
     </main>
 <script>
@@ -162,22 +163,49 @@ function loadReadingProgress() {
         for (let i = 0; i < apps.length; i++) {
             apps[i].style.display ="none";
         }
-        document.getElementById("btn-bible").style.backgroundColor ="green";
-        document.getElementById("app-bible").style.display ="block";
-
+        document.getElementById("btn-bible").click();
+        // document.getElementById("btn-bible").style.backgroundColor ="green";
+        // document.getElementById("app-bible").style.display ="block";
+        // document.getElementById("btn-map").style.backgroundColor ="green";
+        // document.getElementById("app-map").style.display ="block";
+        
         function toggleApp(evt) {
-            //ert(evt.target.id);
+            let myWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            console.log(myWidth);
             let appId ="app-" + evt.target.id.split("btn-").join("");
-            let app = document.getElementById(appId);
-            //console.log(app.style.display.toString());
-            if (app.style.display ==="none") {
+            if (myWidth>450){
+                let app = document.getElementById(appId);
+                //console.log(app.style.display.toString());
+                if (app.style.display ==="none") {
+                    app.style.display ="block";
+                    evt.target.style.backgroundColor ="green";
+                } else {
+                    app.style.display ="none";
+                    evt.target.style.backgroundColor ="lightgrey";
+                }
+            }
+            else{
+                closeAllApps();
+                let app = document.getElementById(appId);
                 app.style.display ="block";
                 evt.target.style.backgroundColor ="green";
-            } else {
-                app.style.display ="none";
-                evt.target.style.backgroundColor ="lightgrey";
+            }
+            if (appId==="app-map"){
+                    setSizeOfPre();
+                }
+        }
+
+        function closeAllApps(){
+            let apps=document.getElementsByClassName("app");
+            let appButtons=document.getElementsByClassName("nav-button");
+            for (let i=0;i<apps.length;i++){
+                apps[i].style.display ="none";
+            }
+            for (let i=0;i<appButtons.length;i++){
+                appButtons[i].style.backgroundColor ="lightgrey";
             }
         }
+
     </script>
     <script src="../workingFolder/arraysAndObjects/bookChapterKeys.js"></script>
     <script src="../workingFolder/arraysAndObjects/osisReferencesArray.js"></script>
@@ -367,6 +395,10 @@ toggleReadingDates();
             //console.log(index);
             showBibleSelection();
             addEventListenersToFoundBibleWords();
+            let myWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            if (myWidth<450){
+                document.getElementById('btn-bible').click();
+            }
         }
 
         function selectBibleVerse(osisRef) {
@@ -417,6 +449,15 @@ toggleReadingDates();
             let dictionaryLocations = document.getElementsByClassName("dictionary-location");
             for (let i = 0; i < dictionaryLocations.length; i++) {
                 dictionaryLocations[i].addEventListener("click", (evt) => {
+                    let myWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                    if (myWidth<450){
+                        document.getElementById('btn-map').click();
+                    }
+                    else{
+                        document.getElementById('app-map').style.display="block";
+                        document.getElementById('btn-map').style.backgroundColor="green";
+                    }
+                    setSizeOfPre();
                     document.getElementById("map-location").innerHTML = evt.target.innerText;
                     document.getElementById("coordinates-label").innerHTML = dictionarySelection.options[dictionarySelection.selectedIndex].text;
                     plotOnMap(evt.target.innerText);
@@ -472,9 +513,9 @@ toggleReadingDates();
         function convertLongitude(longitude){
             //the map is about 320px wide //get computed width
             //longitude starts at 33.5 and ends at 36.5
-            let width=320;
+            //let width=320;
             //width=parseFloat(asciiMap.width.slice(0,-2));
-            width=asciiMap.offsetWidth;
+            let width=asciiMap.offsetWidth;
             console.log("calculatoed width",width);
             
             let x=(width*longitude - width*33.5)/(36.5-33.5);
@@ -486,9 +527,9 @@ toggleReadingDates();
         function convertLatitude(latitude){
             //the map is about 620px high
             //latitude starts at 34 and goes to 29
-            let height=620;
+            //let height=620;
             //height=parseFloat(asciiMap.height.slice(0,-2));
-            height=asciiMap.offsetHeight;
+            let height=asciiMap.offsetHeight;
             console.log("calculated height",height);
             let slope = (height)/(29-34);
             let y = slope*latitude - slope*34;
@@ -755,7 +796,10 @@ toggleReadingDates();
             if (entry != undefined) {
                 openSiblings(entry);
             }
-
+            let myWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            if (myWidth<450){
+                document.getElementById('btn-dictionary').click();
+            }
 
         }
 
@@ -880,6 +924,43 @@ toggleReadingDates();
         document.getElementById("ascii-map").innerText = baseMap;
 
 
+
+function setSizeOfPre() {
+
+asciiMap.style.fontSize = "20px";
+let floatFontSize = 20;
+//console.log(floatFontSize);
+let pixelWidth = 320;
+console.log(asciiMap.offsetWidth);
+while (asciiMap.offsetWidth >= pixelWidth) {
+    floatFontSize = parseFloat(asciiMap.style.fontSize.slice(0, -2));
+    console.log(asciiMap.offsetWidth);
+    console.log(floatFontSize);
+
+    floatFontSize = floatFontSize - 0.5;
+    asciiMap.style.fontSize = floatFontSize + 'px';
+
+    if (floatFontSize <= 0.5) {
+        break;
+    }
+}
+
+// if (window.screen.width<450){
+//     asciiMap.style.fontSize="2px";
+// }
+// else{
+//     asciiMap.style.fontSize="7px";
+// }
+//asciiLength = asciiImage.innerText.length;
+//asciiImage.style.fontSize = 30 - asciiImage.innerHTML.length / 6 + 'px';
+//elem.style.fontSize = 30 - elem.innerHTML.length / 6 + 'px';
+//let result = document.getElementById("result");
+//console.log(`Use font size ${floatFontSize}<br>for width of ${asciiImage.offsetWidth}px.<br><br>File size is:${asciiLength} bytes`);
+//result.innerHTML = `Use font size ${floatFontSize}<br>for width of ${asciiImage.offsetWidth}px.<br><br>File size is:${asciiLength} bytes`;
+}
+setSizeOfPre();
+// document.getElementById("btn-map").style.backgroundColor ="lightgrey";
+// document.getElementById("app-map").style.display ="none";
     </script>
 
 </body>

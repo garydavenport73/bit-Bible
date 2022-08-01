@@ -83,20 +83,27 @@ main {
 }
 
 .app {
-    min-width: 320px;
-    max-width: 320px;
     border: 1px solid black;
-    display: none;
-    /* min-height: 400px;
-    max-height: 400px; */
-    height:400px;
+    height:600px;
     overflow-y: auto;
+    /* display: none; */
+    /* display: inline-block; */
+}
+
+#app-reading{
+    width: 320px;
+}
+#app-bible{
+    width: 480px;
+}
+#app-dictionary{
+    width: 480px;
 }
 #app-map{
-    height:400px;
+    width: 320px;
 }
 .open-verse{
-    /* background-color: antiquewhite; */
+    background-color: antiquewhite;
 }
 .open-verse:hover {
     background-color: orange;
@@ -108,7 +115,7 @@ main {
 }
 
 .color-hover{
-    /* background-color: antiquewhite; */
+    background-color: antiquewhite;
 }
 .color-hover:hover {
     background-color: orange;
@@ -132,6 +139,7 @@ main {
     font-size: 4.1px;
     margin:0;
     padding:0;
+    display:inline-block;
 }
 
 #map-container{
@@ -142,3 +150,32 @@ main {
     transform: translateX(-50%);
     transform: translateY(-50%);
 }
+
+#top-nav {
+    position: sticky;
+    top: 0;
+    /* background-color: transparent; */
+  }
+
+@media screen and (max-width: 450px) {
+    /* main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    } */
+    #app-reading{
+        width: 320px;
+    }
+    #app-bible{
+        width: 320px;
+    }
+    #app-dictionary{
+        width: 320px;
+    }
+    #app-map{
+        width: 320px;
+    }
+    /* #asciiMap{
+        font-size: 4px;
+    } */
+  }
