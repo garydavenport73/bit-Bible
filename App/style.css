@@ -84,7 +84,7 @@ main {
 
 .app {
     border: 1px solid black;
-    height:600px;
+    height:560px;
     overflow-y: auto;
     /* display: none; */
     /* display: inline-block; */
