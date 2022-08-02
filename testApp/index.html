@@ -36,8 +36,7 @@
           placeholder="Bible Chapters"
           value="Gen.1"
         />
-        <datalist id="bible-chapters-datalist">
-        </datalist>
+        <datalist id="bible-chapters-datalist"> </datalist>
 
         <button onclick="showBibleSelection();">Show</button>
         <div id="bible-result">LOADING...</div>
@@ -50,8 +49,7 @@
           placeholder="dictionary words"
           value="Jesus"
         />
-        <datalist id="dictionary-words">
-        </datalist>
+        <datalist id="dictionary-words"> </datalist>
         <button onclick="showDictionarySelection();">Show</button>
         <div id="dictionary-result">LOADING...</div>
       </div>
@@ -360,7 +358,7 @@
 
       function makeEastons(eastons) {
         //return eastons;
-        tempStr = JSON.stringify(eastons);
+        let tempStr = JSON.stringify(eastons);
         tempStr = tempStr
           .split("VERSEREFSTART")
           .join("<span class='open-verse color-hover'>");
@@ -372,10 +370,27 @@
         return JSON.parse(tempStr);
       }
 
-      function parseAllText(anObject){
-        anObject=makeHTMLChapterBible(anObject);
-        anObject=makeEastons(anObject);
-        return anObject;
+      function parseString(str) {
+        str = str.split("HEADINGSTART").join("<h2>");
+        str = str.split("HEADINGEND").join("</h2>");
+        str = str.split("HEADINGEND").join("</h2>");
+        str = str.split("PARAGRAPHSTARTS").join("<p>");
+        str = str.split("PARAGRAPHENDS").join("</p>");
+        str = str.split("VERSESTART").join("<sup>");
+        str = str.split("VERSEEND").join("</sup>");
+        str = str
+          .split("FOUNDWORDSTART")
+          .join("<span class='color-hover found-bible-word'>");
+        str = str.split("FOUNDWORDEND").join("</span>");
+        str = str
+          .split("VERSEREFSTART")
+          .join("<span class='open-verse color-hover'>");
+        str = str.split("VERSEREFEND").join("</span>");
+        str = str
+          .split("CHAPTERREFSTART")
+          .join("<span class='open-chapter color-hover'>");
+        str = str.split("CHAPTERREFEND").join("</span>");
+        return str;
       }
 
       ////////////////////////////////////////////////////////////////
@@ -383,33 +398,10 @@
 
     <script>
       ///////////////POPULATING THE SELECT OPTIONS OF THE BIBLE CHAPTER SELECTIONS //////////////////
-
-      // <input
-      //   id="chapter-search-box"
-      //   type="search"
-      //   list="bible-chapters-datalist"
-      //   placeholder="Bible Chapters"
-      //   value="Gen.1"
-      // />
-      // <datalist id="bible-chapters-datalist">
-      //   <!-- <option value="aardark" />
-      //   <option value="bumblebee" />
-      //   <option value="dumbo" />
-      //   <option value="Ruby" />
-      //   <option value="Python" />
-      //   <option value="Go" />
-      //   <option value="Perl" />
-      //   <option value="Erlang" /> -->
-      // </datalist>
-
       function populateChapterSelectElement() {
         //bookChapterKeys global bibleBCSelction also global
         let str = "";
         for (let i = 0; i < bookChapterKeys.length; i++) {
-          //   let option = document.createElement("option");
-          //   option.text = bookChapterKeys[i];
-          //   bibleBCSelection.add(option);
-
           str += "<option value='" + bookChapterKeys[i] + "' />";
         }
         bibleChaptersDatalist.innerHTML = str;
@@ -417,33 +409,17 @@
 
       /////// TAKES CURRENT BIBLE SELECTION AND LOADS THE BIBLE PASSAGE
       /////// THEN ATTACHES EVENT LISTENERS TO SPANS OF FOUND WORDS
-
-
       function showBibleSelection() {
-        //***** FUTURE AREA TO USE AJAX ON SERVER DATABASE
-        // bibleResult.innerHTML =
-        //   theChapterBible[
-        //     bibleBCSelection.options[bibleBCSelection.selectedIndex].value
-        //   ];
         //***************** AJAX function ********************
-
-        bibleResult.innerHTML = parseAllText(theChapterBible[chapterSearchBox.value]);
+        bibleResult.innerHTML = parseString(
+          theChapterBible[chapterSearchBox.value]
+        );
         addEventListenersToFoundBibleWords();
       }
 
-      /////// GIVEN CHAPTER REFERENCE SET THE CHAPTER SELECTION HTML ELEMENT
-      /////// TO THE CORRECT INDEX, THIS INDEX USED TO SHOW BIBLE SELECTION
+      /////// GIVEN CHAPTER REFERENCE SET THE CHAPTER SEARCH BOX TO REFERENCE
       /////// ADD EVENT LISTENERS TO THE BIBLE CHAPTER AFTER LOADING
       function selectBibleChapter(osisRef) {
-        // let index = -1;
-        // for (let i = 0; i < bibleBCSelection.options.length; i++) {
-        //   if (osisRef == bibleBCSelection.options[i].innerText) {
-        //     index = i;
-        //   }
-        // }
-        // if (index != -1) {
-        //   bibleBCSelection.selectedIndex = index.toString();
-        // }
         chapterSearchBox.value = osisRef;
         showBibleSelection();
         addEventListenersToFoundBibleWords();
@@ -456,7 +432,7 @@
         }
       }
 
-      ////// SIMPLY PARSES FULL BIBLE VERSE TO CHAPTER AND CALLS
+      ////// SIMPLY PARSES FULL BIBLE VERSE TO CHAPTER 0NLY AND CALLS
       ////// selectBibleChapter
       function selectBibleVerse(osisRef) {
         osisRefArray = osisRef.split(".");
@@ -502,33 +478,16 @@
       }
 
       function getWordFromEntry(dictLookup) {
-        //gets parent word from subentry
-        //loop through words in dictionary
-        //loop through entries in words
-        //if entry ===dictLookup
-        //return word
         //************* NEEDS A PREPROCESSED ARRAY HERE OR SIMPLY TEST AND SPLICE ********************
-
         let tempArr = dictLookup.split(" ");
-        if (tempArr[tempArr.length-1]===NaN){
-            console.log("word ",dictLookup);
-            return dictLookup;
+        if (tempArr[tempArr.length - 1] === NaN) {
+          console.log("word ", dictLookup);
+          return dictLookup;
+        } else {
+          tempArr.pop();
+          console.log("word", tempArr.join(" "));
+          return tempArr.join(" ");
         }
-        else{
-            tempArr.pop();
-            console.log("word",tempArr.join(" "));
-            return tempArr.join(" ");
-        }
-
-        // for (let i = 0; i < eastons.length; i++) {
-        //   let word = eastons[i]["word"];
-        //   let entries = eastons[i]["entries"];
-        //   for (let j = 0; j < entries.length; j++) {
-        //     if (dictLookup === entries[j]["dictLookup"]) {
-        //       return word;
-        //     }
-        //   }
-        // }
       }
 
       function addEventListenersToFoundBibleWords() {
@@ -565,10 +524,6 @@
             setSizeOfPre();
             document.getElementById("map-location").innerHTML =
               evt.target.innerText;
-            // document.getElementById("coordinates-label").innerHTML =
-            //   dictionarySelection.options[
-            //     dictionarySelection.selectedIndex
-            //   ].text;
             document.getElementById("coordinates-label").innerHTML =
               dictionarySearchBox.value;
             plotOnMap(evt.target.innerText);
@@ -585,8 +540,6 @@
         if (document.getElementById("app-map").style.display === "none") {
           //do nothing
         } else {
-          //   let labelText =
-          //     dictionarySelection.options[dictionarySelection.selectedIndex].text;
           let labelText = dictionarySearchBox.value;
 
           let latitude = parseFloat(location.split(",")[0]);
@@ -622,8 +575,7 @@
         //let width=320;
         //width=parseFloat(asciiMap.width.slice(0,-2));
         let width = asciiMap.offsetWidth;
-        console.log("calculatoed width", width);
-
+        console.log("calculated sscii map width", width);
         let x = (width * longitude - width * 33.5) / (36.5 - 33.5);
         console.log(x);
         return x;
@@ -635,7 +587,7 @@
         //let height=620;
         //height=parseFloat(asciiMap.height.slice(0,-2));
         let height = asciiMap.offsetHeight;
-        console.log("calculated height", height);
+        console.log("calculated ascii map height", height);
         let slope = height / (29 - 34);
         let y = slope * latitude - slope * 34;
         console.log(y);
@@ -646,14 +598,6 @@
         let bullsEyes = document.getElementsByClassName("bulls-eye");
         let bullsEyeLabels = document.getElementsByClassName("bulls-eye-label");
 
-        // for (let i=0;i<bullsEyes.length;i++){
-        //     bullsEyes[i].remove();
-        // }
-
-        // for (let i=0;i<bullsEyeLabels.length;i++){
-        //     bullsEyeLabels[i].remove();
-        // }
-
         for (let i = bullsEyes.length - 1; i >= 0; i--) {
           bullsEyes[i].remove();
         }
@@ -661,33 +605,24 @@
         for (let i = bullsEyeLabels.length - 1; i >= 0; i--) {
           bullsEyeLabels[i].remove();
         }
+
+        document.getElementById("map-location").innerHTML = "";
+        document.getElementById("coordinates-label").innerHTML = "";
       }
 
       function setSizeOfPre() {
-        // let myWidth =
-        //   window.innerWidth ||
-        //   document.documentElement.clientWidth ||
-        //   document.body.clientWidth;
-
-        // if (myWidth<450){
-        //     asciiMap.style.fontSize = "2px";
-        //     return;
-        // }
-
         asciiMap.style.fontSize = "20px";
         let floatFontSize = 20;
-        //console.log(floatFontSize);
-        let pixelWidth = 320;
-        console.log(asciiMap.offsetWidth);
+        let pixelWidth = 320; //target width
+        console.log(asciiMap.offsetWidth); //the width of ascii map
         while (asciiMap.offsetWidth >= pixelWidth) {
+          //map to big, above target
           floatFontSize = parseFloat(asciiMap.style.fontSize.slice(0, -2));
-          console.log(asciiMap.offsetWidth);
-          console.log(floatFontSize);
-
+          console.log(asciiMap.offsetWidth, floatFontSize);
           floatFontSize = floatFontSize - 0.5;
-          asciiMap.style.fontSize = floatFontSize + "px";
-
+          asciiMap.style.fontSize = floatFontSize + "px"; //reduce map font size
           if (floatFontSize <= 0.5) {
+            //minimum font size;
             break;
           }
         }
@@ -698,12 +633,6 @@
       addEventListenersToOpenDictionaryEntries();
       addEventListenersToFoundBibleWords();
       addEventListenersToDictionaryLocations();
-      //console.log(bibleBCSelection.options);
-      //for (let i=0;i<bibleBCSelection.options.length;i++){
-      //	console.log(bibleBCSelection.options[i].innerText);
-      //}
-
-      //selectBibleChapter("Gen.1");
     </script>
     <!--DICTIONARY STUFF HERE-->
 
@@ -713,23 +642,11 @@
       /////////////////// DICTIONARY ENTRY OPENING ETC ////////////////////
       //
       ///////////////////////////////////////////////////////////////////
-      //       <option value="aardark" />
-      //   <option value="bumblebee" />
-      //   <option value="dumbo" />
-      //   <option value="Ruby" />
-      //   <option value="Python" />
-      //   <option value="Go" />
-      //   <option value="Perl" />
-      //   <option value="Erlang" />
+
       function populateDictionarySelection() {
-            //***************** NEEDS EASTONS WORD INDEX ARRAY ********************
+        //***************** NEEDS EASTONS WORD INDEX ARRAY ********************
         let str = "";
         for (let i = 0; i < eastons.length; i++) {
-          //console.log(eastons[i]);
-          //let option = document.createElement("option");
-          //option.text = eastons[i]["word"];
-          //dictionarySelection.add(option);
-
           str += "<option value='" + eastons[i]["word"] + "' />";
         }
         dictionaryDataList.innerHTML = str;
@@ -761,28 +678,12 @@
           processAppSelection("btn-dictionary");
         }
       }
-      ///USED BY OPENDICTIONARY ENTRY
-      //   function _selectDictionaryWord(word) {
-      //     //sets select object to correct one then shows Dictionary
-      //     word = word.charAt(0).toUpperCase() + word.slice(1); //capitalizes first letter
-      //     let index = -1;
-      //     for (let i = 0; i < dictionarySelection.options.length; i++) {
-      //       //console.log(dictionarySelection.options[i].innerText);
-      //       if (word == dictionarySelection.options[i].innerText) {
-      //         index = i;
-      //       }
-      //     }
-      //     if (index != -1) {
-      //       dictionarySelection.selectedIndex = index.toString();
-      //     }
-      //   }
 
       function showDictionarySelection() {
         //let selectedWord = dictionarySelection.options[dictionarySelection.selectedIndex].text;
-        let word=dictionarySearchBox.value;
+        let word = dictionarySearchBox.value;
         word = word.charAt(0).toUpperCase() + word.slice(1); //capitalizes first letter
         let selectedWord = word;
-
 
         let resultEntries = getEntries(selectedWord);
         if (resultEntries != undefined) {
@@ -930,33 +831,20 @@
       }
 
       function getEntries(soughtWord) {
-        /////for a given word, find the easton's index
-
-        // for (let i = 0; i < eastons.length; i++) {
-        //   if (soughtWord === eastons[i]["word"]) {
-
-        //     return JSON.parse(JSON.stringify(eastons[i]["entries"]));
-        //   }
-        // }
-
-
-
-
         //     ///*************Ajax call here ******************
-        let index=getIndexOfWord(soughtWord);
-        return JSON.parse(JSON.stringify(parseAllText(eastons[index]["entries"])));
+        let index = getIndexOfWord(soughtWord);
 
+        return JSON.parse(
+          parseString(JSON.stringify(eastons[index]["entries"]))
+        );
+
+        //return JSON.parse(JSON.stringify(parseAllText(eastons[index]["entries"])));
       }
 
       function getBestDefinitionEntry(word) {
         //uses current Bible chapter to see
         //if there is a verse referenced in the deinition, returns the subword
-        // if there is a match, assumes the current word requested came from
-        //the bible, but if from the dictionary, still looks back to bible to see
-        // or simply not handle, or leave as is, usually correct under most
-        //circumstances.  Check on this though, I think dictioanry entries to
-        //dictionary may be properly addressed using dictLookup
-        //NEVERMIND think its ok
+        // if there is a match
         console.log(word);
         word = word.charAt(0).toUpperCase() + word.slice(1); //capitalizes first letter
         // osisChapter =
@@ -967,7 +855,10 @@
         index = getIndexOfWord(word);
 
         //*************Needs ajax Call HERE
-        let entries = parseAllText(eastons[index]["entries"]);
+        //let entries = parseAllText(eastons[index]["entries"]);
+        let entries = JSON.parse(
+          parseString(JSON.stringify(eastons[index]["entries"]))
+        );
         for (let i = 0; i < entries.length; i++) {
           //if the entry contains the verse, then
           //return the dictlookup of entry
@@ -988,16 +879,10 @@
             }
           }
         }
-        //use entries with that index
-        ////??????? after rerutn shouldn't get
         //returns undefined if nothing found
-        //osisChapter =
-        //  bibleBCSelection.options[bibleBCSelection.selectedIndex].value;
-        //console.log(osisChapter);
       }
 
       function getIndexOfWord(word) {
-    
         ////NEEDS ARRAY HERE
         for (let i = 0; i < eastons.length; i++) {
           if (eastons[i]["word"] === word) {
@@ -1083,14 +968,14 @@
       //theChapterBible = makeHTMLChapterBible(theChapterBible);
       //eastons = makeEastons(eastons);
       document.getElementById("reading-plan-table").innerHTML =
-      makeReadingTable(readingPlan);
+        makeReadingTable(readingPlan);
       toggleReadingDates();
       addEventListenersToNestedMenus();
       openDictionaryEntry("Jesus", "Jesus 2");
       selectBibleVerse("John.3.16");
       closeAllApps();
-          document.getElementById("app-bible").style.display = "block";
-          document.getElementById("btn-bible").style.backgroundColor = "green";
+      document.getElementById("app-bible").style.display = "block";
+      document.getElementById("btn-bible").style.backgroundColor = "green";
       document.getElementById("ascii-map").innerText = baseMap;
       setSizeOfPre();
     </script>
