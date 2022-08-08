@@ -128,7 +128,9 @@
         verse.style.backgroundColor = "lightblue"
     };
     for (verse of verses) {
-        verse.innerText = "VERSESTART" + verse.innerText + "VERSEEND"
+        //verse.innerText = "VERSESTART" + verse.innerText + "VERSEEND";
+        verse.innerText = "PULPITVERSEBEGIN" + verse.innerText + "PULPITVERSEFINISH";        
+        //should change to "PULPITVERSEBEGIN"  and "PULPITVERSEFINISH"
     };
     for (verse of verses) {
         verse.innerHTML = verse.innerText

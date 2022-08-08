@@ -96,6 +96,9 @@ main {
 #app-bible{
     width: 480px;
 }
+#app-commentary{
+    width: 480px;
+}
 #app-dictionary{
     width: 480px;
 }
@@ -167,6 +170,9 @@ main {
         width: 320px;
     }
     #app-bible{
+        width: 320px;
+    }
+    #app-commentary{
         width: 320px;
     }
     #app-dictionary{

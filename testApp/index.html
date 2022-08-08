@@ -16,6 +16,7 @@
     <nav id="top-nav">
       <button class="nav-button" id="btn-reading">Plan</button>
       <button class="nav-button" id="btn-bible">Bible</button>
+      <button class="nav-button" id="btn-commentary">Commentary</button>
       <button class="nav-button" id="btn-dictionary">Dict</button>
       <button class="nav-button" id="btn-map">Map</button>
     </nav>
@@ -28,6 +29,10 @@
         </nav>
         <table id="reading-plan-table"></table>
       </div>
+
+
+<!-- make bible entries similary to commentary entries -->
+
       <div class="app" id="app-bible">
         <input
           id="chapter-search-box"
@@ -37,10 +42,26 @@
           value="Gen.1"
         />
         <datalist id="bible-chapters-datalist"> </datalist>
-
         <button onclick="showBibleSelection();">Show</button>
         <div id="bible-result">LOADING...</div>
       </div>
+      <div class="app" id="app-commentary">
+        <input
+          id="commentary-search-box"
+          type="search"
+          list="commentary-chapters-datalist"
+          placeholder="Bible Chapters"
+          value="John.3"
+        />
+        <datalist id="commentary-chapters-datalist"> </datalist>
+        <button onclick="showCommentarySelection();">Show</button>
+        <div id="commentary-result">LOADING...</div>
+      </div>
+
+<!-- make bible entries similary to commentary entries -->
+
+
+
       <div class="app" id="app-dictionary">
         <input
           id="dictionary-search-box"
@@ -65,6 +86,7 @@
         ></span>
         <div id="map-container"><pre id="ascii-map"></pre></div>
       </div>
+
     </main>
     <!--//////////////////////////////////////////////////////////////// // //
     READING IN ARRAYS, KEY/VALUES/BIBLE/READINGPLAN/EASTONS/MAP //
@@ -372,6 +394,41 @@
               document.body.clientWidth;
             if (myWidth < 450) {
               processAppSelection("btn-bible");
+            }
+          }
+        };
+        http.send(params);
+      }
+
+      function getCommentaryChapterRemote(osisRef) {
+        let http = new XMLHttpRequest();
+        http.timeout = 2000; // time in milliseconds
+        //let url = "https://garydavenport.com/logtime/simpleAccounts.php";
+        let url = "getcommentarychapter.php";
+        // let params =
+        //   "email=" + email + "&password=" + password + "&do-this=test";
+        let params = "osisRef=" + osisRef;
+        http.ontimeout = function (e) {
+          alert("The request timed out.");
+        };
+        http.open("POST", url, true);
+        http.setRequestHeader(
+          "Content-type",
+          "application/x-www-form-urlencoded"
+        );
+        http.onreadystatechange = function () {
+          if (http.readyState == 4 && http.status == 200) {
+            console.log(http.responseText);
+            //alert("Response received:\n" + http.responseText);
+
+            commentaryResult.innerHTML = parseString(http.responseText);
+            //addEventListenersToFoundBibleWords(); not yet needed add later when working
+            let myWidth =
+              window.innerWidth ||
+              document.documentElement.clientWidth ||
+              document.body.clientWidth;
+            if (myWidth < 450) {
+              processAppSelection("btn-commentary");
             }
           }
         };
@@ -689,6 +746,18 @@
           .split("CHAPTERREFSTART")
           .join("<span class='open-chapter color-hover'>");
         str = str.split("CHAPTERREFEND").join("</span>");
+
+        //pulpit commentary
+        str = str.split("PULPITSTART").join("<h2>");
+        str = str.split("PULPITEND").join("</h2>");
+        str = str.split("NEWLINE").join("<br>");
+        str = str.split("PULPITVERSEBEGIN").join("<h4><i>");
+        str = str.split("PULPITVERSEFINISH").join("</i></h4>");
+        str = str.split("VERSETITLESTART").join("<br><h3>");
+        str = str.split("VERSETITLEEND").join("</h3>");
+
+        //VERSESTART and VERSEEND made into <sup></sup> already        
+        //
         return str;
       }
 
@@ -697,13 +766,22 @@
 
     <script>
       ///////////////POPULATING THE SELECT OPTIONS OF THE BIBLE CHAPTER SELECTIONS //////////////////
-      function populateChapterSelectElement() {
+      function buildChapterSearchOptions() {
         //bookChapterKeys global bibleBCSelction also global
         let str = "";
         for (let i = 0; i < bookChapterKeys.length; i++) {
           str += "<option value='" + bookChapterKeys[i] + "' />";
         }
         bibleChaptersDatalist.innerHTML = str;
+      }
+
+      function buildCommentarySearchOptions(){
+        //bookChapterKeys global bibleBCSelction also global
+        let str = "";
+        for (let i = 0; i < bookChapterKeys.length; i++) {
+          str += "<option value='" + bookChapterKeys[i] + "' />";
+        }
+        commentaryChaptersDatalist.innerHTML = str; 
       }
 
       /////// TAKES CURRENT BIBLE SELECTION AND LOADS THE BIBLE PASSAGE
@@ -730,6 +808,29 @@
           getBibleChapterRemote(osisRef);
         }
       }
+
+      function showCommentarySelection() {
+        //***************** AJAX function ********************
+
+        if (local === true) {
+          //if local do this
+          commentaryResult.innerHTML = parseString(
+            pulpit[commentarySearchBox.value]
+          );
+          //addEventListenersToFoundBibleWords();
+          let myWidth =
+            window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.body.clientWidth;
+          if (myWidth < 450) {
+            processAppSelection("btn-commentary");
+          }
+        } else {
+          let osisRef = commentarySearchBox.value;
+          getCommentaryChapterRemote(osisRef);
+        }
+      }
+
 
       /////// GIVEN CHAPTER REFERENCE SET THE CHAPTER SEARCH BOX TO REFERENCE
       /////// ADD EVENT LISTENERS TO THE BIBLE CHAPTER AFTER LOADING
@@ -1230,7 +1331,8 @@
       ///////////////////////NESTED MENU STUFF ENDS///////////////
     </script>
     <!-- <script src="finalDatabase.js"></script>
-    <script src="NASBChapterBible.js"></script> -->
+    <script src="NASBChapterBible.js"></script>
+    <script src="pulpit.js"></script> -->
     <script>
       let local = false;
       initializeNavButtonsAndCloseApps();
@@ -1243,6 +1345,7 @@
       let asciiMap = document.getElementById("ascii-map");
       let dictionarySelection = document.getElementById("dictionary-selection");
       let dictionaryResult = document.getElementById("dictionary-result");
+
       let dictionaryDataList = document.getElementById("dictionary-words");
       let dictionarySearchBox = document.getElementById(
         "dictionary-search-box"
@@ -1251,9 +1354,16 @@
       let bibleChaptersDatalist = document.getElementById(
         "bible-chapters-datalist"
       );
-      populateDictionarySelection();
 
-      populateChapterSelectElement();
+      let commentarySearchBox = document.getElementById("commentary-search-box");
+      let commentaryChaptersDatalist = document.getElementById(
+        "commentary-chapters-datalist"
+      );
+      let commentaryResult=document.getElementById("commentary-result");
+    
+      populateDictionarySelection();
+      buildChapterSearchOptions();
+      buildCommentarySearchOptions();
       //theChapterBible = makeHTMLChapterBible(theChapterBible);
       //eastons = makeEastons(eastons);
       document.getElementById("reading-plan-table").innerHTML =
@@ -1261,6 +1371,7 @@
       toggleReadingDates();
       addEventListenersToNestedMenus();
 
+      showCommentarySelection();
       selectBibleVerse("John.3.16");
       closeAllApps();
       document.getElementById("app-bible").style.display = "block";
