@@ -14,18 +14,21 @@
   <body>
     <h1>bitBible</h1>
     <nav id="top-nav">
-      <button class="nav-button" id="btn-reading">Plan</button>
-      <button class="nav-button" id="btn-bible">Bible</button>
-      <button class="nav-button" id="btn-commentary">Commentary</button>
-      <button class="nav-button" id="btn-dictionary">Dict</button>
-      <button class="nav-button" id="btn-map">Map</button>
+      <button class="nav-button" id="btn-reading">&#128197;</button>
+      <button class="nav-button" id="btn-bible">&#128214;</button>
+      <button class="nav-button" id="btn-dictionary">&#128216;</button>
+      <button class="nav-button" id="btn-map">&#127757;</button>
+      <button class="nav-button" id="btn-commentary">&#128172;</button>
+      <!-- for settings -->
+      <!-- <button>&#9881;</button> -->
     </nav>
     <main>
       <div class="app" id="app-reading">
+        <h3 id="reading-plan-name">Chronological</h3>
         <nav>
-          <button onclick="loadReadingProgress();">Load Progress</button>
-          <button onclick="saveReadingProgress();">Save Progress</button>
-          <button onclick="toggleReadingDates();">Show Dates</button>
+          <button onclick="loadReadingProgress();">&#128194;</button>
+          <button onclick="saveReadingProgress();">&#128193;</button>
+          <button onclick="toggleReadingDates();">&#128260;&#128197;</button>
         </nav>
         <table id="reading-plan-table"></table>
       </div>
@@ -34,6 +37,7 @@
 <!-- make bible entries similary to commentary entries -->
 
       <div class="app" id="app-bible">
+        <h3 id="bible-name">NASB</h3>
         <input
           id="chapter-search-box"
           type="search"
@@ -42,10 +46,13 @@
           value="Gen.1"
         />
         <datalist id="bible-chapters-datalist"> </datalist>
-        <button onclick="showBibleSelection();">Show</button>
+        <button onclick="showBibleSelection();">&rarr;</button>
+        <button onclick="openBibleChapterCommentary()";>&rarr;&#128172;</button>
         <div id="bible-result">LOADING...</div>
       </div>
+
       <div class="app" id="app-commentary">
+        <h3 id="commentary-name">Pulpit Commentary</h3>
         <input
           id="commentary-search-box"
           type="search"
@@ -54,15 +61,13 @@
           value="John.3"
         />
         <datalist id="commentary-chapters-datalist"> </datalist>
-        <button onclick="showCommentarySelection();">Show</button>
+        <button onclick="showCommentarySelection();">&rarr;</button>
         <div id="commentary-result">LOADING...</div>
       </div>
 
 <!-- make bible entries similary to commentary entries -->
-
-
-
       <div class="app" id="app-dictionary">
+        <h3 id="dictionary-name">Easton's Dictionary</h3>
         <input
           id="dictionary-search-box"
           type="search"
@@ -71,15 +76,15 @@
           value="Jesus"
         />
         <datalist id="dictionary-words"> </datalist>
-        <button onclick="showDictionarySelection();">Show</button>
+        <button onclick="showDictionarySelection();">&rarr;</button>
         <div id="dictionary-result">LOADING...</div>
       </div>
       <div class="app" id="app-map">
         <nav>
-          <button>OT</button>
-          <button>NT</button>
-          <button onclick="clearBullsEyes()">Clear</button>
-          <button onclick="openGoogleMap()">Google Maps</button>
+          <!-- <button>OT</button>
+          <button>NT</button> -->
+          <button onclick="clearBullsEyes()">&#127377;</button>
+          <button onclick="openGoogleMap()">G&#127757;</button>
         </nav>
         <span id="coordinates-label"></span>&nbsp;<span
           id="map-location"
@@ -134,6 +139,13 @@
     </script>
 
     <script>
+
+        function openBibleChapterCommentary(){
+            commentarySearchBox.value=chapterSearchBox.value;
+            showCommentarySelection();
+            
+        }
+
       function getDictionaryWordDataRemote(index, entry) {
         console.log("INDEX",index);
         console.log("using remote defnitions");
@@ -749,13 +761,14 @@
         str = str.split("CHAPTERREFEND").join("</span>");
 
         //pulpit commentary
-        str = str.split("PULPITSTART").join("<h2>");
+        str = str.split("PULPITSTART").join("<h2 class='pulpit-commentary-heading'>");
         str = str.split("PULPITEND").join("</h2>");
         str = str.split("NEWLINE").join("<br>");
         str = str.split("PULPITVERSEBEGIN").join("<h4><i>");
         str = str.split("PULPITVERSEFINISH").join("</i></h4>");
         str = str.split("VERSETITLESTART").join("<br><h3><span class='open-verse color-hover'>"); //<span class='open-verse color-hover'>
         str = str.split("VERSETITLEEND").join("</span></h3>");
+        //str = str.split("<br><br>").join("<br>");
 
         //VERSESTART and VERSEEND made into <sup></sup> already        
         //
@@ -1093,162 +1106,13 @@
             parseString(JSON.stringify(eastons[index]["entries"]))
           );
           _buildDictionaryResult(resultEntries, entry);
-          //   if (resultEntries != undefined) {
-          //     //loop through entries
-          //     let str = "";
-          //     for (let i = 0; i < resultEntries.length; i++) {
-          //       str += "<hr>";
-          //       //loopp through keys
-          //       str += "<div>";
-          //       for (const key in resultEntries[i]) {
-          //         //handle every key type lookup here
-          //         //dictLookup
-          //         //dictText
-          //         //verseReferences
-          //         //location
-          //         //mother
-          //         //father
-          //         //partners
-          //         //children
-          //         //siblings
-          //         //halfSiblingsSameMother
-          //         //halfSiblingsSameFather
-          //         if (key === "dictLookup") {
-          //           let id = resultEntries[i][key];
-          //           str +=
-          //             "<h3 class='nested-menu word-entry color-hover' id='" +
-          //             id +
-          //             "'>" +
-          //             resultEntries[i][key] +
-          //             "</h3>";
-          //         }
-          //         //handl
-          //         else if (key == "dictText") {
-          //           str += "<h3>Text:</h3>";
-          //           str += "<p>";
-          //           str += resultEntries[i][key];
-          //           str += "</p>";
-          //           //str += "<h3>" + key + "</h3>";
-          //           //str += "<p>";
-          //           //str += resultEntries[i][key];
-          //           //str += "</p>";
-          //         } else if (key == "verseReferences") {
-          //           str += "<h3>References:</h3>";
-          //           str += "<p>";
-
-          //           //let versesArray=resultEntries[i][key].split(",");
-          //           //str+="<span class='open-verse color-hover'>";
-          //           //str+=resultEntries[i][key].split(",").join("</span>,<span class='open-verse color-hover'>");
-          //           //str+="</span>";
-          //           str += resultEntries[i][key];
-
-          //           str += "</p>";
-          //         } else if (
-          //           key === "mother" ||
-          //           key === "father" ||
-          //           key === "partners" ||
-          //           key === "children" ||
-          //           key === "siblings" ||
-          //           key === "halfSiblingsSameMother" ||
-          //           key === "halfSiblingsSameFather"
-          //         ) {
-          //           if (key === "mother") {
-          //             str += "<h3>Mother:</h3>";
-          //           } else if (key === "father") {
-          //             str += "<h3>Father:</h3>";
-          //           } else if (key === "partners") {
-          //             str += "<h3>Partner:</h3>";
-          //           } else if (key === "children") {
-          //             str += "<h3>Children:</h3>";
-          //           } else if (key === "siblings") {
-          //             str += "<h3>Siblings:</h3>";
-          //           } else if (key === "halfSiblingsSameMother") {
-          //             str += "<h3>Half-Sibling (same mother):</h3>";
-          //           } else if (key === "halfSiblingsSameFather") {
-          //             str += "<h3>Half-Sibling (same father):</h3>";
-          //           }
-
-          //           //mother
-          //           //father
-          //           //partners
-          //           //children
-          //           //siblings
-          //           //halfSiblingsSameMother
-          //           //halfSiblingsSameFather
-
-          //           str += "<p>";
-          //           let peopleArray = resultEntries[i][key].split(",");
-
-          //           for (let j = 0; j < peopleArray.length; j++) {
-          //             if (peopleArray[j].indexOf("no entry") == -1) {
-          //               //no entry in dictionary
-          //               str += "<span class='open-dictionary-entry color-hover'>";
-          //               str += peopleArray[j];
-          //               str += "</span>,";
-          //             } else {
-          //               //entry in dictionary
-          //               str += "<span>";
-          //               str += peopleArray[j];
-          //               str += "</span>,";
-          //             }
-          //           }
-          //           str = str.slice(0, -1);
-
-          //           str += "</p>";
-          //         } else if (key === "location") {
-          //           str += "<h3>Location:</h3>";
-          //           str += "<p>";
-          //           str +=
-          //             "<span class='dictionary-location color-hover'>" +
-          //             resultEntries[i][key] +
-          //             "</span>";
-          //           str += "</p>";
-          //         } else {
-          //           str += "<h3>" + key + "</h3>";
-          //           str += "<p>";
-          //           str += resultEntries[i][key];
-          //           str += "</p>";
-          //         }
-          //       }
-          //       str += "</div>";
-          //     }
-          //     str += "<hr>";
-
-          //     dictionaryResult.innerHTML = str;
-          //     //console.log(resultEntries);
-          //     addEventListenersToNestedMenus();
-          //     addEventListenersToOpenVerses();
-          //     addEventListenersToOpenChapters();
-          //     addEventListenersToOpenDictionaryEntries();
-          //     addEventListenersToDictionaryLocations();
-          //     //if there is just one leave open
-          //     if (resultEntries.length > 1) {
-          //       closeWordEntries();
-          //     }
-          //   } else {
-          //     dictionaryResult.innerHTML = "<h3>Word not found</h3>";
-          //   }
-          //   //console.log(entry);
-          //   //add code here to look for best entry if undefined**************
-          //   if (entry != undefined) {
-          //     openSiblings(entry);
-          //   }
-          //   ////FORCE APP TO EVALUATE OPENING OR CLOSING WINDOWS IF SMALL SCREEN
-          //   let myWidth =
-          //     window.innerWidth ||
-          //     document.documentElement.clientWidth ||
-          //     document.body.clientWidth;
-          //   if (myWidth < 450) {
-          //     //document.getElementById('btn-dictionary').click();
-          //     processAppSelection("btn-dictionary");
-          //   }
         } else {
           getDictionaryWordDataRemote(index, entry);
         }
       }
 
       function showDictionarySelection() {
-        let word = dictionarySearchBox.value;
+        let word = dictionarySearchBox.value.trim();
         openDictionaryEntry(word);
       }
 
@@ -1332,11 +1196,11 @@
       }
       ///////////////////////NESTED MENU STUFF ENDS///////////////
     </script>
-    <script src="finalDatabase.js"></script>
+    <!-- <script src="finalDatabase.js"></script>
     <script src="NASBChapterBible.js"></script>
-    <script src="pulpit.js"></script>
+    <script src="pulpit.js"></script> -->
     <script>
-      let local = true;
+      let local = false;
       initializeNavButtonsAndCloseApps();
       let showDates = true;
       window.onbeforeunload = askConfirm;

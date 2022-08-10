@@ -48,9 +48,11 @@ body {
 }
 
 h1 {
-    background-color: orange;
+    background-color:rgb(0,124,207);
+    color: snow;
     width: 320px;
     text-align: center;
+    border-radius: 5px;
 }
 
 h2 {
@@ -66,7 +68,7 @@ p {
 nav {
     display: flex;
     flex-wrap: wrap;
-    background-color: yellow;
+    /* background-color: lightslategray; */
     max-width: 320px;
     width: 100%;
     justify-content: center;
@@ -105,12 +107,12 @@ main {
 #app-map{
     width: 320px;
 }
-.open-verse{
-    background-color: antiquewhite;
-}
-.open-verse:hover {
-    background-color: orange;
-}
+/* .open-verse{
+    background-color: rgb(215, 235, 250);
+} */
+/* .open-verse:hover {
+    background-color: rgb(0,124,207);
+} */
 
 #bible-bc-selection,
 #dictionary-selection {
@@ -118,10 +120,13 @@ main {
 }
 
 .color-hover{
-    background-color: antiquewhite;
+    /* background-color: antiquewhite; */
+    background-color: rgb(240, 240, 255);
+    border-radius: 5px;
 }
 .color-hover:hover {
-    background-color: orange;
+    background-color: rgb(0,124,207);
+    color:snow;
 }
 
 #reading-plan-table {
@@ -157,9 +162,43 @@ main {
 #top-nav {
     position: sticky;
     top: 0;
+    background-color: rgb(68, 180, 255);
     /* background-color: transparent; */
+    /* border-radius: 5px; */
   }
 
+
+
+
+/* after styling */
+nav>button{
+    padding: 5px;
+    margin: 1px;
+    font-size: 1.4em;
+    border-radius: 5px;
+    border: 1px solid grey;
+    min-width: 40px;
+}
+
+button:hover{
+    background-color: rgb(0,124,207) !important;
+}
+.app button, .app input{
+    font-size: 1em;
+}
+
+input[type="search"]{
+    width: 150px;
+}
+.word-entry{
+   padding:0.5rem;
+}
+#reading-plan-name, #bible-name, #dictionary-name, #commentary-name{
+    text-align: center;
+}
+.pulpit-commentary-heading{
+    display: none;
+}
 @media screen and (max-width: 450px) {
     /* main {
         display: flex;
