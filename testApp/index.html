@@ -422,6 +422,7 @@
             //alert("Response received:\n" + http.responseText);
 
             commentaryResult.innerHTML = parseString(http.responseText);
+            addEventListenersToOpenVerses();
             //addEventListenersToFoundBibleWords(); not yet needed add later when working
             let myWidth =
               window.innerWidth ||
@@ -753,8 +754,8 @@
         str = str.split("NEWLINE").join("<br>");
         str = str.split("PULPITVERSEBEGIN").join("<h4><i>");
         str = str.split("PULPITVERSEFINISH").join("</i></h4>");
-        str = str.split("VERSETITLESTART").join("<br><h3>");
-        str = str.split("VERSETITLEEND").join("</h3>");
+        str = str.split("VERSETITLESTART").join("<br><h3><span class='open-verse color-hover'>"); //<span class='open-verse color-hover'>
+        str = str.split("VERSETITLEEND").join("</span></h3>");
 
         //VERSESTART and VERSEEND made into <sup></sup> already        
         //
@@ -817,6 +818,7 @@
           commentaryResult.innerHTML = parseString(
             pulpit[commentarySearchBox.value]
           );
+          addEventListenersToOpenVerses();
           //addEventListenersToFoundBibleWords();
           let myWidth =
             window.innerWidth ||
@@ -1330,11 +1332,11 @@
       }
       ///////////////////////NESTED MENU STUFF ENDS///////////////
     </script>
-    <!-- <script src="finalDatabase.js"></script>
+    <script src="finalDatabase.js"></script>
     <script src="NASBChapterBible.js"></script>
-    <script src="pulpit.js"></script> -->
+    <script src="pulpit.js"></script>
     <script>
-      let local = false;
+      let local = true;
       initializeNavButtonsAndCloseApps();
       let showDates = true;
       window.onbeforeunload = askConfirm;
@@ -1364,8 +1366,8 @@
       populateDictionarySelection();
       buildChapterSearchOptions();
       buildCommentarySearchOptions();
-      //theChapterBible = makeHTMLChapterBible(theChapterBible);
-      //eastons = makeEastons(eastons);
+    //   theChapterBible = makeHTMLChapterBible(theChapterBible);
+    //   eastons = makeEastons(eastons);
       document.getElementById("reading-plan-table").innerHTML =
         makeReadingTable(readingPlan);
       toggleReadingDates();
