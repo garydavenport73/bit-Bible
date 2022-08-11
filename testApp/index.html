@@ -72,7 +72,8 @@
         /> -->
         <datalist id="commentary-chapters-datalist"> </datalist>
         <button onclick="showCommentarySelection();">Go</button>
-        <div id="commentary-result">LOADING...</div>
+        <div id="commentary-result">
+            Type a chapter in the search box to see commentary.</div>
       </div>
 
       <!-- make bible entries similary to commentary entries -->
@@ -1445,20 +1446,14 @@
 
       addEventListenersToOpenChapters(); //for reading plan
 
+      setSizeOfPre();
 
-      showCommentarySelection();
-      selectBibleVerse("Gen.1.1");
       closeAllApps();
-
-
-
+      selectBibleVerse("Gen.1.1");
       document.getElementById("app-bible").style.display = "block";
       document.getElementById("btn-bible").style.backgroundColor =
         "rgb(0,124,207)";
       document.getElementById("ascii-map").innerText = baseMap;
-      setSizeOfPre();
-
-
 
     </script>
   </body>
