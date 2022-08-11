@@ -12,13 +12,14 @@
   </head>
 
   <body>
-    <h1>bitBible</h1>
+    <h1>bitBible<sub id="version-type">online version</sub></h1>
     <nav id="top-nav">
       <button class="nav-button" id="btn-reading">&#128197;</button>
       <button class="nav-button" id="btn-bible">&#128214;</button>
       <button class="nav-button" id="btn-dictionary">&#128216;</button>
-      <button class="nav-button" id="btn-map">&#127757;</button>
       <button class="nav-button" id="btn-commentary">&#128172;</button>
+      <button class="nav-button" id="btn-map">&#127757;</button>
+      <button class="nav-button" id="btn-download">&#10515;</button>
       <!-- for settings -->
       <!-- <button>&#9881;</button> -->
     </nav>
@@ -26,15 +27,20 @@
       <div class="app" id="app-reading">
         <h3 id="reading-plan-name">Chronological</h3>
         <nav>
-          <button onclick="loadReadingProgress();">&#128194;</button>
-          <button onclick="saveReadingProgress();">&#128193;</button>
-          <button onclick="toggleReadingDates();">&#128260;&#128197;</button>
+          <button onclick="loadReadingProgress();">
+            Load Progress&#128194;
+          </button>
+          <button onclick="saveReadingProgress();">Save&#128193;</button>
+          <button onclick="toggleReadingDates();">&#128260;Dates</button>
         </nav>
         <table id="reading-plan-table"></table>
       </div>
 
-
-<!-- make bible entries similary to commentary entries -->
+      <div class="app" id="app-download">
+        <h3 id="download-name">Download</h3>
+        <p>Coming soon ... offline version!</p>
+      </div>
+      <!-- make bible entries similary to commentary entries -->
 
       <div class="app" id="app-bible">
         <h3 id="bible-name">NASB</h3>
@@ -46,8 +52,10 @@
           value="Gen.1"
         />
         <datalist id="bible-chapters-datalist"> </datalist>
-        <button onclick="showBibleSelection();">&rarr;</button>
-        <button onclick="openBibleChapterCommentary()";>&rarr;&#128172;</button>
+        <button onclick="showBibleSelection();">Go</button>
+        <button onclick="openBibleChapterCommentary()" ;>
+          &#8625;&#128172;
+        </button>
         <div id="bible-result">LOADING...</div>
       </div>
 
@@ -58,14 +66,16 @@
           type="search"
           list="commentary-chapters-datalist"
           placeholder="Bible Chapters"
-          value="John.3"
+          value="Gen.1"
         />
+        <!-- value="John.3"
+        /> -->
         <datalist id="commentary-chapters-datalist"> </datalist>
-        <button onclick="showCommentarySelection();">&rarr;</button>
+        <button onclick="showCommentarySelection();">Go</button>
         <div id="commentary-result">LOADING...</div>
       </div>
 
-<!-- make bible entries similary to commentary entries -->
+      <!-- make bible entries similary to commentary entries -->
       <div class="app" id="app-dictionary">
         <h3 id="dictionary-name">Easton's Dictionary</h3>
         <input
@@ -73,25 +83,39 @@
           type="search"
           list="dictionary-words"
           placeholder="dictionary words"
-          value="Jesus"
         />
+        <!-- value="Jesus"
+        /> -->
         <datalist id="dictionary-words"> </datalist>
-        <button onclick="showDictionarySelection();">&rarr;</button>
-        <div id="dictionary-result">LOADING...</div>
+        <button onclick="showDictionarySelection();">&#128269;</button>
+        <div id="dictionary-result">
+          Type in the search box to look for words in the Bible Dictionary.
+        </div>
       </div>
       <div class="app" id="app-map">
         <nav>
-          <!-- <button>OT</button>
-          <button>NT</button> -->
-          <button onclick="clearBullsEyes()">&#127377;</button>
-          <button onclick="openGoogleMap()">G&#127757;</button>
+          <!-- &#9398; -->
+          <button class="btn-select-map" id="map-Abraham">Ⓐ</button>
+          <!-- &#9410; -->
+          <button class="btn-select-map" id="map-Moses">Ⓜ</button>
+          <!-- &#9323; -->
+          <button class="btn-select-map" id="map-12 Tribes">⑫</button>
+          <!-- &#10208; -->
+          <button class="btn-select-map" id="map-Divided Kingdoms">⟠</button>
+          <!-- &#9407; -->
+          <button class="btn-select-map" id="map-Jesus">Ⓙ</button>
+          <button onclick="clearBullsEyes();clearBackgroundLocations();">&#8999;</button>
+          <button onclick="openGoogleMap()">&#127760;</button>
         </nav>
-        <span id="coordinates-label"></span>&nbsp;<span
-          id="map-location"
-        ></span>
+        <div id="map-name">&nbsp;</div>
+        <div>
+          <span id="coordinates-label"></span>&nbsp;<span
+            id="map-location"
+          ></span>
+        </div>
+
         <div id="map-container"><pre id="ascii-map"></pre></div>
       </div>
-
     </main>
     <!--//////////////////////////////////////////////////////////////// // //
     READING IN ARRAYS, KEY/VALUES/BIBLE/READINGPLAN/EASTONS/MAP //
@@ -102,10 +126,40 @@
     <script src="chronologicalReadingPlan.js"></script>
     <script src="baseMap.js"></script>
 
-
-
     <script>
 
+      function addEventListenersToMapButtons() {
+        let mapButtons = document.getElementsByClassName("btn-select-map");
+        for (let i = 0; i < mapButtons.length; i++) {
+            mapButtons[i].style.backgroundColor="lightgrey";
+          mapButtons[i].addEventListener("click", (evt) => {
+            processMapButtonClick(evt.target.id);
+          });
+        }
+      }
+      addEventListenersToMapButtons();
+
+      function processMapButtonClick(id) {
+        let mapButtons = document.getElementsByClassName("btn-select-map");
+        for (let i = 0; i < mapButtons.length; i++) {
+            mapButtons[i].style.backgroundColor="lightgrey";
+        }
+        
+        console.log("process click for " + id);
+
+        document.getElementById(id).style.backgroundColor="rgb(0,124,207)";
+
+        document.getElementById("map-name").innerHTML=id.slice(4);
+
+        plotBackgroundMapLocations(id);
+
+
+
+      }
+
+    </script>
+
+    <script>
       function _populateDictionarySelectionRemote() {
         console.log("using remote");
         let http = new XMLHttpRequest();
@@ -126,28 +180,25 @@
             console.log("*****!!!!!!!!!!!!WORD LIST !!!!!!!!!!!!*****");
             console.log(wordList);
             let str = "";
-          for (let i = 0; i < wordList.length; i++) {
-            str += "<option value='" + wordList[i] + "' />";
-          }
-          dictionaryDataList.innerHTML = str;
-            openDictionaryEntry("Jesus", "Jesus 2");
+            for (let i = 0; i < wordList.length; i++) {
+              str += "<option value='" + wordList[i] + "' />";
+            }
+            dictionaryDataList.innerHTML = str;
+            // openDictionaryEntry("Jesus", "Jesus 2");
           }
         };
         http.send();
       }
-
     </script>
 
     <script>
-
-        function openBibleChapterCommentary(){
-            commentarySearchBox.value=chapterSearchBox.value;
-            showCommentarySelection();
-            
-        }
+      function openBibleChapterCommentary() {
+        commentarySearchBox.value = chapterSearchBox.value;
+        showCommentarySelection();
+      }
 
       function getDictionaryWordDataRemote(index, entry) {
-        console.log("INDEX",index);
+        console.log("INDEX", index);
         console.log("using remote defnitions");
         let http = new XMLHttpRequest();
         http.timeout = 2000; // time in milliseconds
@@ -193,7 +244,7 @@
           //loop through entries
           let str = "";
           for (let i = 0; i < resultEntries.length; i++) {
-            str += "<hr>";
+             str += "<hr>";
             //loopp through keys
             str += "<div>";
             for (const key in resultEntries[i]) {
@@ -292,6 +343,7 @@
 
                 str += "</p>";
               } else if (key === "location") {
+                
                 str += "<h3>Location:</h3>";
                 str += "<p>";
                 str +=
@@ -299,6 +351,16 @@
                   resultEntries[i][key] +
                   "</span>";
                 str += "</p>";
+                
+                // let tempStr="";
+                // tempStr += "<h3>Location:</h3>";
+                // tempStr += "<p>";
+                // tempStr +=
+                //   "<span class='dictionary-location color-hover'>" +
+                //   resultEntries[i][key] +
+                //   "</span>";
+                // tempStr += "</p>";
+                // str=tempStr+str;
               } else {
                 str += "<h3>" + key + "</h3>";
                 str += "<p>";
@@ -308,6 +370,7 @@
             }
             str += "</div>";
           }
+        //   str = "<hr>"+str+"<hr>";
           str += "<hr>";
 
           dictionaryResult.innerHTML = str;
@@ -560,7 +623,8 @@
           //console.log(app.style.display.toString());
           if (app.style.display === "none") {
             app.style.display = "block";
-            document.getElementById(id).style.backgroundColor = "green";
+            document.getElementById(id).style.backgroundColor =
+              "rgb(0,124,207)";
           } else {
             app.style.display = "none";
             document.getElementById(id).style.backgroundColor = "lightgrey";
@@ -569,7 +633,7 @@
           closeAllApps();
           let app = document.getElementById(appId);
           app.style.display = "block";
-          document.getElementById(id).style.backgroundColor = "green";
+          document.getElementById(id).style.backgroundColor = "rgb(0,124,207)";
         }
         if (appId === "app-map") {
           setSizeOfPre();
@@ -761,16 +825,20 @@
         str = str.split("CHAPTERREFEND").join("</span>");
 
         //pulpit commentary
-        str = str.split("PULPITSTART").join("<h2 class='pulpit-commentary-heading'>");
+        str = str
+          .split("PULPITSTART")
+          .join("<h2 class='pulpit-commentary-heading'>");
         str = str.split("PULPITEND").join("</h2>");
         str = str.split("NEWLINE").join("<br>");
         str = str.split("PULPITVERSEBEGIN").join("<h4><i>");
         str = str.split("PULPITVERSEFINISH").join("</i></h4>");
-        str = str.split("VERSETITLESTART").join("<br><h3><span class='open-verse color-hover'>"); //<span class='open-verse color-hover'>
+        str = str
+          .split("VERSETITLESTART")
+          .join("<br><h3><span class='open-verse color-hover'>"); //<span class='open-verse color-hover'>
         str = str.split("VERSETITLEEND").join("</span></h3>");
         //str = str.split("<br><br>").join("<br>");
 
-        //VERSESTART and VERSEEND made into <sup></sup> already        
+        //VERSESTART and VERSEEND made into <sup></sup> already
         //
         return str;
       }
@@ -789,13 +857,13 @@
         bibleChaptersDatalist.innerHTML = str;
       }
 
-      function buildCommentarySearchOptions(){
+      function buildCommentarySearchOptions() {
         //bookChapterKeys global bibleBCSelction also global
         let str = "";
         for (let i = 0; i < bookChapterKeys.length; i++) {
           str += "<option value='" + bookChapterKeys[i] + "' />";
         }
-        commentaryChaptersDatalist.innerHTML = str; 
+        commentaryChaptersDatalist.innerHTML = str;
       }
 
       /////// TAKES CURRENT BIBLE SELECTION AND LOADS THE BIBLE PASSAGE
@@ -845,7 +913,6 @@
           getCommentaryChapterRemote(osisRef);
         }
       }
-
 
       /////// GIVEN CHAPTER REFERENCE SET THE CHAPTER SEARCH BOX TO REFERENCE
       /////// ADD EVENT LISTENERS TO THE BIBLE CHAPTER AFTER LOADING
@@ -938,7 +1005,7 @@
             } else {
               document.getElementById("app-map").style.display = "block";
               document.getElementById("btn-map").style.backgroundColor =
-                "green";
+                "rgb(0,124,207)";
             }
             setSizeOfPre();
             document.getElementById("map-location").innerHTML =
@@ -954,6 +1021,8 @@
         let location = document.getElementById("map-location").innerText;
         window.open("http://maps.google.com/maps?q=" + location);
       }
+
+
 
       function plotOnMap(location) {
         if (document.getElementById("app-map").style.display === "none") {
@@ -973,7 +1042,6 @@
           bullsEye.style.position = "absolute";
           bullsEye.style.left = x.toString() + "px";
           bullsEye.style.top = y.toString() + "px";
-          //bullsEye.innerHTML="o<span class='bulls-eye-extra-label'>yooyoyoyoyoyoyoyo</span>";
           bullsEye.innerHTML = "o";
 
           bullsEyeLabel = document.createElement("span");
@@ -1025,8 +1093,35 @@
           bullsEyeLabels[i].remove();
         }
 
+
+      }
+
+      function clearBackgroundLocations(){
         document.getElementById("map-location").innerHTML = "";
         document.getElementById("coordinates-label").innerHTML = "";
+
+        let existingLocations = document.getElementsByClassName("background-location");
+        let existingLocationLabels = document.getElementsByClassName("background-location-label");
+
+        for (let i = existingLocations.length - 1; i >= 0; i--) {
+          existingLocations[i].remove();
+        }
+
+        for (let i = existingLocationLabels.length - 1; i >= 0; i--) {
+          existingLocationLabels[i].remove();
+        }
+
+        document.getElementById("map-name").innerHTML="&nbsp;";
+
+
+        let mapButtons = document.getElementsByClassName("btn-select-map");
+        for (let i = 0; i < mapButtons.length; i++) {
+            mapButtons[i].style.backgroundColor="lightgrey";
+        }
+
+
+
+        
       }
 
       function setSizeOfPre() {
@@ -1061,24 +1156,22 @@
       /////////////////// DICTIONARY ENTRY OPENING ETC ////////////////////
       //
       ///////////////////////////////////////////////////////////////////
-    function populateDictionarySelection(){
-        if (local===true){
-            _populateDictionarySelectionLocal();
+      function populateDictionarySelection() {
+        if (local === true) {
+          _populateDictionarySelectionLocal();
+        } else {
+          _populateDictionarySelectionRemote();
         }
-        else{
-            _populateDictionarySelectionRemote();
-        }
-    }
-
+      }
 
       function _populateDictionarySelectionLocal() {
         //***************** NEEDS EASTONS WORD INDEX ARRAY ********************
-          let str = "";
-          for (let i = 0; i < eastons.length; i++) {
-            str += "<option value='" + eastons[i]["word"] + "' />";
-          }
-          dictionaryDataList.innerHTML = str;
-          openDictionaryEntry("Jesus", "Jesus 2");
+        let str = "";
+        for (let i = 0; i < eastons.length; i++) {
+          str += "<option value='" + eastons[i]["word"] + "' />";
+        }
+        dictionaryDataList.innerHTML = str;
+        //   openDictionaryEntry("Jesus", "Jesus 2");
       }
 
       ////////////////////////////////////////////
@@ -1196,11 +1289,122 @@
       }
       ///////////////////////NESTED MENU STUFF ENDS///////////////
     </script>
+    <script>
+      function showVersion(local) {
+        if (local === true) {
+          document.getElementById("btn-download").style.display = "none";
+          document.getElementById("version-type").innerHTML = "offline version";
+        } else {
+          document.getElementById("version-type").innerHTML = "online version";
+        }
+      }
+
+      function plotBackgroundLocation(location,locationName){
+        let latitude = parseFloat(location.split(",")[0]);
+          let longitude = parseFloat(location.split(",")[1]);
+          let x = convertLongitude(longitude);
+          let y = convertLatitude(latitude);
+          let backgroundLocation= document.createElement("span");
+          backgroundLocation.classList.add("background-location");
+          backgroundLocation.style.position = "absolute";
+          backgroundLocation.style.left = x.toString() + "px";
+          backgroundLocation.style.top = y.toString() + "px";
+          backgroundLocation.innerHTML = "o<sub>"+locationName+"</sub>";
+
+
+        //   backgroundLocationLabel = document.createElement("span");
+        //   backgroundLocationLabel.classList.add("background-location-label");
+        //   backgroundLocationLabel.style.position = "absolute";
+        //   backgroundLocationLabel.style.left = (x + 10).toString() + "px";
+        //   backgroundLocationLabel.style.top = y.toString() + "px";
+        //   backgroundLocationLabel.innerHTML = locationName;
+
+          mapContainer.appendChild(backgroundLocation);
+        //   mapContainer.appendChild(backgroundLocationLabel);
+      }
+
+     function plotBackgroundMapLocations(id){
+        let existingLocations = document.getElementsByClassName("background-location");
+        // let existingLocationLabels = document.getElementsByClassName("background-location-label");
+
+        for (let i = existingLocations.length - 1; i >= 0; i--) {
+          existingLocations[i].remove();
+        }
+
+        // for (let i = existingLocationLabels.length - 1; i >= 0; i--) {
+        //   existingLocationLabels[i].remove();
+        // }
+
+        if (id==="map-Abraham") {
+            plotBackgroundLocation("31.69352950368834,34.84388288576839","Canaan");
+            plotBackgroundLocation("30.9625,46.103056","Ur");
+            plotBackgroundLocation("36.86,39.03139","Haran");
+            plotBackgroundLocation("33.511612,36.309102","Damascus");
+            plotBackgroundLocation("32.22111,35.25444","Shechem");
+            plotBackgroundLocation("31.93053921,35.22103275","Bethel");
+            plotBackgroundLocation("33.24856,35.65252","Dan");
+            // plotBackgroundLocation("33.5,36.466667","Hobah");
+            plotBackgroundLocation("31.777444,35.234935","Salem");
+            plotBackgroundLocation("31.38176,34.60698","Gerar");
+            plotBackgroundLocation("31.245,34.84068","Beersheba");
+            plotBackgroundLocation("31.032047,33.854957","Egypt");
+        }
+        else if (id==="map-Moses"){
+            plotBackgroundLocation("29.5,34","Sinai");
+            plotBackgroundLocation("31.69352950368834,34.84388288576839","Zin");
+            plotBackgroundLocation("29.306194,32.980924","Elim");
+            plotBackgroundLocation("30.998062,35.498547","Beer");
+            plotBackgroundLocation("29.35,32.933333","Marah");
+            plotBackgroundLocation("19.0,39.5","Red Sea");
+            plotBackgroundLocation("28.838778,33.420573","Wilderness of Sin");
+        }
+        else if (id==="map-12 Tribes"){
+            plotBackgroundLocation("32.559061,35.246206","Kedesh");
+            plotBackgroundLocation("32.80007553,35.9373013","Golan");
+            plotBackgroundLocation("32.049953,35.733402","Ramoth");
+            plotBackgroundLocation("32.51613741,36.48829076","Bezer");
+            plotBackgroundLocation("31.524354,35.108539","Hebron");
+            plotBackgroundLocation("32.22111,35.25444","Shechem");
+            plotBackgroundLocation("33.511612,36.309102","Damascus");
+            plotBackgroundLocation("31.95522,35.94503","Ammon");
+            plotBackgroundLocation("31.777444,35.234935","Jerusalem");
+            plotBackgroundLocation("32.280231,35.197929","Samaria");
+        }
+        else if (id==="map-Divided Kingdoms"){
+            plotBackgroundLocation("32.22111,35.25444","Shechem");
+            plotBackgroundLocation("32.280231,35.197929","Samaria");
+            plotBackgroundLocation("31.777444,35.234935","Jerusalem");
+            plotBackgroundLocation("31.524354,35.108539","Hebron");
+            plotBackgroundLocation("31.503959,34.46203","Gaza");
+            plotBackgroundLocation("31.38176,34.60698","Gerar");
+            plotBackgroundLocation("33.511612,36.309102","Damascus");
+            plotBackgroundLocation("32.502074,35.50196","Jezreel");
+        }
+        else if (id==="map-Jesus"){
+            plotBackgroundLocation("31.70431,35.20746","Bethlehem");
+            plotBackgroundLocation("33.511612,36.309102","Damascus");
+            plotBackgroundLocation("41.01316,24.28409","Phillipi");
+            plotBackgroundLocation("32.701029,35.300148","Nazareth");
+            plotBackgroundLocation("32.502074,35.50196","Jezreel");
+            plotBackgroundLocation("32.280231,35.197929","Samaria");
+            plotBackgroundLocation("32.8138046,35.590564","Sea Galilee");
+            plotBackgroundLocation("31.577850349494952,35.52394311","Dead Sea");
+            plotBackgroundLocation("31.79819,35.80986","Mt. Ebal");       
+            plotBackgroundLocation("31.777444,35.234935","Jerusalem");
+            plotBackgroundLocation("31.524354,35.108539","Hebron");
+            plotBackgroundLocation("31.422876,35.132952","Carmel");
+            plotBackgroundLocation("31.503959,34.46203","Gaza");
+            plotBackgroundLocation("31.93053921,35.22103275","Bethel");        
+        }
+
+     }
+    </script>
     <!-- <script src="finalDatabase.js"></script>
     <script src="NASBChapterBible.js"></script>
     <script src="pulpit.js"></script> -->
     <script>
       let local = false;
+      showVersion(local);
       initializeNavButtonsAndCloseApps();
       let showDates = true;
       window.onbeforeunload = askConfirm;
@@ -1221,29 +1425,35 @@
         "bible-chapters-datalist"
       );
 
-      let commentarySearchBox = document.getElementById("commentary-search-box");
+      let commentarySearchBox = document.getElementById(
+        "commentary-search-box"
+      );
       let commentaryChaptersDatalist = document.getElementById(
         "commentary-chapters-datalist"
       );
-      let commentaryResult=document.getElementById("commentary-result");
-    
+      let commentaryResult = document.getElementById("commentary-result");
+
       populateDictionarySelection();
       buildChapterSearchOptions();
       buildCommentarySearchOptions();
-    //   theChapterBible = makeHTMLChapterBible(theChapterBible);
-    //   eastons = makeEastons(eastons);
+      //   theChapterBible = makeHTMLChapterBible(theChapterBible);
+      //   eastons = makeEastons(eastons);
       document.getElementById("reading-plan-table").innerHTML =
         makeReadingTable(readingPlan);
       toggleReadingDates();
       addEventListenersToNestedMenus();
 
       showCommentarySelection();
-      selectBibleVerse("John.3.16");
+      selectBibleVerse("Gen.1.1");
       closeAllApps();
       document.getElementById("app-bible").style.display = "block";
-      document.getElementById("btn-bible").style.backgroundColor = "green";
+      document.getElementById("btn-bible").style.backgroundColor =
+        "rgb(0,124,207)";
       document.getElementById("ascii-map").innerText = baseMap;
       setSizeOfPre();
+
+
+
     </script>
   </body>
 </html>
