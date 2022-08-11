@@ -73,7 +73,8 @@
         <datalist id="commentary-chapters-datalist"> </datalist>
         <button onclick="showCommentarySelection();">Go</button>
         <div id="commentary-result">
-            Type a chapter in the search box to see commentary.</div>
+          Type a chapter in the search box to see commentary.
+        </div>
       </div>
 
       <!-- make bible entries similary to commentary entries -->
@@ -105,7 +106,9 @@
           <button class="btn-select-map" id="map-Divided Kingdoms">⟠</button>
           <!-- &#9407; -->
           <button class="btn-select-map" id="map-Jesus">Ⓙ</button>
-          <button onclick="clearBullsEyes();clearBackgroundLocations();">&#8999;</button>
+          <button onclick="clearBullsEyes();clearBackgroundLocations();">
+            &#8999;
+          </button>
           <button onclick="openGoogleMap()">&#127760;</button>
         </nav>
         <div id="map-name">&nbsp;</div>
@@ -128,40 +131,30 @@
     <script src="baseMap.js"></script>
 
     <script>
-
-      function addEventListenersToMapButtons() {
-        let mapButtons = document.getElementsByClassName("btn-select-map");
-        for (let i = 0; i < mapButtons.length; i++) {
-            mapButtons[i].style.backgroundColor="lightgrey";
-          mapButtons[i].addEventListener("click", (evt) => {
-            processMapButtonClick(evt.target.id);
-          });
+        function addEventListenersToMapButtons() {
+          let mapButtons = document.getElementsByClassName("btn-select-map");
+          for (let i = 0; i < mapButtons.length; i++) {
+            mapButtons[i].style.backgroundColor = "lightgrey";
+            mapButtons[i].addEventListener("click", (evt) => {
+              processMapButtonClick(evt.target.id);
+            });
+          }
         }
-      }
-      addEventListenersToMapButtons();
-
-      function processMapButtonClick(id) {
-        let mapButtons = document.getElementsByClassName("btn-select-map");
-        for (let i = 0; i < mapButtons.length; i++) {
-            mapButtons[i].style.backgroundColor="lightgrey";
+        addEventListenersToMapButtons();
+  
+        function processMapButtonClick(id) {
+          let mapButtons = document.getElementsByClassName("btn-select-map");
+          for (let i = 0; i < mapButtons.length; i++) {
+            mapButtons[i].style.backgroundColor = "lightgrey";
+          }
+          document.getElementById(id).style.backgroundColor = "rgb(0,124,207)";
+          document.getElementById("map-name").innerHTML = id.slice(4);
+          plotBackgroundMapLocations(id);
         }
-        
-        console.log("process click for " + id);
-
-        document.getElementById(id).style.backgroundColor="rgb(0,124,207)";
-
-        document.getElementById("map-name").innerHTML=id.slice(4);
-
-        plotBackgroundMapLocations(id);
-
-
-
-      }
-
-    </script>
+      </script>
 
     <script>
-      function _populateDictionarySelectionRemote() {
+      function _buildDictionarySearchOptionsRemote() {
         console.log("using remote");
         let http = new XMLHttpRequest();
         http.timeout = 2000; // time in milliseconds
@@ -245,7 +238,7 @@
           //loop through entries
           let str = "";
           for (let i = 0; i < resultEntries.length; i++) {
-             str += "<hr>";
+            str += "<hr>";
             //loopp through keys
             str += "<div>";
             for (const key in resultEntries[i]) {
@@ -344,7 +337,6 @@
 
                 str += "</p>";
               } else if (key === "location") {
-                
                 str += "<h3>Location:</h3>";
                 str += "<p>";
                 str +=
@@ -352,7 +344,7 @@
                   resultEntries[i][key] +
                   "</span>";
                 str += "</p>";
-                
+
                 // let tempStr="";
                 // tempStr += "<h3>Location:</h3>";
                 // tempStr += "<p>";
@@ -371,7 +363,7 @@
             }
             str += "</div>";
           }
-        //   str = "<hr>"+str+"<hr>";
+          //   str = "<hr>"+str+"<hr>";
           str += "<hr>";
 
           dictionaryResult.innerHTML = str;
@@ -1020,12 +1012,11 @@
 
       function openGoogleMap() {
         let location = document.getElementById("map-location").innerText;
-        if (location.length>3){//string is not empty contains at least 3 characters
-            window.open("http://maps.google.com/maps?q=" + location);
+        if (location.length > 3) {
+          //string is not empty contains at least 3 characters
+          window.open("http://maps.google.com/maps?q=" + location);
         }
       }
-
-
 
       function plotOnMap(location) {
         if (document.getElementById("app-map").style.display === "none") {
@@ -1045,17 +1036,9 @@
           bullsEye.style.position = "absolute";
           bullsEye.style.left = x.toString() + "px";
           bullsEye.style.top = y.toString() + "px";
-          bullsEye.innerHTML = "o";
-
-          bullsEyeLabel = document.createElement("span");
-          bullsEyeLabel.classList.add("bulls-eye-label");
-          bullsEyeLabel.style.position = "absolute";
-          bullsEyeLabel.style.left = (x + 10).toString() + "px";
-          bullsEyeLabel.style.top = y.toString() + "px";
-          bullsEyeLabel.innerHTML = labelText;
-
+          //bullsEye.innerHTML = "o";
+          bullsEye.innerHTML = "o<sub>" + labelText + "</sub>";
           mapContainer.appendChild(bullsEye);
-          mapContainer.appendChild(bullsEyeLabel);
         }
       }
 
@@ -1086,25 +1069,21 @@
 
       function clearBullsEyes() {
         let bullsEyes = document.getElementsByClassName("bulls-eye");
-        let bullsEyeLabels = document.getElementsByClassName("bulls-eye-label");
-
         for (let i = bullsEyes.length - 1; i >= 0; i--) {
           bullsEyes[i].remove();
         }
-
-        for (let i = bullsEyeLabels.length - 1; i >= 0; i--) {
-          bullsEyeLabels[i].remove();
-        }
-
-
       }
 
-      function clearBackgroundLocations(){
+      function clearBackgroundLocations() {
         document.getElementById("map-location").innerHTML = "";
         document.getElementById("coordinates-label").innerHTML = "";
 
-        let existingLocations = document.getElementsByClassName("background-location");
-        let existingLocationLabels = document.getElementsByClassName("background-location-label");
+        let existingLocations = document.getElementsByClassName(
+          "background-location"
+        );
+        let existingLocationLabels = document.getElementsByClassName(
+          "background-location-label"
+        );
 
         for (let i = existingLocations.length - 1; i >= 0; i--) {
           existingLocations[i].remove();
@@ -1114,17 +1093,12 @@
           existingLocationLabels[i].remove();
         }
 
-        document.getElementById("map-name").innerHTML="&nbsp;";
-
+        document.getElementById("map-name").innerHTML = "&nbsp;";
 
         let mapButtons = document.getElementsByClassName("btn-select-map");
         for (let i = 0; i < mapButtons.length; i++) {
-            mapButtons[i].style.backgroundColor="lightgrey";
+          mapButtons[i].style.backgroundColor = "lightgrey";
         }
-
-
-
-        
       }
 
       function setSizeOfPre() {
@@ -1159,15 +1133,15 @@
       /////////////////// DICTIONARY ENTRY OPENING ETC ////////////////////
       //
       ///////////////////////////////////////////////////////////////////
-      function populateDictionarySelection() {
+      function buildDictionarySearchOptions() {
         if (local === true) {
-          _populateDictionarySelectionLocal();
+          _buildDictionarySearchOptionsLocal();
         } else {
-          _populateDictionarySelectionRemote();
+          _buildDictionarySearchOptionsRemote();
         }
       }
 
-      function _populateDictionarySelectionLocal() {
+      function _buildDictionarySearchOptionsLocal() {
         //***************** NEEDS EASTONS WORD INDEX ARRAY ********************
         let str = "";
         for (let i = 0; i < eastons.length; i++) {
@@ -1302,18 +1276,17 @@
         }
       }
 
-      function plotBackgroundLocation(location,locationName){
+      function plotBackgroundLocation(location, locationName) {
         let latitude = parseFloat(location.split(",")[0]);
-          let longitude = parseFloat(location.split(",")[1]);
-          let x = convertLongitude(longitude);
-          let y = convertLatitude(latitude);
-          let backgroundLocation= document.createElement("span");
-          backgroundLocation.classList.add("background-location");
-          backgroundLocation.style.position = "absolute";
-          backgroundLocation.style.left = x.toString() + "px";
-          backgroundLocation.style.top = y.toString() + "px";
-          backgroundLocation.innerHTML = "o<sub>"+locationName+"</sub>";
-
+        let longitude = parseFloat(location.split(",")[1]);
+        let x = convertLongitude(longitude);
+        let y = convertLatitude(latitude);
+        let backgroundLocation = document.createElement("span");
+        backgroundLocation.classList.add("background-location");
+        backgroundLocation.style.position = "absolute";
+        backgroundLocation.style.left = x.toString() + "px";
+        backgroundLocation.style.top = y.toString() + "px";
+        backgroundLocation.innerHTML = "o<sub>" + locationName + "</sub>";
 
         //   backgroundLocationLabel = document.createElement("span");
         //   backgroundLocationLabel.classList.add("background-location-label");
@@ -1322,12 +1295,14 @@
         //   backgroundLocationLabel.style.top = y.toString() + "px";
         //   backgroundLocationLabel.innerHTML = locationName;
 
-          mapContainer.appendChild(backgroundLocation);
+        mapContainer.appendChild(backgroundLocation);
         //   mapContainer.appendChild(backgroundLocationLabel);
       }
 
-     function plotBackgroundMapLocations(id){
-        let existingLocations = document.getElementsByClassName("background-location");
+      function plotBackgroundMapLocations(id) {
+        let existingLocations = document.getElementsByClassName(
+          "background-location"
+        );
         // let existingLocationLabels = document.getElementsByClassName("background-location-label");
 
         for (let i = existingLocations.length - 1; i >= 0; i--) {
@@ -1338,69 +1313,67 @@
         //   existingLocationLabels[i].remove();
         // }
 
-        if (id==="map-Abraham") {
-            plotBackgroundLocation("31.69352950368834,34.84388288576839","Canaan");
-            plotBackgroundLocation("30.9625,46.103056","Ur");
-            plotBackgroundLocation("36.86,39.03139","Haran");
-            plotBackgroundLocation("33.511612,36.309102","Damascus");
-            plotBackgroundLocation("32.22111,35.25444","Shechem");
-            plotBackgroundLocation("31.93053921,35.22103275","Bethel");
-            plotBackgroundLocation("33.24856,35.65252","Dan");
-            // plotBackgroundLocation("33.5,36.466667","Hobah");
-            plotBackgroundLocation("31.777444,35.234935","Salem");
-            plotBackgroundLocation("31.38176,34.60698","Gerar");
-            plotBackgroundLocation("31.245,34.84068","Beersheba");
-            plotBackgroundLocation("31.032047,33.854957","Egypt");
+        if (id === "map-Abraham") {
+          plotBackgroundLocation(
+            "31.69352950368834,34.84388288576839",
+            "Canaan"
+          );
+          plotBackgroundLocation("30.9625,46.103056", "Ur");
+          plotBackgroundLocation("36.86,39.03139", "Haran");
+          plotBackgroundLocation("33.511612,36.309102", "Damascus");
+          plotBackgroundLocation("32.22111,35.25444", "Shechem");
+          plotBackgroundLocation("31.93053921,35.22103275", "Bethel");
+          plotBackgroundLocation("33.24856,35.65252", "Dan");
+          // plotBackgroundLocation("33.5,36.466667","Hobah");
+          plotBackgroundLocation("31.777444,35.234935", "Salem");
+          plotBackgroundLocation("31.38176,34.60698", "Gerar");
+          plotBackgroundLocation("31.245,34.84068", "Beersheba");
+          plotBackgroundLocation("31.032047,33.854957", "Egypt");
+        } else if (id === "map-Moses") {
+          plotBackgroundLocation("29.5,34", "Sinai");
+          plotBackgroundLocation("31.69352950368834,34.84388288576839", "Zin");
+          plotBackgroundLocation("29.306194,32.980924", "Elim");
+          plotBackgroundLocation("30.998062,35.498547", "Beer");
+          plotBackgroundLocation("29.35,32.933333", "Marah");
+          plotBackgroundLocation("19.0,39.5", "Red Sea");
+          plotBackgroundLocation("28.838778,33.420573", "Wilderness of Sin");
+        } else if (id === "map-12 Tribes") {
+          plotBackgroundLocation("32.559061,35.246206", "Kedesh");
+          plotBackgroundLocation("32.80007553,35.9373013", "Golan");
+          plotBackgroundLocation("32.049953,35.733402", "Ramoth");
+          plotBackgroundLocation("32.51613741,36.48829076", "Bezer");
+          plotBackgroundLocation("31.524354,35.108539", "Hebron");
+          plotBackgroundLocation("32.22111,35.25444", "Shechem");
+          plotBackgroundLocation("33.511612,36.309102", "Damascus");
+          plotBackgroundLocation("31.95522,35.94503", "Ammon");
+          plotBackgroundLocation("31.777444,35.234935", "Jerusalem");
+          plotBackgroundLocation("32.280231,35.197929", "Samaria");
+        } else if (id === "map-Divided Kingdoms") {
+          plotBackgroundLocation("32.22111,35.25444", "Shechem");
+          plotBackgroundLocation("32.280231,35.197929", "Samaria");
+          plotBackgroundLocation("31.777444,35.234935", "Jerusalem");
+          plotBackgroundLocation("31.524354,35.108539", "Hebron");
+          plotBackgroundLocation("31.503959,34.46203", "Gaza");
+          plotBackgroundLocation("31.38176,34.60698", "Gerar");
+          plotBackgroundLocation("33.511612,36.309102", "Damascus");
+          plotBackgroundLocation("32.502074,35.50196", "Jezreel");
+        } else if (id === "map-Jesus") {
+          plotBackgroundLocation("31.70431,35.20746", "Bethlehem");
+          plotBackgroundLocation("33.511612,36.309102", "Damascus");
+          plotBackgroundLocation("41.01316,24.28409", "Phillipi");
+          plotBackgroundLocation("32.701029,35.300148", "Nazareth");
+          plotBackgroundLocation("32.502074,35.50196", "Jezreel");
+          plotBackgroundLocation("32.280231,35.197929", "Samaria");
+          plotBackgroundLocation("32.8138046,35.590564", "Sea Galilee");
+          plotBackgroundLocation("31.577850349494952,35.52394311", "Dead Sea");
+          plotBackgroundLocation("31.79819,35.80986", "Mt. Ebal");
+          plotBackgroundLocation("31.777444,35.234935", "Jerusalem");
+          plotBackgroundLocation("31.524354,35.108539", "Hebron");
+          plotBackgroundLocation("31.422876,35.132952", "Carmel");
+          plotBackgroundLocation("31.503959,34.46203", "Gaza");
+          plotBackgroundLocation("31.93053921,35.22103275", "Bethel");
         }
-        else if (id==="map-Moses"){
-            plotBackgroundLocation("29.5,34","Sinai");
-            plotBackgroundLocation("31.69352950368834,34.84388288576839","Zin");
-            plotBackgroundLocation("29.306194,32.980924","Elim");
-            plotBackgroundLocation("30.998062,35.498547","Beer");
-            plotBackgroundLocation("29.35,32.933333","Marah");
-            plotBackgroundLocation("19.0,39.5","Red Sea");
-            plotBackgroundLocation("28.838778,33.420573","Wilderness of Sin");
-        }
-        else if (id==="map-12 Tribes"){
-            plotBackgroundLocation("32.559061,35.246206","Kedesh");
-            plotBackgroundLocation("32.80007553,35.9373013","Golan");
-            plotBackgroundLocation("32.049953,35.733402","Ramoth");
-            plotBackgroundLocation("32.51613741,36.48829076","Bezer");
-            plotBackgroundLocation("31.524354,35.108539","Hebron");
-            plotBackgroundLocation("32.22111,35.25444","Shechem");
-            plotBackgroundLocation("33.511612,36.309102","Damascus");
-            plotBackgroundLocation("31.95522,35.94503","Ammon");
-            plotBackgroundLocation("31.777444,35.234935","Jerusalem");
-            plotBackgroundLocation("32.280231,35.197929","Samaria");
-        }
-        else if (id==="map-Divided Kingdoms"){
-            plotBackgroundLocation("32.22111,35.25444","Shechem");
-            plotBackgroundLocation("32.280231,35.197929","Samaria");
-            plotBackgroundLocation("31.777444,35.234935","Jerusalem");
-            plotBackgroundLocation("31.524354,35.108539","Hebron");
-            plotBackgroundLocation("31.503959,34.46203","Gaza");
-            plotBackgroundLocation("31.38176,34.60698","Gerar");
-            plotBackgroundLocation("33.511612,36.309102","Damascus");
-            plotBackgroundLocation("32.502074,35.50196","Jezreel");
-        }
-        else if (id==="map-Jesus"){
-            plotBackgroundLocation("31.70431,35.20746","Bethlehem");
-            plotBackgroundLocation("33.511612,36.309102","Damascus");
-            plotBackgroundLocation("41.01316,24.28409","Phillipi");
-            plotBackgroundLocation("32.701029,35.300148","Nazareth");
-            plotBackgroundLocation("32.502074,35.50196","Jezreel");
-            plotBackgroundLocation("32.280231,35.197929","Samaria");
-            plotBackgroundLocation("32.8138046,35.590564","Sea Galilee");
-            plotBackgroundLocation("31.577850349494952,35.52394311","Dead Sea");
-            plotBackgroundLocation("31.79819,35.80986","Mt. Ebal");       
-            plotBackgroundLocation("31.777444,35.234935","Jerusalem");
-            plotBackgroundLocation("31.524354,35.108539","Hebron");
-            plotBackgroundLocation("31.422876,35.132952","Carmel");
-            plotBackgroundLocation("31.503959,34.46203","Gaza");
-            plotBackgroundLocation("31.93053921,35.22103275","Bethel");        
-        }
-
-     }
+      }
     </script>
     <!-- <script src="finalDatabase.js"></script>
     <script src="NASBChapterBible.js"></script>
@@ -1436,7 +1409,8 @@
       );
       let commentaryResult = document.getElementById("commentary-result");
 
-      populateDictionarySelection();
+      buildDictionarySearchOptions();
+
       buildChapterSearchOptions();
       buildCommentarySearchOptions();
       //   theChapterBible = makeHTMLChapterBible(theChapterBible);
@@ -1456,7 +1430,6 @@
       document.getElementById("btn-bible").style.backgroundColor =
         "rgb(0,124,207)";
       document.getElementById("ascii-map").innerText = baseMap;
-
     </script>
   </body>
 </html>
