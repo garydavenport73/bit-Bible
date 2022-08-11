@@ -13,6 +13,10 @@ html {
     box-sizing: inherit;
 }
 
+a{
+    text-decoration: none;
+}
+
 body,
 h1,
 h2,
@@ -216,6 +220,11 @@ input[type="search"]{
 #version-type{
     font-size: 1rem;
 }
+
+#iphone-instructions{
+    background-color: rgb(240, 240, 255);
+}
+
 @media screen and (max-width: 450px) {
     /* main {
         display: flex;
