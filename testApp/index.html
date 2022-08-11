@@ -1020,7 +1020,9 @@
 
       function openGoogleMap() {
         let location = document.getElementById("map-location").innerText;
-        window.open("http://maps.google.com/maps?q=" + location);
+        if (location.length>3){//string is not empty contains at least 3 characters
+            window.open("http://maps.google.com/maps?q=" + location);
+        }
       }
 
 
