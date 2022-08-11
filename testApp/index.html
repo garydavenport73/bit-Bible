@@ -1443,9 +1443,15 @@
       toggleReadingDates();
       addEventListenersToNestedMenus();
 
+      addEventListenersToOpenChapters(); //for reading plan
+
+
       showCommentarySelection();
       selectBibleVerse("Gen.1.1");
       closeAllApps();
+
+
+
       document.getElementById("app-bible").style.display = "block";
       document.getElementById("btn-bible").style.backgroundColor =
         "rgb(0,124,207)";
