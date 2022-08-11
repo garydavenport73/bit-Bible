@@ -73,7 +73,7 @@ nav {
     display: flex;
     flex-wrap: wrap;
     /* background-color: lightslategray; */
-    max-width: 320px;
+    /* max-width: 320px; */
     width: 100%;
     justify-content: center;
 }
@@ -94,11 +94,22 @@ main {
     overflow-y: auto;
     display: none;
     /* display: inline-block; */
+
 }
 #app-bible{
     display:block;
 }
 
+.app, h1, #top-nav{
+    width: 480px;
+}
+#map-container{
+    width: 320px;
+}
+/* #app-map{
+    width: 320px;
+} */
+/* 
 #app-reading{
     width: 320px;
 }
@@ -116,7 +127,7 @@ main {
 }
 #app-download{
     width: 320px;
-}
+} */
 /* .open-verse{
     background-color: rgb(215, 235, 250);
 } */
@@ -162,6 +173,7 @@ main {
 
 #map-container{
     position:relative;
+    left: 80px;
 }
 .bulls-eye{
     color:blue;
@@ -225,13 +237,13 @@ input[type="search"]{
     background-color: rgb(240, 240, 255);
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 960px) {
     /* main {
         display: flex;
         flex-direction: column;
         align-items: center;
     } */
-    #app-reading{
+    /* #app-reading{
         width: 320px;
     }
     #app-bible{
@@ -248,8 +260,17 @@ input[type="search"]{
     }
     #app-download{
         width: 320px;
-    }
+    } */
     /* #asciiMap{
         font-size: 4px;
+    } */
+    .app, h1, #top-nav,#map-container{
+        width: 320px;
+    }
+    #map-container{
+        left: 0px;
+    }
+    /* #app-map{
+        width: 320px;
     } */
   }

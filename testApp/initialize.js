@@ -19,6 +19,7 @@
       showVersion(local);
       let showDates = true;
       window.onbeforeunload = askConfirm;
+      window.onresize = checkAppsAfterResize;
 
       let bibleBCSelection = document.getElementById("bible-bc-selection");
       let bibleResult = document.getElementById("bible-result");

@@ -111,9 +111,22 @@
       }
 
       function setSizeOfPre() {
+        let pixelWidth = 320; //target width
         asciiMap.style.fontSize = "20px";
         let floatFontSize = 20;
-        let pixelWidth = 320; //target width
+
+        let myWidth =
+          window.innerWidth ||
+          document.documentElement.clientWidth ||
+          document.body.clientWidth;
+        console.log(myWidth);
+        // if (myWidth > 960) {
+        //     pixelWidth = 480; //matches breakpoints for tablet
+        // }
+
+
+
+
         console.log(asciiMap.offsetWidth); //the width of ascii map
         while (asciiMap.offsetWidth >= pixelWidth) {
           //map to big, above target
