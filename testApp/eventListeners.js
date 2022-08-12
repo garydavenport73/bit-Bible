@@ -39,7 +39,7 @@
       function getWordFromEntry(dictLookup) {
         //************* NEEDS A PREPROCESSED ARRAY HERE OR SIMPLY TEST AND SPLICE ********************
         let tempArr = dictLookup.split(" ");
-        if (tempArr[tempArr.length - 1] === NaN) {
+        if (isNaN(tempArr[tempArr.length - 1])) {
           console.log("word ", dictLookup);
           return dictLookup;
         } else {
