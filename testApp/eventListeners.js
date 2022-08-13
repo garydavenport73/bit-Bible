@@ -114,3 +114,31 @@
         });
       }
 
+
+      function addEventListenersToNavigateCommentaries(){
+        let goBackCommentaryEl=document.getElementById("go-back-commentary");
+        let goForwardCommentaryEl=document.getElementById("go-forward-commentary");
+
+        goForwardCommentaryEl.addEventListener("click",(evt)=>{
+            let thisChapter=commentarySearchBox.value;
+            let index = bookChapterKeys.indexOf(thisChapter);
+            if (index!=-1){
+                if (index<bookChapterKeys.length-1){
+                    commentarySearchBox.value=bookChapterKeys[index+1];
+                    showCommentarySelection();
+                }
+            }
+        });
+   
+        goBackCommentaryEl.addEventListener("click",(evt)=>{
+            let thisChapter=commentarySearchBox.value;
+            let index = bookChapterKeys.indexOf(thisChapter);
+            if (index!=-1){
+                if (index>0){
+                    commentarySearchBox.value=bookChapterKeys[index-1];
+                    showCommentarySelection();
+                }
+            }
+        });
+      }
+

@@ -51,10 +51,12 @@
 
         <div class="app" id="app-commentary">
             <h3 id="commentary-name">Pulpit Commentary</h3>
+            <span id="go-back-commentary" class="color-hover">&#9665;</span>
             <input id="commentary-search-box" type="search" list="commentary-chapters-datalist" placeholder="Bible Chapters" value="Gen.1" />
             <!-- value="John.3"
       /> -->
             <datalist id="commentary-chapters-datalist"> </datalist>
+            <span id="go-forward-commentary" class="color-hover">&#9655;</span>
             <button onclick="showCommentarySelection();">Go</button>
             <div id="commentary-result">
                 Type a chapter in the search box to see commentary.
