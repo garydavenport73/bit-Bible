@@ -86,3 +86,31 @@
           });
         }
       }
+
+      function addEventListenersToNavigateChapters(){
+        let goBackChapterEl=document.getElementById("go-back-chapter");
+        let goForwardChapterEl=document.getElementById("go-forward-chapter");
+
+        goForwardChapterEl.addEventListener("click",(evt)=>{
+            let thisChapter=chapterSearchBox.value;
+            let index = bookChapterKeys.indexOf(thisChapter);
+            if (index!=-1){
+                if (index<bookChapterKeys.length-1){
+                    chapterSearchBox.value=bookChapterKeys[index+1];
+                    showBibleSelection();
+                }
+            }
+        });
+   
+        goBackChapterEl.addEventListener("click",(evt)=>{
+            let thisChapter=chapterSearchBox.value;
+            let index = bookChapterKeys.indexOf(thisChapter);
+            if (index!=-1){
+                if (index>0){
+                    chapterSearchBox.value=bookChapterKeys[index-1];
+                    showBibleSelection();
+                }
+            }
+        });
+      }
+

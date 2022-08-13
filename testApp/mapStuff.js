@@ -21,8 +21,9 @@
       }
       function openGoogleMap() {
         let location = document.getElementById("map-location").innerText;
-        if (location.length > 3) {
+        if ((location.length > 3) && (location.indexOf("undefined")===-1)){
           //string is not empty contains at least 3 characters
+          //lat or long not undefined
           window.open("http://maps.google.com/maps?q=" + location);
         }
       }

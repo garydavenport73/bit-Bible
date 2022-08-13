@@ -61,6 +61,7 @@
       addEventListenersToOpenDictionaryEntries();
       addEventListenersToFoundBibleWords();
       addEventListenersToDictionaryLocations();
+      addEventListenersToNavigateChapters();
 
       //closeAllApps();
       selectBibleVerse("Gen.1.1");

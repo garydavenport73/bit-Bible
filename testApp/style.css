@@ -179,10 +179,18 @@ main {
     color:blue;
     transform: translateX(-50%);
     transform: translateY(-50%);
+    background-color: rgba(255, 250, 250,0.4);
 }
 .background-location{
     transform: translateY(-50%);
+    color: darkslategray;
+    background-color: rgba(255, 250, 250,0.4);
 }
+
+#map-name,#location-display-info{
+    text-align: center;
+}
+
 #top-nav {
     position: sticky;
     top: 0;
@@ -235,6 +243,14 @@ input[type="search"]{
 
 #iphone-instructions{
     background-color: rgb(240, 240, 255);
+
+}
+.btn-select-map{
+    font-size: 1.4rem !important;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-left:0px;
+    padding-bottom: 3px;
 }
 
 @media screen and (max-width: 960px) {
