@@ -35,7 +35,7 @@
 
       function getCommentaryChapterRemote(osisRef) {
         let http = new XMLHttpRequest();
-        http.timeout = 2000; // time in milliseconds
+        http.timeout = 3000; // time in milliseconds
         //let url = "https://garydavenport.com/logtime/simpleAccounts.php";
         let url = "getcommentarychapter.php";
         // let params =

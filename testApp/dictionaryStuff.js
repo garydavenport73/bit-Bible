@@ -89,7 +89,7 @@
       function _buildDictionarySearchOptionsRemote() {
         console.log("using remote");
         let http = new XMLHttpRequest();
-        http.timeout = 2000; // time in milliseconds
+        http.timeout = 3000; // time in milliseconds
         let url = "getdictionarywordlist.php";
         http.ontimeout = function (e) {
           alert("The request timed out.");
@@ -120,7 +120,7 @@
         console.log("INDEX", index);
         console.log("using remote defnitions");
         let http = new XMLHttpRequest();
-        http.timeout = 2000; // time in milliseconds
+        http.timeout = 3000; // time in milliseconds
         let url = "getdictionaryworddata.php";
         let params = "index=" + index;
         http.ontimeout = function (e) {
@@ -399,7 +399,7 @@
 
       function getBibleChapterRemote(osisRef) {
         let http = new XMLHttpRequest();
-        http.timeout = 2000; // time in milliseconds
+        http.timeout = 3000; // time in milliseconds
         //let url = "https://garydavenport.com/logtime/simpleAccounts.php";
         let url = "getchapter.php";
         // let params =
