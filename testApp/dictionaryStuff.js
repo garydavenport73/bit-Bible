@@ -337,7 +337,8 @@
           window.innerWidth ||
           document.documentElement.clientWidth ||
           document.body.clientWidth;
-        if (myWidth < 450) {
+        //if (myWidth < 450) {
+        if (myWidth < 960) {
           //document.getElementById('btn-dictionary').click();
           processAppSelection("btn-dictionary");
         }
@@ -374,7 +375,8 @@
             window.innerWidth ||
             document.documentElement.clientWidth ||
             document.body.clientWidth;
-          if (myWidth < 450) {
+        //if (myWidth < 450) {
+        if (myWidth < 960) {
             processAppSelection("btn-bible");
           }
         } else {
@@ -424,7 +426,8 @@
               window.innerWidth ||
               document.documentElement.clientWidth ||
               document.body.clientWidth;
-            if (myWidth < 450) {
+            //if (myWidth < 450) {
+            if (myWidth < 960) {
               processAppSelection("btn-bible");
             }
           }
