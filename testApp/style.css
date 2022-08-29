@@ -154,6 +154,7 @@ main {
     font-size: .7em;
     border-spacing: 0px;
     border-collapse: collapse;
+    margin:auto;
 }
 
 #reading-plan-table td {

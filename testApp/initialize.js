@@ -49,7 +49,7 @@
       //   eastons = makeEastons(eastons);
       document.getElementById("reading-plan-table").innerHTML =
         makeReadingTable(readingPlan);
-      toggleReadingDates();
+    //   toggleReadingDates();
       addEventListenersToNestedMenus();
 
       setSizeOfPre();
