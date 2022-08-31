@@ -357,9 +357,15 @@
       ////// selectBibleChapter
       function selectBibleVerse(osisRef) {
         osisRefArray = osisRef.split(".");
-        osisRefArray.pop();
-        osisRef = osisRefArray.join(".");
-        selectBibleChapter(osisRef);
+        if (osisRefArray.length===3){
+            osisRefArray.pop();
+            osisRef = osisRefArray.join(".");
+            selectBibleChapter(osisRef);
+        }
+        else{
+            osisRef = osisRefArray.join(".");
+            selectBibleChapter(osisRef);  
+        }
       }
 
       function showBibleSelection() {

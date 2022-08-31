@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html {
+            box-sizing: border-box;
+        }
+        body{
+            display:block;
+            width:320px;
+            margin: 20px auto 10px auto;
+        }
+        form {
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            width:250px;
+        }
+        form>*, nav>*{
+            min-height:30px;
+
+        }
+        nav{
+            margin:20px 0px;
+        }
+        button{
+            width: 250px;
+        }
+        h1{
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+<form action="process-request" method="get">
+    <h1>bitBible</h1>
+<label for="reading-plan">Choose a Reading Plan (currently under construction):</label>
+<select name="reading-plan" id="reading-plan-select">
+    <option value="chronological">Chronological</option>
+    <option value="ot-nt">Old Testament/New Testatment</option>
+    <option value="straight">Straight Through</option>
+</select>
+
+
+<label for="bible">Choose a Bible: (currently under construction)</label>
+<select name="bible" id="bible-select">
+    <option value="NASB">NASB</option>
+    <option value="NKJV">NKJV</option>
+    <option value="BSB">Berean Study Bible</option>
+</select>
+
+<nav>
+    <button type="button" onclick="location.href='bitbibleOnline.php';">Use Online</button>
+    <button type="button" onclick="alert('Currently under constuction.\n Can go to the online version and download from there.');">Download bitBible for Desktop or Android</button>
+    <button type="button" onclick="alert('Currently under constuction.\n Can go to the online version and download from there.');">Download bitBible for IPhone</button>
+</nav>
+
+
+</form>
+
+
+</body>
+</html>

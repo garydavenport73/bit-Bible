@@ -1,0 +1,11 @@
+make a webpage that lets you 
+1) choose reading plan and Bible
+2) after it opens
+    allow for download 
+    allow for iphone download
+
+
+make name of reading plan in the reading plan file
+make name of bible in the bible file
+when downloading, send that info in the git requests
+

@@ -26,7 +26,8 @@ function makeReadingTable(readingPlan) {
 
         for (readingChapter of dayArray) {
             readingTable +=
-                "<li class='open-chapter color-hover'>" +
+            //used to be open-chapter, but allows for either
+                "<li class='open-verse color-hover'>" +
                 readingChapter +
                 "</li>";
         }
