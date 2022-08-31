@@ -55,24 +55,24 @@
         window.innerWidth ||
         document.documentElement.clientWidth ||
         document.body.clientWidth;
-        console.log(myWidth);
+        //console.log(myWidth);
         if (myWidth<=960){ //size is small
             let keepOpenId="";
             let apps = document.getElementsByClassName("app");
             let openCount=0;
             for (let i=apps.length-1;i>=0;i--){
-                console.log(apps[i]);
+                //console.log(apps[i]);
 
                 if (apps[i].style.display!="none"){
                     openCount+=1;
                     keepOpenId=apps[i].id;
-                    console.log(keepOpenId);
+                    //console.log(keepOpenId);
                 }
             }
             if (openCount>1){
                 closeAllApps();
                 let btnId="btn"+keepOpenId.slice(3);
-                console.log(btnId);
+                //console.log(btnId);
                 document.getElementById(btnId).click();
             }
         }

@@ -26,7 +26,7 @@ function makeReadingTable(readingPlan) {
 
         for (readingChapter of dayArray) {
             readingTable +=
-            //used to be open-chapter, but allows for either
+                //used to be open-chapter, but allows for either
                 "<li class='open-verse color-hover'>" +
                 readingChapter +
                 "</li>";
@@ -44,6 +44,14 @@ function makeReadingTable(readingPlan) {
     }
     readingTable += "</tr>";
     return readingTable;
+}
+
+function displayReadingPlanName() {
+    document.getElementById("reading-plan-name").innerHTML = readingPlanName;
+}
+
+function displayBibleName() {
+    document.getElementById("bible-name").innerHTML = bibleName;
 }
 
 function getTodaysDate() {

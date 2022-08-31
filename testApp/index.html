@@ -38,34 +38,41 @@
 
 <body>
 
-
-
 <form action="process-request" method="get">
     <h1>bitBible</h1>
-<label for="reading-plan">Choose a Reading Plan (currently under construction):</label>
-<select name="reading-plan" id="reading-plan-select">
-    <option value="chronological">Chronological</option>
-    <option value="ot-nt">Old Testament/New Testatment</option>
-    <option value="straight">Straight Through</option>
+<label for="reading-plan">Choose a Reading Plan:</label>
+<select id="reading-plan">
+    <option value="Chronological">Chronological</option>
+    <option value="test">test</option>
 </select>
 
 
 <label for="bible">Choose a Bible: (currently under construction)</label>
-<select name="bible" id="bible-select">
+<select id="bible">
     <option value="NASB">NASB</option>
     <option value="NKJV">NKJV</option>
     <option value="BSB">Berean Study Bible</option>
 </select>
 
 <nav>
-    <button type="button" onclick="location.href='bitbibleOnline.php';">Use Online</button>
-    <button type="button" onclick="alert('Currently under constuction.\n Can go to the online version and download from there.');">Download bitBible for Desktop or Android</button>
-    <button type="button" onclick="alert('Currently under constuction.\n Can go to the online version and download from there.');">Download bitBible for IPhone</button>
+    <button type="button" onclick="onclick=processSelections();">Go to Bible</button>
 </nav>
 
 
 </form>
 
+<script>
+   function processSelections(){
+    let bible=document.getElementById("bible");
+    let bibleSelection = bible.options[bible.selectedIndex].value
+    let readingPlan=document.getElementById("reading-plan");
+    let readingPlanSelection=readingPlan.options[readingPlan.selectedIndex].value;
+    //alert(bibleSelection+readingPlanSelection);
+    let myUrl="bitbibleOnline.php?reading-plan="+readingPlanSelection+"&bible-name="+bibleSelection;
+    location.href=myUrl;
+    //alert(myUrl);    
+}
 
+</script>
 </body>
 </html>

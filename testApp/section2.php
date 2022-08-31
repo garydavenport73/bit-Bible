@@ -91,7 +91,7 @@
             <h3>Download offline version (50MB) for Android/Linux/Windows</h3>
             <p>
                 <button>
-                    <a href="bitbibleOffline.php" download="">Download</a>
+                    <a id="android-download-address" href="bitbibleOffline.php" download="">Download</a>
                 </button>
             </p>
             <hr>
@@ -109,7 +109,7 @@
             <div id="iphone-instructions">
                 <p>
                     1) Open the
-                    <a href="bitbibleOfflineIPhone.php" target="_blank"><u><b>iPhone offline webpage (50MB)</b></u></a>in Safari on your iPhone.
+                    <a id="iphone-download-address" href="bitbibleOfflineIPhone.php" target="_blank"><u><b>iPhone offline webpage (50MB)</b></u></a>in Safari on your iPhone.
                 </p>
                 <p>2) Tap Safari's Share button then tap "Add to Reading List".</p>
                 <p>3) Safari will save the link and the webpage.&nbsp;</p>
