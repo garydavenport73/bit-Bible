@@ -88,4 +88,19 @@
           appButtons[i].style.backgroundColor = "lightgrey";
         }
       }
+
+
+      function windowIsWide(){
+        let myWidth =
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth;
+      console.log(myWidth);
+      if (myWidth > 960) {
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
       ////////////////////// SECTION ENDS /////////////////////////

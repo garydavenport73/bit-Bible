@@ -338,7 +338,7 @@
           document.documentElement.clientWidth ||
           document.body.clientWidth;
         //if (myWidth < 450) {
-        if (myWidth < 960) {
+        if (myWidth <= 960) {
           //document.getElementById('btn-dictionary').click();
           processAppSelection("btn-dictionary");
         }
@@ -382,7 +382,7 @@
             document.documentElement.clientWidth ||
             document.body.clientWidth;
         //if (myWidth < 450) {
-        if (myWidth < 960) {
+        if (myWidth <= 960) {
             processAppSelection("btn-bible");
           }
         } else {
@@ -412,7 +412,7 @@
         let url = "getchapter.php";
         // let params =
         //   "email=" + email + "&password=" + password + "&do-this=test";
-        let params = "osisRef=" + osisRef;
+        let params = "osisRef=" + osisRef +"&bible="+bibleName;
         http.ontimeout = function (e) {
           alert("The request timed out.");
         };
@@ -433,7 +433,7 @@
               document.documentElement.clientWidth ||
               document.body.clientWidth;
             //if (myWidth < 450) {
-            if (myWidth < 960) {
+            if (myWidth <= 960) {
               processAppSelection("btn-bible");
             }
           }

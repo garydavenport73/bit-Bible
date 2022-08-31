@@ -25,7 +25,7 @@
             document.documentElement.clientWidth ||
             document.body.clientWidth;
         //if (myWidth < 450) {
-        if (myWidth < 960) {
+        if (myWidth <= 960) {
             processAppSelection("btn-commentary");
           }
         } else {
@@ -63,7 +63,7 @@
               document.documentElement.clientWidth ||
               document.body.clientWidth;
             //if (myWidth < 450) {
-            if (myWidth < 960) {
+            if (myWidth <= 960) {
               processAppSelection("btn-commentary");
             }
           }

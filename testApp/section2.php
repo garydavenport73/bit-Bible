@@ -13,7 +13,7 @@
     <main>
 
         <div class="app" id="app-reading">
-            <h3 id="reading-plan-name">Chronological</h3>
+            <h3 id="reading-plan-name">Loading...</h3>
             <nav>
                 <button onclick="loadReadingProgress();">
                     Load Progress&#128194;
@@ -25,7 +25,7 @@
         </div>
 
         <div class="app" id="app-bible">
-            <h3 id="bible-name">NASB</h3>
+            <h3 id="bible-name">Loading...</h3>
             <span id="go-back-chapter" class="color-hover">&#9665;</span>
             <input id="chapter-search-box" type="search" list="bible-chapters-datalist" placeholder="Bible Chapters" s value="Gen.1" />
             <datalist id="bible-chapters-datalist"> </datalist>

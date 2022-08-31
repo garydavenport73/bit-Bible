@@ -69,7 +69,7 @@
               window.innerWidth ||
               document.documentElement.clientWidth ||
               document.body.clientWidth;
-            if (myWidth < 960) {
+            if (myWidth <= 960) {
               //document.getElementById('btn-map').click();
               processAppSelection("btn-map");
             } else {
