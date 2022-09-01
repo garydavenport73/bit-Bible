@@ -342,6 +342,12 @@
           //document.getElementById('btn-dictionary').click();
           processAppSelection("btn-dictionary");
         }
+        else{
+            if (windowIsWide()){
+                document.getElementById('app-dictionary').style.display="block";
+                document.getElementById('btn-dictionary').style.backgroundColor="rgb(0,124,207)";
+            }
+        }
       }
       //getDictionaryWordDataRemote(0);
 
@@ -389,6 +395,10 @@
           let osisRef = chapterSearchBox.value;
           getBibleChapterRemote(osisRef);
         }
+        if (windowIsWide()){
+            document.getElementById('app-bible').style.display="block";
+            document.getElementById('btn-bible').style.backgroundColor="rgb(0,124,207)";
+        }
       }
 
       function buildChapterSearchOptions() {
@@ -403,6 +413,10 @@
       function openBibleChapterCommentary() {
         commentarySearchBox.value = chapterSearchBox.value;
         showCommentarySelection();
+        if (windowIsWide()){
+            document.getElementById('app-commentary').style.display="block";
+            document.getElementById('btn-commentary').style.backgroundColor="rgb(0,124,207)";
+        }
       }
 
       function getBibleChapterRemote(osisRef) {

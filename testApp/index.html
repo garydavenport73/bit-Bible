@@ -1,79 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
     <style>
         html {
             box-sizing: border-box;
+            font-size: 1rem;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
-        body{
-            display:block;
-            width:320px;
-            margin: 20px auto 10px auto;
-        }
-        form {
-            margin: auto;
+
+        body {
+            background-color: aliceblue;
+            margin: 0;
+            padding: 0;
+            font-weight: normal;
             display: flex;
             flex-direction: column;
-            width:250px;
+            align-items: center;
         }
-        form>*, nav>*{
-            min-height:30px;
 
-        }
-        nav{
-            margin:20px 0px;
-        }
-        button{
-            width: 250px;
-        }
-        h1{
+
+        h1,
+        h2 {
+            margin: 0;
+            padding: 0;
+            font-weight: normal;
+            background-color: rgb(0, 124, 207);
+            color: snow;
             text-align: center;
+            border-radius: 5px;
+            width: 480px;
+        }
+
+
+        #bit-bible-form-parent {
+            margin: 10px 0px 10px 0px;
+            width: 480px;
+            background: snow;
+            border: 1px solid lightgray;
+            border-radius: 5px;
+        }
+
+        #bit-bible-form-parent>form {
+            box-sizing: border-box;
+            margin: 20px 10px 10px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #bit-bible-form-parent>form>* {
+            width: 100%;
+            margin: 5px;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        #bit-bible-form-parent select,
+        #bit-bible-form-parent button {
+            min-height: 40px;
+        }
+
+        #bit-bible-form-parent button {
+            margin-top: 20px;
+            width: 200px;
+        }
+
+        @media screen and (max-width: 960px) {
+
+            h1,
+            h2,
+            #bit-bible-form-parent {
+                width: 320px;
+            }
         }
     </style>
 </head>
 
 <body>
-
-<form action="process-request" method="get">
     <h1>bitBible</h1>
-<label for="reading-plan">Choose a Reading Plan:</label>
-<select id="reading-plan">
-    <option value="Chronological">Chronological</option>
-    <option value="test">test</option>
-</select>
-
-
-<label for="bible">Choose a Bible: (currently under construction)</label>
-<select id="bible">
-    <option value="BSB">Berean Study Bible</option>
-    <option value="NASB">NASB</option>
-    <option value="NKJV">NKJV</option>
-    <option value="KJV">KJV</option>
-</select>
-
-<nav>
-    <button type="button" onclick="onclick=processSelections();">Go to Bible</button>
-</nav>
-
-
-</form>
-
-<script>
-   function processSelections(){
-    let bible=document.getElementById("bible");
-    let bibleSelection = bible.options[bible.selectedIndex].value
-    let readingPlan=document.getElementById("reading-plan");
-    let readingPlanSelection=readingPlan.options[readingPlan.selectedIndex].value;
-    //alert(bibleSelection+readingPlanSelection);
-    let myUrl="bitbibleOnline.php?reading-plan="+readingPlanSelection+"&bible-name="+bibleSelection;
-    location.href=myUrl;
-    //alert(myUrl);    
-}
-
-</script>
+    <div id="bit-bible-form-parent">
+        <h2>Options</h2>
+        <form action="process-request" method="get">
+            <label for="reading-plan">Choose a Reading Plan:</label>
+            <select id="reading-plan">
+                <option value="OTNT">Old and New Testament Each Day (Yearly)</option>
+                <option value="Chronological">Chronological (Yearly)</option>
+                <option value="Straight">Straight Through (Yearly)</option>
+            </select>
+            <label for="bible">Choose a Bible:</label>
+            <select id="bible">
+                <option value="BSB">Berean Study Bible</option>
+                <option value="NASB">NASB</option>
+                <option value="NKJV">NKJV</option>
+                <option value="KJV">KJV</option>
+            </select>
+            <button type="button" onclick="onclick=processSelections();">Go to Bible</button>
+        </form>
+    </div>
+    <script>
+        function processSelections() {
+            let bible = document.getElementById("bible");
+            let bibleSelection = bible.options[bible.selectedIndex].value
+            let readingPlan = document.getElementById("reading-plan");
+            let readingPlanSelection = readingPlan.options[readingPlan.selectedIndex].value;
+            //alert(bibleSelection+readingPlanSelection);
+            let myUrl = "bitbibleOnline.php?reading-plan=" + readingPlanSelection + "&bible-name=" + bibleSelection;
+            location.href = myUrl;
+            //alert(myUrl);    
+        }
+    </script>
 </body>
+
 </html>
