@@ -127,6 +127,28 @@
             <hr>
             <hr>
             <hr>
+            <pre>
+Copyright Notices:
+
+The Holy Bible, Berean Study Bible, BSB
+Copyright ©2016, 2020 by Bible Hub
+Used by Permission.
+All Rights Reserved Worldwide.
+
+Public Domain:
+ASV (American Standard Version)
+DBT (Darby Bible Translation)
+DRB (Douay-Rheims Bible)
+JPJPSWEY (JPS Tanakh 1917 OT / Weymouth NT)
+KJV (King James Version)
+NHEB (New Heart English Bible)
+SLT (Smith's Literal Translation)
+WBT (Webster Bible Translation)
+WEB (World English Bible)
+YLT (Young's Literal Translation)
+Easton's Bible Dictionary
+The Pulpit Commentary
+                </pre>
         </div>
     </main>
     <!--//////////////////////////////////////////////////////////////// // //
