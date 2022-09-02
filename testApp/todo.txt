@@ -1,13 +1,7 @@
-make a webpage that lets you 
-1) choose reading plan and Bible
-2) after it opens
-    allow for download 
-    allow for iphone download
+make credits
 
-
-make name of reading plan in the reading plan file
-make name of bible in the bible file
-when downloading, send that info in the get requests
+make font adjustable
+make font chooseable
 
 https://bibleplan.org/  this is the straight
 hearlight is the study plan for 1 year nt/ot

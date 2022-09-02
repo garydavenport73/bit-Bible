@@ -1,10 +1,12 @@
 <?php
-$filename="bitBibleOffline.html";
 header('Access-Control-Allow-Origin: *');
-header("Content-disposition:attachment;filename=".$filename);
+//$filename="bitBibleOffline.html";
+//header("Content-disposition:attachment;filename=".$filename);
 sleep(0.2);
 $bibleName=$_GET["bible-name"];
 $readingPlan=$_GET["reading-plan"];
+$filename = $readingPlan . "_" . $bibleName . "Bible.html";
+header("Content-disposition:attachment;filename=".$filename);
 include_once("section1.php");
 echo "<style>"; include_once("style.css"); echo "</style>";
 include_once("section2.php");
@@ -27,8 +29,8 @@ echo "<script>";include_once("nestedMenuStuff.js");echo "</script>";
 //echo "<script>";include_once("NASBChapterBible.js");echo "</script>";
 echo "<script>let theChapterBible=";include_once($bibleName."ChapterBible.json");echo ";</script>";
 
-echo "<script>";include_once("pulpit.js");echo "</script>";
-echo "<script>let eastons=";include_once("finalDatabase.json");echo ";</script>";
+echo "<script>let pulpit=";include_once("pulpit.json");echo ";</script>";
+echo "<script>let eastons=";include_once("eastonsWithExtraStuff.json");echo ";</script>";
 echo  "<script> let local = true; </script>";
 echo "<script>";include_once("initialize.js");echo"</script>";
 include_once("section3.php");

@@ -2,7 +2,7 @@
 header('Access-Control-Allow-Origin: *');
 //echo $_POST["index"];
 $index = $_POST["index"];
-//include_once("finalDatabase.php");
+//include_once("eastonsWithExtraStuff.php");
  
 
 // function file_get_contents_utf8($fn) {
@@ -11,7 +11,7 @@ $index = $_POST["index"];
 //          mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true));
 // }
 
-$dictionaryString=file_get_contents("finalDatabase.json"); 
+$dictionaryString=file_get_contents("eastonsWithExtraStuff.json"); 
 
 $dictionary=json_decode($dictionaryString,true);
 

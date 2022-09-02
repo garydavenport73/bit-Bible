@@ -52,6 +52,8 @@
 
      displayReadingPlanName();
      displayBibleName();
+     document.getElementsByTagName("title")[0].innerHTML=readingPlanName+" "+bibleName + " bitBible";
+     document.getElementById('android-download-address').href="bitbibleOffline.php?reading-plan="+readingPlanName+"&bible-name="+bibleName;
      document.getElementById('android-download-address').href="bitbibleOffline.php?reading-plan="+readingPlanName+"&bible-name="+bibleName;
      document.getElementById('iphone-download-address').href="bitbibleOfflineIPhone.php?reading-plan="+readingPlanName+"&bible-name="+bibleName;
     //   toggleReadingDates();

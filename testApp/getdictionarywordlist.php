@@ -2,7 +2,7 @@
 header('Access-Control-Allow-Origin: *');
 
 $index = $_POST["index"];
-$dictionaryString=file_get_contents("finalDatabase.json"); 
+$dictionaryString=file_get_contents("eastonsWithExtraStuff.json"); 
 $dictionary=json_decode($dictionaryString,true);
 
 $words=[];
