@@ -4,6 +4,7 @@ html {
     box-sizing: border-box;
     font-size: 16px;
     font-family: Sans;
+    /* font-family: sans-serif; */
     /* font-family:'Courier New', Courier, monospace; */
 }
 
@@ -11,6 +12,10 @@ html {
 *:before,
 *:after {
     box-sizing: inherit;
+}
+
+a{
+    text-decoration: none;
 }
 
 body,
@@ -48,9 +53,11 @@ body {
 }
 
 h1 {
-    background-color: orange;
+    background-color:rgb(0,124,207);
+    color: snow;
     width: 320px;
     text-align: center;
+    border-radius: 5px;
 }
 
 h2 {
@@ -66,8 +73,8 @@ p {
 nav {
     display: flex;
     flex-wrap: wrap;
-    background-color: yellow;
-    max-width: 320px;
+    /* background-color: lightslategray; */
+    /* max-width: 320px; */
     width: 100%;
     justify-content: center;
 }
@@ -86,14 +93,31 @@ main {
     border: 1px solid black;
     height:560px;
     overflow-y: auto;
-    /* display: none; */
+    display: none;
     /* display: inline-block; */
+
+}
+#app-bible{
+    display:block;
 }
 
+.app, h1, #top-nav{
+    width: 480px;
+}
+#map-container{
+    width: 320px;
+}
+/* #app-map{
+    width: 320px;
+} */
+/* 
 #app-reading{
     width: 320px;
 }
 #app-bible{
+    width: 480px;
+}
+#app-commentary{
     width: 480px;
 }
 #app-dictionary{
@@ -102,12 +126,15 @@ main {
 #app-map{
     width: 320px;
 }
-.open-verse{
-    background-color: antiquewhite;
-}
-.open-verse:hover {
-    background-color: orange;
-}
+#app-download{
+    width: 320px;
+} */
+/* .open-verse{
+    background-color: rgb(215, 235, 250);
+} */
+/* .open-verse:hover {
+    background-color: rgb(0,124,207);
+} */
 
 #bible-bc-selection,
 #dictionary-selection {
@@ -115,16 +142,20 @@ main {
 }
 
 .color-hover{
-    background-color: antiquewhite;
+    /* background-color: antiquewhite; */
+    background-color: rgb(240, 240, 255);
+    border-radius: 5px;
 }
 .color-hover:hover {
-    background-color: orange;
+    background-color: rgb(0,124,207);
+    color:snow;
 }
 
 #reading-plan-table {
     font-size: .7em;
     border-spacing: 0px;
     border-collapse: collapse;
+    margin:auto;
 }
 
 #reading-plan-table td {
@@ -136,7 +167,7 @@ main {
 
 #ascii-map {
     font-family: 'Courier New', Courier, monospace;
-    font-size: 4.1px;
+    font-size: 4px;
     margin:0;
     padding:0;
     display:inline-block;
@@ -144,29 +175,99 @@ main {
 
 #map-container{
     position:relative;
+    left: 80px;
 }
 .bulls-eye{
     color:blue;
     transform: translateX(-50%);
     transform: translateY(-50%);
+    background-color: rgba(255, 250, 250,0.4);
+}
+.background-location{
+    transform: translateY(-50%);
+    color: darkslategray;
+    background-color: rgba(255, 250, 250,0.4);
+}
+
+#map-name,#location-display-info{
+    text-align: center;
 }
 
 #top-nav {
     position: sticky;
     top: 0;
+    background-color: rgb(68, 180, 255);
     /* background-color: transparent; */
+    /* border-radius: 5px; */
   }
 
-@media screen and (max-width: 450px) {
+/* after styling */
+
+body{
+    background-color: aliceblue;
+}
+.app{
+    background-color: snow;
+}
+
+nav>button{
+    padding: 5px;
+    margin: 1px;
+    font-size: 1.4em;
+    border-radius: 5px;
+    border: 1px solid grey;
+    min-width: 40px;
+}
+
+button:hover{
+    background-color: rgb(0,124,207) !important;
+}
+.app button, .app input{
+    font-size: 1em;
+}
+
+input[type="search"]{
+    width: 150px;
+}
+.word-entry{
+   padding:0.5rem;
+}
+#reading-plan-name, #bible-name, #dictionary-name, #commentary-name{
+    text-align: center;
+}
+.pulpit-commentary-heading{
+    display: none;
+}
+
+#version-type{
+    font-size: 1rem;
+}
+
+#iphone-instructions{
+    background-color: rgb(240, 240, 255);
+
+}
+.btn-select-map{
+    font-size: 1.4rem !important;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-left:0px;
+    padding-bottom: 3px;
+}
+
+@media screen and (max-width: 960px) {
     /* main {
         display: flex;
         flex-direction: column;
         align-items: center;
     } */
-    #app-reading{
+    /* #app-reading{
         width: 320px;
     }
     #app-bible{
+        width: 320px;
+    }
+    #app-commentary{
         width: 320px;
     }
     #app-dictionary{
@@ -175,7 +276,19 @@ main {
     #app-map{
         width: 320px;
     }
+    #app-download{
+        width: 320px;
+    } */
     /* #asciiMap{
         font-size: 4px;
+    } */
+    .app, h1, #top-nav,#map-container{
+        width: 320px;
+    }
+    #map-container{
+        left: 0px;
+    }
+    /* #app-map{
+        width: 320px;
     } */
   }
