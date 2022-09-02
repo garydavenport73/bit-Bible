@@ -26,7 +26,7 @@ echo "<script>";include_once("nestedMenuStuff.js");echo "</script>";
 // echo "<script>";include_once("NASBChapterBible.js");echo "</script>";
 echo "<script>let theChapterBible=";include_once($bibleName."ChapterBible.json");echo ";</script>";
 echo "<script>let pulpit=";include_once("pulpit.json");echo ";</script>";
-echo "<script>let eastons=";include_once("eastonsWithExtraStuff.json");echo ";</script>";
+echo "<script>let eastons=";include_once("eastonsModified.json");echo ";</script>";
 echo  "<script> let local = true; </script>";
 echo "<script>";include_once("initialize.js");echo"</script>";
 include_once("section3.php");

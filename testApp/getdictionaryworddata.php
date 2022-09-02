@@ -11,7 +11,7 @@ $index = $_POST["index"];
 //          mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true));
 // }
 
-$dictionaryString=file_get_contents("eastonsWithExtraStuff.json"); 
+$dictionaryString=file_get_contents("eastonsModified.json"); 
 
 $dictionary=json_decode($dictionaryString,true);
 
