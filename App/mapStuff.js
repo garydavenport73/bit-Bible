@@ -36,22 +36,30 @@
 
           let latitude = parseFloat(location.split(",")[0]);
           let longitude = parseFloat(location.split(",")[1]);
-          let x = convertLongitude(longitude);
-          let y = convertLatitude(latitude);
-          console.log(latitude, longitude);
-          console.log(x, y);
+          if ((latitude>=29.0)&&(latitude<=34.0)&&(longitude>=33.5)&&(longitude<=36.5)){
+            let x = convertLongitude(longitude);
+            let y = convertLatitude(latitude);
+            console.log(latitude, longitude);
+            console.log(x, y);
+  
+            let bullsEye = document.createElement("span");
+            bullsEye.classList.add("bulls-eye");
+            bullsEye.style.position = "absolute";
+            bullsEye.style.left = x.toString() + "px";
+            bullsEye.style.top = y.toString() + "px";
+            //bullsEye.innerHTML = "o";
+            bullsEye.innerHTML = "o<sub>" + labelText + "</sub>";
+            mapContainer.appendChild(bullsEye);
+          } else {
+            //alert(location + "off map");
+            let offMapList=document.getElementById("off-map-list");
+            if (offMapList.innerHTML===""){offMapList.innerHTML+="Off Map:"};
+            offMapList.innerHTML+=("<br>"+labelText+" "+latitude.toString().slice(0,4)+","+longitude.toString().slice(0,4));
 
-          let bullsEye = document.createElement("span");
-          bullsEye.classList.add("bulls-eye");
-          bullsEye.style.position = "absolute";
-          bullsEye.style.left = x.toString() + "px";
-          bullsEye.style.top = y.toString() + "px";
-          //bullsEye.innerHTML = "o";
-          bullsEye.innerHTML = "o<sub>" + labelText + "</sub>";
-          mapContainer.appendChild(bullsEye);
+          }
+
         }
       }
-
       function convertLongitude(longitude) {
         //the map is about 320px wide //get computed width
         //longitude starts at 33.5 and ends at 36.5
@@ -82,6 +90,7 @@
         for (let i = bullsEyes.length - 1; i >= 0; i--) {
           bullsEyes[i].remove();
         }
+        document.getElementById("off-map-list").innerHTML="";
       }
 
       function clearBackgroundLocations() {
@@ -147,22 +156,18 @@
         let longitude = parseFloat(location.split(",")[1]);
         let x = convertLongitude(longitude);
         let y = convertLatitude(latitude);
-        let backgroundLocation = document.createElement("span");
-        backgroundLocation.classList.add("background-location");
-        backgroundLocation.style.position = "absolute";
-        backgroundLocation.style.left = x.toString() + "px";
-        backgroundLocation.style.top = y.toString() + "px";
-        backgroundLocation.innerHTML = "o<sub>" + locationName + "</sub>";
-
-        //   backgroundLocationLabel = document.createElement("span");
-        //   backgroundLocationLabel.classList.add("background-location-label");
-        //   backgroundLocationLabel.style.position = "absolute";
-        //   backgroundLocationLabel.style.left = (x + 10).toString() + "px";
-        //   backgroundLocationLabel.style.top = y.toString() + "px";
-        //   backgroundLocationLabel.innerHTML = locationName;
-
-        mapContainer.appendChild(backgroundLocation);
-        //   mapContainer.appendChild(backgroundLocationLabel);
+        if ((latitude>=29.0)&&(latitude<=34.0)&&(longitude>=33.5)&&(longitude<=36.5)){
+            let backgroundLocation = document.createElement("span");
+            backgroundLocation.classList.add("background-location");
+            backgroundLocation.style.position = "absolute";
+            backgroundLocation.style.left = x.toString() + "px";
+            backgroundLocation.style.top = y.toString() + "px";
+            backgroundLocation.innerHTML = "o<sub>" + locationName + "</sub>";
+            mapContainer.appendChild(backgroundLocation);
+        }
+        else{
+            console.log("background location off map: "+locationName+" "+location)
+        }
       }
 
       function plotBackgroundMapLocations(id) {

@@ -187,12 +187,18 @@
               } else if (key == "verseReferences") {
                 str += "<h3>References:</h3>";
                 str += "<p>";
+                //str += "<p id='dictionary-entry-verse-references-list'>";
+                //tried isolating for word wrap but instead but instead
+                //see *solution below
 
                 //let versesArray=resultEntries[i][key].split(",");
                 //str+="<span class='open-verse color-hover'>";
                 //str+=resultEntries[i][key].split(",").join("</span>,<span class='open-verse color-hover'>");
                 //str+="</span>";
-                str += resultEntries[i][key];
+                
+                //str += resultEntries[i][key];
+                //*solution switched here to make work break better in paragraph
+                str += resultEntries[i][key].split(",").join(", ");
 
                 str += "</p>";
               } else if (

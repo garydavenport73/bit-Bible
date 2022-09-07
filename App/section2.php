@@ -80,6 +80,7 @@
                 <span id="coordinates-label"></span>&nbsp;<span id="map-location"></span>
             </div>
             <div id="map-container">
+                <span id="off-map-list"></span>
                 <pre id="ascii-map"></pre>
             </div>
         </div>
@@ -130,6 +131,7 @@
             <pre>
 Copyright Notices:
 
+https://berean.bible
 The Holy Bible, Berean Study Bible, BSB
 Copyright ©2016, 2020 by Bible Hub
 Used by Permission.
@@ -137,6 +139,7 @@ All Rights Reserved Worldwide.
 
 Public Domain:
 ASV (American Standard Version)
+CPDV (Catholic Public Domain Version)
 DBT (Darby Bible Translation)
 DRB (Douay-Rheims Bible)
 JPJPSWEY (JPS Tanakh 1917 OT / Weymouth NT)
