@@ -5,6 +5,12 @@ header('Access-Control-Allow-Origin: *');
 sleep(0.2);
 $bibleName=$_GET["bible-name"];
 $readingPlan=$_GET["reading-plan"];
+
+//page visit tracking
+$user_ip=$_SERVER['REMOTE_ADDR'];
+$date=date("Y/m/d");
+file_put_contents("bitbibleOfflineVisits.",$user_ip.",".$date.",".$bibleName.",".$readingPlan."\n",FILE_APPEND|LOCK_EX);
+
 $filename = $readingPlan . "_" . $bibleName . "Bible.html";
 header("Content-disposition:attachment;filename=".$filename);
 include_once("section1.php");

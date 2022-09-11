@@ -4,6 +4,12 @@
 // header("Content-disposition:attachment;filename=".$filename);
 $bibleName=$_GET["bible-name"];
 $readingPlan=$_GET["reading-plan"];
+
+//page visit tracking
+$user_ip=$_SERVER['REMOTE_ADDR'];
+$date=date("Y/m/d");
+file_put_contents("bitbibleOnlineVisits.",$user_ip.",".$date.",".$bibleName.",".$readingPlan."\n",FILE_APPEND|LOCK_EX);
+
 include_once("section1.php");
 echo "<style>"; include_once("style.css"); echo "</style>";
 include_once("section2.php");
