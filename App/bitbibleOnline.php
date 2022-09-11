@@ -8,7 +8,8 @@ $readingPlan=$_GET["reading-plan"];
 //page visit tracking
 $user_ip=$_SERVER['REMOTE_ADDR'];
 $date=date("Y/m/d");
-file_put_contents("bitbibleOnlineVisits.",$user_ip.",".$date.",".$bibleName.",".$readingPlan."\n",FILE_APPEND|LOCK_EX);
+file_put_contents("bitbibleOnlineVisits.csv",$user_ip.",".$date.",".$bibleName.",".$readingPlan."\n",FILE_APPEND|LOCK_EX);
+chmod("bitbibleOnlineVisits.csv", 0640);
 
 include_once("section1.php");
 echo "<style>"; include_once("style.css"); echo "</style>";

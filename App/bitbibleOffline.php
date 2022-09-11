@@ -9,7 +9,8 @@ $readingPlan=$_GET["reading-plan"];
 //page visit tracking
 $user_ip=$_SERVER['REMOTE_ADDR'];
 $date=date("Y/m/d");
-file_put_contents("bitbibleOfflineVisits.",$user_ip.",".$date.",".$bibleName.",".$readingPlan."\n",FILE_APPEND|LOCK_EX);
+file_put_contents("bitbibleOfflineVisits.csv",$user_ip.",".$date.",".$bibleName.",".$readingPlan."\n",FILE_APPEND|LOCK_EX);
+chmod("bitbibleOfflineVisits.csv", 0640);
 
 $filename = $readingPlan . "_" . $bibleName . "Bible.html";
 header("Content-disposition:attachment;filename=".$filename);
