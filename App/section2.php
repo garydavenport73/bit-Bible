@@ -137,6 +137,20 @@ Copyright ©2016, 2020 by Bible Hub
 Used by Permission.
 All Rights Reserved Worldwide.
 
+https://www.lockman.org/
+Scripture quotations taken from the (NASB®)
+New American Standard Bible®,
+Copyright © 1995
+by The Lockman Foundation. 
+Used by permission. 
+All rights reserved. www.lockman.org
+
+Scripture quotations taken from 
+the Amplified® Bible (AMP),
+Copyright © 2015 by The Lockman Foundation.
+Used by permission.
+www.lockman.org
+
 Public Domain:
 ASV (American Standard Version)
 CPDV (Catholic Public Domain Version)

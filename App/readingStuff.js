@@ -51,7 +51,7 @@ function displayReadingPlanName() {
 }
 
 function displayBibleName() {
-    document.getElementById("bible-name").innerHTML = bibleName;
+    document.getElementById("bible-name").innerHTML = bibleName+"<span id='audio'>&#128266;</span>";
 }
 
 function getTodaysDate() {

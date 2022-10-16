@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--<link rel="stylesheet" href="styles.css">-->
+</head>
+<body>
+	<h1>Word Reverser</h1>
+    <div><textarea  id="my-text">Your text here</textarea></div>
+    <button onclick="reverse();">Reverse</button>
+    <button onclick="sayIt();">Say it!</button>
+    <script>
+function reverse(){
+	let myTextArea=document.getElementById("my-text");
+	myTextArea.value=reverseString(myTextArea.value);
+}
+function sayIt(){
+	let utterance = new SpeechSynthesisUtterance(document.getElementById("my-text").value);
+	speechSynthesis.speak(utterance);
+}
+function reverseString(str) {
+    let newString = "";
+    for (let i = str.length - 1; i >= 0; i--) { 
+        newString += str[i];
+    }
+    return newString;
+}
+    </script>
+</body>
+</html>
