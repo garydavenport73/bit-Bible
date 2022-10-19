@@ -98,6 +98,8 @@ function playOrAbortSpeech() {
             msg.text = msg.text.split("," + i.toString()).join(",");
             msg.text = msg.text.split(":" + i.toString()).join(":");
             msg.text = msg.text.split("\"" + i.toString()).join("\"");
+            msg.text = msg.text.split("?" + i.toString()).join("?");
+            msg.text = msg.text.split("'" + i.toString()).join("'");  
         }
         console.log("speech button pressed");
     
