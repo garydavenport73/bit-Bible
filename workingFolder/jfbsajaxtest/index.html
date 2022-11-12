@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        pre {
+            white-space: pre-wrap;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <select id="osis-ref-select" oninput="showContent()">
+    </select>
+    <pre id="content"></pre>
+
+    <script src="jfb.js"></script>
+    <script src="jfbOrderedKeys.js"></script>
+    <script>
+        let osisRefSelect = document.getElementById("osis-ref-select");
+        console.log(osisRefSelect);
+
+        let myOptions = "";
+        console.log(jfbOrderedKeys);
+        for (let i = 0; i < jfbOrderedKeys.length; i++) {
+
+            myOptions += "<option value='" + jfbOrderedKeys[i] + "'>" + jfbOrderedKeys[i] + "</option>";
+        }
+        osisRefSelect.innerHTML = myOptions;
+        console.log(myOptions);
+
+        function showContent() {
+            //document.getElementById("content").innerHTML=(jfb[osisRefSelect.value]).replace(/\t{1,}/g,"\t").replace(/\s{4,}/g,"\t").replace(/ {4,}/g,"\t");
+
+            document.getElementById("content").innerHTML = jfb[osisRefSelect.value].replace(/\t{1,}/g, "\t").replace(/\n{3,}/g, "\n\n"); //takes mutiple tabs and condenses to one tab
+            // document.getElementById("content").innerHTML = jfb[osisRefSelect.value];
+        }
+        showContent();
+
+    </script>
+</body>
+
+</html>
