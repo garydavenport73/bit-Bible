@@ -19,7 +19,7 @@
     </select>
     <pre id="content"></pre>
 
-    <script src="jfb.js"></script>
+    <script src="jfbFormatted.js"></script>
     <script src="jfbOrderedKeys.js"></script>
     <script>
         let osisRefSelect = document.getElementById("osis-ref-select");
@@ -37,8 +37,8 @@
         function showContent() {
             //document.getElementById("content").innerHTML=(jfb[osisRefSelect.value]).replace(/\t{1,}/g,"\t").replace(/\s{4,}/g,"\t").replace(/ {4,}/g,"\t");
 
-            document.getElementById("content").innerHTML = jfb[osisRefSelect.value].replace(/\t{1,}/g, "\t").replace(/\n{3,}/g, "\n\n"); //takes mutiple tabs and condenses to one tab
-            // document.getElementById("content").innerHTML = jfb[osisRefSelect.value];
+            //document.getElementById("content").innerHTML = jfb[osisRefSelect.value].replace(/\t{1,}/g, "\t").replace(/\n{3,}/g, "\n\n"); //takes mutiple tabs and condenses to one tab
+             document.getElementById("content").innerHTML = jfbFormatted[osisRefSelect.value];
         }
         showContent();
 
