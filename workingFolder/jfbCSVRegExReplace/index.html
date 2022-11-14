@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+            pre {
+            white-space: pre-wrap;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+</style>
+</head>
+
+<body>
+
+    <textarea type="text" id="text-input"></textarea>
+    <button onclick="parseText()">Parse Text</button>
+    <main id="commentary"><select id="commentary-select"></select>
+        <pre id="commentary-contents"></pre>
+    </main>
+    <button onclick="parseCommentary()">Parse Commentary</button>
+
+    <div id="result">Results here</div>
+
+    <script src="en_bcv_parser.js"></script>
+    <script src="jfbFormatted.js"></script>
+    <script src="osisReferencesArray.js"></script>
+    <script>
+        let commentarySelect = document.getElementById("commentary-select");
+        let commentaryContents = document.getElementById("commentary-contents");
+        commentarySelect.addEventListener("input", showCommentaryChapter);
+
+        let str = "";
+        //console.log(osisReferencesArray)
+        let currentBook = "";
+        let currentChapter = "";
+        for (let i = 0; i < osisReferencesArray.length; i++) {
+            let book = osisReferencesArray[i].split(".")[0];
+            let chapter = osisReferencesArray[i].split(".")[1];
+            if (book !== currentBook) {
+                currentBook = book;
+                str += "<option value='" + currentBook + ".1" + "'>" + currentBook + ".1" + "</option>";
+            }
+            if (chapter != currentChapter) {
+                currentChapter = chapter;
+                str += "<option value='" + currentBook + "." + currentChapter + "'>" + currentBook + "." + currentChapter + "</option>";
+            }
+            //sstr += "<option value='" + osisReferencesArray[i] + "'>" + osisReferencesArray[i] + "</option>";
+        }
+
+        commentarySelect.innerHTML = str;
+
+        function showCommentaryChapter() {
+
+            //if (bcv === "") {
+            bcv = commentarySelect.value;
+            console.log(commentarySelect.value);
+            //}
+            let book = bcv.split(".")[0];
+            let chapter = bcv.split(".")[1];
+
+            console.log(book + "." + chapter);
+
+
+            commentaryContents.innerHTML = jfb[book + "." + chapter];
+            console.log(book + "." + chapter);
+        }
+
+        function parseText() {
+            let textInput = document.getElementById("text-input").value;
+            let result = document.getElementById("result");
+            let bcv = new bcv_parser;
+            bcv.set_options({ consecutive_combination_strategy: "separate" });
+            let resultObject = bcv.parse(textInput);
+            console.log(resultObject);
+            result.innerHTML = resultObject;
+        }
+
+        function parseCommentary() {
+           
+            let jfbChapter=jfb[commentarySelect.value];
+            let bcv = new bcv_parser;
+            bcv.set_options({ consecutive_combination_strategy: "separate" });
+            bcv.parse(jfbChapter);
+            console.log(bcv.osis());
+
+            // for (let i=0;i<resultObject.length;i++){
+            //     console.log(resultObject[i]);
+            // }
+            result.innerHTML = bcv.osis();
+            console.log(bcv.parsed_entities());
+        }
+
+
+    </script>
+</body>
+
+</html>
