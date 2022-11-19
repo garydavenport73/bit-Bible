@@ -23,7 +23,7 @@
     </main>
     <button onclick="parseCommentary()">Parse Commentary</button>
 
-    <div id="result">Results here</div>
+    <pre id="result">Results here</pre>
 
     <script src="en_bcv_parser.js"></script>
     <script src="jfbFormatted.js"></script>
@@ -83,15 +83,29 @@
            
             let jfbChapter=jfb[commentarySelect.value];
             let bcv = new bcv_parser;
-            bcv.set_options({ consecutive_combination_strategy: "separate" });
+
             bcv.parse(jfbChapter);
-            console.log(bcv.osis());
+            bcv.set_options({consecutive_combination_strategy: "separate",sequence_combination_strategy: "separate"});
+            console.log(bcv);
 
             // for (let i=0;i<resultObject.length;i++){
             //     console.log(resultObject[i]);
             // }
-            result.innerHTML = bcv.osis();
-            console.log(bcv.parsed_entities());
+            resultArray= bcv.osis_and_indices();
+            console.log(bcv.osis_and_indices());
+
+
+            let newChapter=jfbChapter;
+
+            for (let i=resultArray.length-1;i>=0;i--){
+                let thisOsis=resultArray[i].osis;
+                let startIndex=resultArray[i].indices[0];
+                let endIndex=resultArray[i].indices[1];
+                newChapter=newChapter.slice(0,startIndex)+thisOsis+newChapter.slice(endIndex);
+            }
+
+            document.getElementById("result").innerText=newChapter;
+
         }
 
 
