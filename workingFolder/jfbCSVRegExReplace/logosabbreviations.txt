@@ -1,0 +1,444 @@
+Genesis
+Most common: Gen.
+Ge.
+Gn.
+Exodus
+Most common: Ex.
+Exod.
+Exo.
+Leviticus
+Most common: Lev.
+Le.
+Lv.
+Numbers
+Most common: Num.
+Nu.
+Nm.
+Nb.
+Deuteronomy
+Most common: Deut.
+De.
+Dt.
+Joshua
+Most common: Josh.
+Jos.
+Jsh.
+Judges
+Most common: Judg.
+Jdg.
+Jg.
+Jdgs.
+Ruth
+Most common: Ruth
+Rth.
+Ru.
+1 Samuel
+Most common: 1 Sam.
+1 Sm.
+1 Sa.
+1 S.
+I Sam.
+I Sa.
+1Sam.
+1Sa.
+1S.
+1st Samuel
+1st Sam.
+First Samuel
+First Sam.
+2 Samuel
+Most common: 2 Sam.
+2 Sm.
+2 Sa.
+2 S.
+II Sam.
+II Sa.
+2Sam.
+2Sa.
+2S.
+2nd Samuel
+2nd Sam.
+Second Samuel
+Second Sam.
+1 Kings
+Most common: 1 Kings
+1 Kgs
+1 Ki
+1Kgs
+1Kin
+1Ki
+1K
+I Kgs
+I Ki
+1st Kings
+1st Kgs
+First Kings
+First Kgs
+2 Kings
+Most common: 2 Kings
+2 Kgs.
+2 Ki.
+2Kgs.
+2Kin.
+2Ki.
+2K.
+II Kgs.
+II Ki.
+2nd Kings
+2nd Kgs.
+Second Kings
+Second Kgs.
+1 Chronicles
+Most common: 1 Chron.
+1 Chr.
+1 Ch.
+1Chron.
+1Chr.
+1Ch.
+I Chron.
+I Chr.
+I Ch.
+1st Chronicles
+1st Chron.
+First Chronicles
+First Chron.
+2 Chronicles
+Most common: 2 Chron.
+2 Chr.
+2 Ch.
+2Chron.
+2Chr.
+2Ch.
+II Chron.
+II Chr.
+II Ch.
+2nd Chronicles
+2nd Chron.
+Second Chronicles
+Second Chron.
+Ezra
+Most common: Ezra
+Ezr.
+Ez.
+Nehemiah
+Most common: Neh.
+Ne.
+Esther
+Most common: Est.
+Esth.
+Es.
+Job
+Most common: Job
+Jb.
+Psalms
+Most common: Ps.
+Psalm
+Pslm.
+Psa.
+Psm.
+Pss.
+Proverbs
+Most common: Prov
+Pro.
+Prv.
+Pr.
+Ecclesiastes
+Most common: Eccles.
+Eccle.
+Ecc.
+Ec.
+Qoh.
+Song of Solomon
+Most common: Song
+Song of Songs
+SOS.
+So.
+Canticle of Canticles
+Canticles
+Cant.
+Isaiah
+Most common: Isa.
+Is.
+Jeremiah
+Most common: Jer.
+Je.
+Jr.
+Lamentations
+Most common: Lam.
+La.
+Ezekiel
+Most common: Ezek.
+Eze.
+Ezk.
+Daniel
+Most common: Dan.
+Da.
+Dn.
+Hosea
+Most common: Hos.
+Ho.
+Joel
+Most common: Joel
+Jl.
+Amos
+Most common: Amos
+Am.
+Obadiah
+Most common: Obad.
+Ob.
+Jonah
+Most common: Jonah
+Jnh.
+Jon.
+Micah
+Most common: Mic.
+Mc.
+Nahum
+Most common: Nah.
+Na.
+Habakkuk
+Most common: Hab.
+Hb.
+Zephaniah
+Most common: Zeph.
+Zep.
+Zp.
+Haggai
+Most common: Hag.
+Hg.
+Zechariah
+Most common: Zech.
+Zec.
+Zc.
+Malachi
+Most common: Mal.
+Ml.
+Abbreviations of New Testament Books of the Bible
+Matthew
+Most common: Matt.
+Mt.
+Mark
+Most common: Mark
+Mrk
+Mar
+Mk
+Mr
+Luke
+Most common: Luke
+Luk
+Lk
+John
+Most common: John
+Joh
+Jhn
+Jn
+Acts
+Most common: Acts
+Act
+Ac
+Romans
+Most common: Rom.
+Ro.
+Rm.
+1 Corinthians
+Most common: 1 Cor.
+1 Co.
+I Cor.
+I Co.
+1Cor.
+1Co.
+I Corinthians
+1Corinthians
+1st Corinthians
+First Corinthians
+2 Corinthians
+Most common: 2 Cor.
+2 Co.
+II Cor.
+II Co.
+2Cor.
+2Co.
+II Corinthians
+2Corinthians
+2nd Corinthians
+Second Corinthians
+Galatians
+Most common: Gal.
+Ga.
+Ephesians
+Most common: Eph.
+Ephes.
+Philippians
+Most common: Phil.
+Php.
+Pp.
+Colossians
+Most common: Col.
+Co.
+1 Thessalonians
+Most common: 1 Thess.
+1 Thes.
+1 Th.
+I Thessalonians
+I Thess.
+I Thes.
+I Th.
+1Thessalonians
+1Thess.
+1Thes.
+1Th.
+1st Thessalonians
+1st Thess.
+First Thessalonians
+First Thess.
+2 Thessalonians
+Most common: 2 Thess.
+2 Thes.
+2 Th.
+II Thessalonians
+II Thess.
+II Thes.
+II Th.
+2Thessalonians
+2Thess.
+2Thes.
+2Th.
+2nd Thessalonians
+2nd Thess.
+Second Thessalonians
+Second Thess.
+1 Timothy
+Most common: 1 Tim.
+1 Ti.
+I Timothy
+I Tim.
+I Ti.
+1Timothy
+1Tim.
+1Ti.
+1st Timothy
+1st Tim.
+First Timothy
+First Tim.
+2 Timothy
+Most common: 2 Tim.
+2 Ti.
+II Timothy
+II Tim.
+II Ti.
+2Timothy
+2Tim.
+2Ti.
+2nd Timothy
+2nd Tim.
+Second Timothy
+Second Tim.
+Titus
+Most common: Titus
+Tit
+ti
+Philemon
+Most common: Philem.
+Phm.
+Pm.
+Hebrews
+Most common: Heb.
+James
+Most common: James
+Jas
+Jm
+1 Peter
+Most common: 1 Pet.
+1 Pe.
+1 Pt.
+1 P.
+I Pet.
+I Pt.
+I Pe.
+1Peter
+1Pet.
+1Pe.
+1Pt.
+1P.
+I Peter
+1st Peter
+First Peter
+2 Peter
+Most common: 2 Pet.
+2 Pe.
+2 Pt.
+2 P.
+II Peter
+II Pet.
+II Pt.
+II Pe.
+2Peter
+2Pet.
+2Pe.
+2Pt.
+2P.
+2nd Peter
+Second Peter
+1 John
+Most common: 1 John
+1 Jhn.
+1 Jn.
+1 J.
+1John
+1Jhn.
+1Joh.
+1Jn.
+1Jo.
+1J.
+I John
+I Jhn.
+I Joh.
+I Jn.
+I Jo.
+1st John
+First John
+2 John
+Most common: 2 John
+2 Jhn.
+2 Jn.
+2 J.
+2John
+2Jhn.
+2Joh.
+2Jn.
+2Jo.
+2J.
+II John
+II Jhn.
+II Joh.
+II Jn.
+II Jo.
+2nd John
+Second John
+3 John
+Most common: 3 John
+3 Jhn.
+3 Jn.
+3 J.
+3John
+3Jhn.
+3Joh.
+3Jn.
+3Jo.
+3J.
+III John
+III Jhn.
+III Joh.
+III Jn.
+III Jo.
+3rd John
+Third John
+Jude
+Most common: Jude
+Jud.
+Jd.
+Revelation
+Most common:Rev
+Re
+The Revelation
+

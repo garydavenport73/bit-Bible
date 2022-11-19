@@ -11,19 +11,28 @@
             white-space: pre-wrap;
             font-family: Arial, Helvetica, sans-serif;
         }
+        .row{
+            display: flex;
+            flex-direction: row;
+        }
 </style>
 </head>
 
 <body>
 
-    <textarea type="text" id="text-input"></textarea>
-    <button onclick="parseText()">Parse Text</button>
-    <main id="commentary"><select id="commentary-select"></select>
-        <pre id="commentary-contents"></pre>
-    </main>
-    <button onclick="parseCommentary()">Parse Commentary</button>
 
-    <pre id="result">Results here</pre>
+    <div><button onclick="parseText()">Parse Text</button></div>
+    <div class="row">    <textarea type="text" id="text-input"></textarea>
+        <pre id="text-result">Text result here</pre></div>
+
+    <div><select id="commentary-select"></select></div>
+    <div class="row">
+    <main id="commentary">
+        <pre id="commentary-contents">Commentary Chapter contents</pre>
+    </main>
+    <button onclick="parseCommentary()">&rarr;</button>
+
+    <pre id="result">Results here</pre></div>
 
     <script src="en_bcv_parser.js"></script>
     <script src="jfbFormatted.js"></script>
@@ -71,29 +80,66 @@
 
         function parseText() {
             let textInput = document.getElementById("text-input").value;
-            let result = document.getElementById("result");
+            //let jfbChapter=jfb[commentarySelect.value];
+
             let bcv = new bcv_parser;
-            bcv.set_options({ consecutive_combination_strategy: "separate" });
-            let resultObject = bcv.parse(textInput);
-            console.log(resultObject);
-            result.innerHTML = resultObject;
+
+            bcv.set_options({consecutive_combination_strategy: "separate",sequence_combination_strategy: "separate"});
+            //let parsedContent=bcv.parse(jfbChapter);
+
+            //bcv.parse("John 3:16,18").osis_and_indices();
+
+
+
+            resultArray= bcv.parse(textInput).osis_and_indices();
+            console.log(resultArray);
+
+            let newText=textInput;
+
+            for (let i=resultArray.length-1;i>=0;i--){
+                let thisOsis=resultArray[i].osis;
+                let startIndex=resultArray[i].indices[0];
+                let endIndex=resultArray[i].indices[1];
+                newText=newText.slice(0,startIndex)+thisOsis+newText.slice(endIndex);
+            }
+
+            document.getElementById("text-result").innerText=newText;;
         }
 
         function parseCommentary() {
            
+            // let jfbChapter=jfb[commentarySelect.value];
+            // let bcv = new bcv_parser;
+
+            // bcv.parse(jfbChapter);
+            // bcv.set_options({consecutive_combination_strategy: "separate",sequence_combination_strategy: "separate"});
+            // console.log(bcv);
+
+            // resultArray= bcv.osis_and_indices();
+            // console.log(bcv.osis_and_indices());
+
+            // let newChapter=jfbChapter;
+
+            // for (let i=resultArray.length-1;i>=0;i--){
+            //     let thisOsis=resultArray[i].osis;
+            //     let startIndex=resultArray[i].indices[0];
+            //     let endIndex=resultArray[i].indices[1];
+            //     newChapter=newChapter.slice(0,startIndex)+thisOsis+newChapter.slice(endIndex);
+            // }
+
             let jfbChapter=jfb[commentarySelect.value];
+
             let bcv = new bcv_parser;
 
-            bcv.parse(jfbChapter);
             bcv.set_options({consecutive_combination_strategy: "separate",sequence_combination_strategy: "separate"});
-            console.log(bcv);
+            //let parsedContent=bcv.parse(jfbChapter);
 
-            // for (let i=0;i<resultObject.length;i++){
-            //     console.log(resultObject[i]);
-            // }
-            resultArray= bcv.osis_and_indices();
-            console.log(bcv.osis_and_indices());
+            //bcv.parse("John 3:16,18").osis_and_indices();
 
+
+
+            resultArray= bcv.parse(jfbChapter).osis_and_indices();
+            console.log(resultArray);
 
             let newChapter=jfbChapter;
 
@@ -105,6 +151,7 @@
             }
 
             document.getElementById("result").innerText=newChapter;
+            //console.log(parsedContent);
 
         }
 

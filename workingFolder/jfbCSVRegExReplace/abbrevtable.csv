@@ -1,0 +1,67 @@
+Osis,Abbreviations,Notes,Full Name,Unknown Abbreviation
+Gen,Ge Gen,,Genesis,GEN
+Exod,Ex,,Exodus,EXO
+Lev,Le Lev,,Leviticus,LEV
+Num,Nu Num,,Numbers,NUM
+Deut,De Deu,,Deuteronomy,DEU
+Josh,Jos,,Joshua,JOS
+Judg,Jud,,Judges,JDG
+Ruth,Ruth,,Ruth,RUT
+1Sam,1Sa,,1 Samuel,1SA
+2Sam,2Sa,,2 Samuel,2SA
+1Kgs,1Ki,,1 Kings,1KI
+2Kgs,2Ki,,2 Kings,2KI
+1Chr,1Ch 1Chr,,1 Chronicles,1CH
+2Chr,2Ch 2Chr,,2 Chronicles,2CH
+Ezra,Ezr,,Ezra,EZR
+Neh,Neh,,Nehemiah,NEH
+Esth,Es Est,#3 Es there is one Es which is not followed by a space then number,Esther,EST
+Job,Job,,Job,JOB
+Ps,Ps Psa,,Psalms,PSA
+Prov,Pr Pro,,Proverbs,PRO
+Eccl,Ec Ecc,,Ecclesiastes,ECC
+Song,Sgs,,Song of Solomon,SNG
+Isa,Isa,,Isaiah,ISA
+Jer,Jer,,Jeremiah,JER
+Lam,La Lam,,Lamentations,LAM
+Ezek,Eze,,Ezekiel,EZK
+Dan,Da Dan,,Daniel,DAN
+Hos,Hsa,,Hosea,HOS
+Joel,Joe,,Joel,JOL
+Amos,Am Amo,must be followed by a space and digit,Amos,AMO
+Obad,Oba,,Obadiah,OBA
+Jonah,Jon,,Jonah,JON
+Mic,Mic,,Micah,MIC
+Nah,Na Nah,,Nahum,NAM
+Hab,Hab,,Habakkuk,HAB
+Zeph,Zep,,Zephaniah,ZEP
+Hag,Hag,,Haggai,HAG
+Zech,Zec,,Zechariah,ZEC
+Mal,Mal,,Malachi,MAL
+Matt,Mt Mat,,Matthew,MAT
+Mark,Mar,,Mark,MRK
+Luke,Luk,,Luke,LUK
+John,Jhn Joh John,,John,JHN
+Acts,Ac Act,,Acts,ACT
+Rom,Ro Rom,,Romans,ROM
+1Cor,1Co,,1 Corinthians,1CO
+2Cor,2Co,,2 Corinthians,2CO
+Gal,Ga Gal,,Galatians,GAL
+Eph,Eph,,Ephesians,EPH
+Phil,Php Phl,,Philippians,PHP
+Col,Col,,Colossians,COL
+1Thess,1Th,,1 Thessalonians,1TH
+2Thess,2Th,,2 Thessalonians,2TH
+1Tim,1Ti,,1 Timothy,1TI
+2Tim,2Ti,,2 Timothy,2TI
+Titus,Tit,,Titus,TIT
+Phlm,"Phl, Phm",,Philemon,PHM
+Heb,Hbr Heb,,Hebrews,HEB
+Jas,Jam Jas,,James,JAS
+1Pet,1Pe,,1 Peter,1PE
+2Pet,2Pe,,2 Peter,2PE
+1John,1Jo,,1 John,1JN
+2John,2Jo,,2 John,2JN
+3John,3Jo,,3 John,3JN
+Jude,Jud,,Jude,JUD
+Rev,Re Rev,Re must be followed by space then number,Revelation,REV

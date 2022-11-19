@@ -15,18 +15,24 @@
             white-space: pre-wrap;
             font-family: Arial, Helvetica, sans-serif;
         }
+        body{
+            display:flex;
+        }
     </style>
 </head>
 
 <body>
-    <main id="bible"><select id="bible-select"></select>
+    <main id="bible">
+        <select id="bible-select"></select>
         <div id="bible-contents"></div>
     </main>
-    <main id="dictionary"><input type="search" id="dictionary-input" list="bible-words">
+    <main id="dictionary">
+        <input type="search" id="dictionary-input" list="bible-words">
         <div id="dictionary-contents"></div>
     </main>
-    <main id="commentary"><select id="commentary-select"></select>
-        <pre id="commentary-contents"></pre>
+    <main id="commentary">
+        <select id="commentary-select"></select>
+        <div id="commentary-contents"></div>
     </main>
     <datalist id="bible-words"></datalist>
 </body>
@@ -36,8 +42,9 @@
 <script src="headings.js"></script>
 <script src="paragraphLocations.js"></script>
 <script src="eastonsModified.js"></script>
-<script src="jfbFormatted.js"></script>
+<!-- <script src="jfbFormatted.js"></script> -->
 
+<script src="jfbFormattedOsis.js"></script>
 
 
 <script>
@@ -81,8 +88,12 @@
 
         console.log(book + "." + chapter);
 
+        let contents=jfb[book + "." + chapter];
 
-        commentaryContents.innerHTML = jfb[book + "." + chapter];
+        contents=contents.replace(/ {4,}/g,"&nbsp;&nbsp;&nbsp;&nbsp;");
+        contents=contents.replace(/\n/g,"<br>");
+            
+        commentaryContents.innerHTML = contents;
         console.log(book + "." + chapter);
     }
 
