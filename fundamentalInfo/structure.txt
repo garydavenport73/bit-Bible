@@ -17,10 +17,17 @@ Dictionary
         people references
         location
 
-3 functions:
-    convert references to osis
-    tag words adds tags to dictionary words
-    tag osis adds tags to osis references
+Functions:
+    In a textbook (object with keys/values):
+        convert references to osis                  fomratTextBookOsisRefs.js
+        tag osis adds tags to osis references       tagTextBook.js filename osis
+        tag words adds tags to dictionary words     tagTextBook.js filename eastons
+
+    In a file:
+        convert references to osis                  formatTextOsisRefs.js
+        tag osis adds tags to osis references       tagText.js filename osis
+        tag words adds tags to dictionary words     tagText.js filename eastons
+
 
 
 To identify right dictionary word
