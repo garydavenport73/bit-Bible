@@ -42,9 +42,13 @@
 <script src="headings.js"></script>
 <script src="paragraphLocations.js"></script>
 <script src="eastonsModified.js"></script>
-<!-- <script src="jfbFormatted.js"></script> -->
+<script src="osisToFullName.js"></script>
 
-<script src="jfbFormattedOsis.js"></script>
+
+<script src="yourbible.js"></script>
+<script>console.log(jfb)</script>
+
+<!-- <script src="jfbFormattedOsis.js"></script> -->
 
 
 <script>
@@ -89,6 +93,8 @@
         console.log(book + "." + chapter);
 
         let contents=jfb[book + "." + chapter];
+        console.log(contents);
+        console.log(typeof(contents));
 
         contents=contents.replace(/ {4,}/g,"&nbsp;&nbsp;&nbsp;&nbsp;");
         contents=contents.replace(/\n/g,"<br>");
@@ -98,41 +104,14 @@
     }
 
     function showBibleChapter() {
-        //if (bcv === "") {
         bcv = bibleSelect.value;
-        //}
         let book = bcv.split(".")[0];
         let chapter = bcv.split(".")[1];
         console.log(book, chapter);
         console.log(osisReferencesArray);
-
-        //bibleContents.innerHTML="<h2>"+book.toUpperCase()+" "+chapter.toUpperCase()+"</h2>";
-
-        let chapterContents = "<h2>" + book.toUpperCase() + " " + chapter.toUpperCase() + "</h2>";
-        // for (let i = 0; i < osisReferencesArray.length; i++) {
-
-        //     let osisRefBook = osisReferencesArray[i].split(".")[0];
-        //     let osisRefChapter = osisReferencesArray[i].split(".")[1];
-        //     let osisRefVerse = osisReferencesArray[i].split(".")[2];
-        //     //console.log(osisRefBook,osisRefChapter);
-
-        //     if ((osisRefBook == book) && (osisRefChapter == chapter)) {
-        //         if (paragraphLocations.includes(osisReferencesArray[i])) {
-        //             chapterContents += "<br><br>";
-        //         }
-        //         if (headings[osisReferencesArray[i]] !== undefined) {
-        //             chapterContents += "<h3>" + headings[osisReferencesArray[i]] + "</h3>";
-        //         }
-        //         chapterContents += "<sup>" + osisRefVerse + ".</sup>" + bsb[osisReferencesArray[i]];
-        //     }
-        //     bibleContents.innerHTML = chapterContents;
-        // }
-
+        let chapterContents = "<h2>" + osisToFullName[book].toUpperCase() + " " + chapter.toUpperCase() + "</h2>";
         for (let i = 0; i < 200; i++) {
-
-
             if (bsbNested[book][chapter][i.toString()]!==undefined){
-
                let currentBCV=book+"."+chapter+"."+i.toString();
                 if (paragraphLocations.includes(currentBCV)) {
                     chapterContents += "<br><br>";
@@ -144,9 +123,6 @@
             }
             bibleContents.innerHTML = chapterContents;
         }
-
-
-
     }
 
     //showBibleChapter();
