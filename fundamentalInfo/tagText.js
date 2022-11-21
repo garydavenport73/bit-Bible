@@ -1,8 +1,14 @@
 let filename = process.argv[2];
 let toTag = process.argv[3];
+let STARTTAG = process.argv[4];
+let ENDTAG = process.argv[5];
 
 if (filename === undefined) {
     console.log("Please provide a filename.");
+    return;
+}
+if ((STARTTAG===undefined)||(ENDTAG===undefined)){
+    console.log('Use command like these examples:\ntagText.js myText.txt osis "<start>" "<end>", or \ntagText.js myText.txt eastons "<start>" "<end>"');
     return;
 }
 
@@ -17,7 +23,7 @@ if (toTag==="osis"){
     
 }
 else{
-    console.log('Use command like these examples:\n"tagText.js myText.txt osis", or \n"tagText.js myText.txt eastons"');
+    console.log('Use command like these examples:\ntagText.js myText.txt osis "<start>" "<end>", or \ntagText.js myText.txt eastons "<start>" "<end>"');
     return;
 }
 
@@ -30,12 +36,12 @@ let text=fs.readFileSync(filename,"utf8");
 
 let dictionaryWords = [];
 let bookChapterKeys=Object.keys(text);
-let STARTTAG="OSISSTART";
-let ENDTAG="OSISEND";
+// let STARTTAG="OSISSTART";
+// let ENDTAG="OSISEND";
 if (toTag==="eastons"){
     loadDictionaryWords();
-    STARTTAG="WORDSTART";
-    ENDTAG="WORDEND";
+    // STARTTAG="WORDSTART";
+    // ENDTAG="WORDEND";
 } else{
     dictionaryWords=bookChapterKeys;
 }

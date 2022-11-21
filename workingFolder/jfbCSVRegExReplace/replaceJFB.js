@@ -6,11 +6,14 @@ let jfb=JSON.parse(fs.readFileSync("fjbFormattedReplacedAbbrev.json","utf8"));
 let jfbNew=jfb;
 //console.log(typeof(jfbNew));
 //console.log(jfbNew);
-//let replacements={"De":"Deut","Hsa":"Hos","Phl":"Phl","Hbr":"Heb"};
+//let replacements={"De":"Deut","Hsa":"Hos","Phm":"Phl","Hbr":"Heb"};
+//Phlm,"Phl, Phm"
 
 
 for (let chapter in jfbNew){
+
     console.log("*****PARSING: "+chapter);
+    //jfbNew[chapter]=jfbNew[chapter].replace("De ")
     jfbNew[chapter]=parseText(jfbNew[chapter]);
     console.log(jfbNew[chapter]);
 }
