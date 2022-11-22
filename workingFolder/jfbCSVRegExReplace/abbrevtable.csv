@@ -44,10 +44,10 @@ Luke,Luk,,Luke,LUK
 John,Jhn Joh John,,John,JHN
 Acts,Ac Act,,Acts,ACT
 Rom,Ro Rom,,Romans,ROM
-1Cor,1Co,,1 Corinthians,1CO
-2Cor,2Co,,2 Corinthians,2CO
+1Cor,1Co 1Cr,,1 Corinthians,1CO
+2Cor,2Co 2Cr,,2 Corinthians,2CO
 Gal,Ga Gal,,Galatians,GAL
-Eph,Eph,,Ephesians,EPH
+Eph,Eph,,Ephesians,EPz
 Phil,Php Phl,,Philippians,PHP
 Col,Col,,Colossians,COL
 1Thess,1Th,,1 Thessalonians,1TH
@@ -55,7 +55,7 @@ Col,Col,,Colossians,COL
 1Tim,1Ti,,1 Timothy,1TI
 2Tim,2Ti,,2 Timothy,2TI
 Titus,Tit,,Titus,TIT
-Phlm,"Phl, Phm",,Philemon,PHM
+Phlm, Phm,,Philemon,PHM
 Heb,Hbr Heb,,Hebrews,HEB
 Jas,Jam Jas,,James,JAS
 1Pet,1Pe,,1 Peter,1PE
