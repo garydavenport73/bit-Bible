@@ -247,7 +247,206 @@
     };
     loadEastonsWords();
 
+
+    function addEventListenersToPeople() {
+        let people = document.getElementsByClassName("definition-relatives");
+        for (person of people) {
+            person.addEventListener("click", (evt) => { showDictionaryEntry(evt) });
+
+        }
+    }
+    function showDictionaryPersonEntry(evt) {
+        console.log(evt.target.classList);
+        console.log(evt.target.classList.contains("definition-relatives"));
+    }
+
+
     function showDictionaryEntry(evt) {
+
+        ///Place the right word as the dictionary inpu
+        if (evt.target.classList.contains("definition-relatives")) {//take number off if using relative
+            let baseName = evt.target.innerHTML.replace(/\d/g, "").trim();
+            dictionaryInput.value = baseName;
+        }
+
+        ///Make sure its capitalized
+        dictionaryInput.value = dictionaryInput.value[0].toUpperCase() + dictionaryInput.value.slice(1);
+
+        //handle no word in dictionary
+        let wordIndex = dictionaryWords.indexOf(dictionaryInput.value);
+        if (wordIndex === -1) {
+            dictionaryContents.innerHTML = "Word not found!";
+            return;
+        }
+
+        //
+        let entries = eastons[wordIndex]["entries"]; //eastons nested dictionary word lookup
+        let str = ""; //for building html contents
+        let senderRefArrayStr = ""; //a csv string of osis references from sending event
+        let referenceFound = false; //a flag that will stop searching once a reference is dound
+        let bestWordToOpen = ""; //
+        let bestId = ""; //the id of a div that should be opened
+        let referencesCount = 0;
+        let matchKnown=false;
+
+        if (evt.target.parentElement.id.indexOf("-refs-") !== -1) {//event is coming from contents of definition
+            senderRefArrayStr = evt.target.parentElement.id.split("-refs-")[1];
+        }
+
+        else if (evt.target.parentElement.id === "bible-contents") {//event is coming from bible chapter verse
+            senderRefArrayStr = bibleSelect.value;
+
+        } else if (evt.target.parentElement.id === "commentary-contents") {//event coming from commentary
+            senderRefArrayStr = commentarySelect.value;
+        }
+
+        if (entries.length === 1) {//there is only one entry, so open that entry
+            bestId = entries[0]["Entry"].split(" ").join("-") + "-refs-" + entries[0]["References"];
+            referenceFound = true;
+        }
+
+        let entriesMatching=0;
+        for (let i = 0; i < entries.length; i++) {
+
+            let id = entries[i]["Entry"].split(" ").join("-") + "-refs-" + entries[i]["References"];
+
+            if (evt.target.classList.contains("definition-relatives")) {//event coming from a person click
+                if (entries[i]["Entry"] === evt.target.innerHTML) {//name matches entry best id knwn
+                    console.log("coming from a person click");
+                    bestId = id;
+                    matchKnown = true;
+                    entriesMatching=1;
+                }
+            }
+            //start building contents of dictionary entry
+            str += "<div><span class='definition-entry nested-menu'>" + entries[i]["Entry"] + "</span><div id='" + id + "'>";
+
+            let contents = "";
+            let entryProperties = Object.keys(entries[i]);
+            for (let j = 0; j < entryProperties.length; j++) {
+
+                if (entryProperties[j] === "Entry") {
+                    //do nothing, entry already listed
+                }
+                else {
+                    str += "<b>" + entryProperties[j] + "</b>: "
+                    contents = entries[i][entryProperties[j]];
+                    if (entryProperties[j] === "References") {
+                        referencesCount=0;
+                        //go through each reference and tag them, that is the main purpose of loop
+                        let refsArray = contents.split(",");
+                        {
+                            for (let k = 0; k < refsArray.length; k++) {
+                                //also while looping see if the reference is in the senders references
+                                //if so make note of a match.
+                                if (matchKnown === false) {//only look if not already found
+                                  
+                                        let refsBCV = refsArray[k].split(".");//removing the verse just match by book chap
+                                        let refsBC = refsBCV[0] + "." + refsBCV[1];
+
+                                        if (senderRefArrayStr.includes(refsBC)) {
+                                            bestWordToOpen = entries[i]["Entry"];
+                                            bestId = id;
+                                            //referenceFound = true;
+                                            referencesCount+=1;
+                                        }
+                                    
+                                }
+                                refsArray[k] = "<span class='osis'>" + refsArray[k] + "</span>";
+                            }
+                        }
+                        contents = refsArray.join(", ");
+                    }
+                    else if (entryProperties[j] === "Definition") {
+                        contents = tagRefsAndWords(contents, "<span class='osis'>", "</span>", "<span class='word'>", "</span>");
+                    }
+
+                    else if (entryProperties[j] === "Entry") {
+                        contents = "<span class='definition-entry'>" + contents + "</span>";
+                    }
+                    else if (entryProperties[j] === "Location") {
+                        contents = "<span class='definition-location'>" + contents + "</span>";
+                    }
+                    else if (
+                        (entryProperties[j] === "Father") ||
+                        (entryProperties[j] === "Children") ||
+                        (entryProperties[j] === "Siblings") ||
+                        (entryProperties[j] === "Mother") ||
+                        (entryProperties[j] === "Father") ||
+                        (entryProperties[j] === "Partners") ||
+                        (entryProperties[j] === "Half Siblings Same Mother") ||
+                        (entryProperties[j] === "Half Siblings Same Father")
+                    ) {
+
+                        let contentsSplit = contents.split(",");
+
+                        for (let k = 0; k < contentsSplit.length; k++) {
+                            contentsSplit[k] = "<span class='definition-relatives'>" + contentsSplit[k] + "</span>";
+                        }
+                        contents = contentsSplit.join(", ");
+                    }
+
+                }
+
+                // else{
+                //     contents="<span class='definition-relatives'>"+contents+"</span>";
+                // }
+                str += contents;
+
+                str += "<br>";
+            }
+            if (referencesCount>0){
+                    entriesMatching+=1;
+                }
+                console.log("entries matching",entriesMatching);
+            //str+=JSON.stringify(entries[i]);
+            str += "<br>";
+            str += "</div></div>";
+
+        }
+
+        dictionaryContents.innerHTML = str;
+
+
+        console.log(wordIndex);
+        addEventListenersToWords();
+        addEventListenersToPeople();
+        addEventListenersToReferences();
+        addEventListenersToNestedMenues();
+        if (evt.target.id === "dictionary-word-load") {
+            //dictionary-word-load button pressed, so leave open all words
+        }
+        else {
+            closeAllNests();
+        }
+
+        console.log(evt.target.parentElement.id);
+        console.log(evt.target.id);
+        if (entries.length === 1){
+            document.getElementById(bestId).style.display = "unset";
+        }
+        else if ((bestId !== "")&&(entriesMatching===1)) {
+            document.getElementById(bestId).style.display = "unset";
+        }
+
+        //"bible-contents"   "commentary-contents"
+        //if from bible, get bible osis ref
+        //if from commentary get commentary osis ref
+
+        //cycle through all the dictionary entries verses,
+        //if a match is found, open that entry and return
+
+        //if not from bible or commentary
+        //pass the references array
+        //go through entries
+        //go through
+        if (referenceFound === true) {
+            open
+        }
+    }
+
+
+    function showDictionaryEntryO3(evt) {
 
         dictionaryContents.innerHTML = "Parsing...";
         //alert("word input ",dictionaryInput.value);
@@ -266,20 +465,20 @@
         }
         let entries = eastons[wordIndex]["entries"];
 
-        let senderRefArray=[];
-        let referenceFound=false;
-        let bestWordToOpen="";
-        let bestId="";
-        if (evt.target.parentElement.id.indexOf("-refs-")!==-1){
+        let senderRefArray = [];
+        let referenceFound = false;
+        let bestWordToOpen = "";
+        let bestId = "";
+        if (evt.target.parentElement.id.indexOf("-refs-") !== -1) {
             console.log("here is the array from the id");
-            senderRefArray=evt.target.parentElement.id.split("-refs-")[1].split(",");
+            senderRefArray = evt.target.parentElement.id.split("-refs-")[1].split(",");
             console.log(senderRefArray);
         }
-                //"bible-contents"   "commentary-contents"
-        else if (evt.target.parentElement.id==="bible-contents"){
+        //"bible-contents"   "commentary-contents"
+        else if (evt.target.parentElement.id === "bible-contents") {
             senderRefArray.push(bibleSelect.value);
 
-        }else if (evt.target.parentElement.id==="commentary-comments"){
+        } else if (evt.target.parentElement.id === "commentary-comments") {
             senderRefArray.push(commentarySelect.value);
         }
 
@@ -289,8 +488,8 @@
 
         for (let i = 0; i < entries.length; i++) {
             let contents = "";
-            let id=entries[i]["Entry"].split(" ").join("-")+"-refs-"+entries[i]["References"];
-            str += "<div><span class='definition-entry nested-menu'>" + entries[i]["Entry"] + "</span><div id='"+id+"'>";
+            let id = entries[i]["Entry"].split(" ").join("-") + "-refs-" + entries[i]["References"];
+            str += "<div><span class='definition-entry nested-menu'>" + entries[i]["Entry"] + "</span><div id='" + id + "'>";
 
             let entryProperties = Object.keys(entries[i]);
             for (let j = 0; j < entryProperties.length; j++) {
@@ -305,17 +504,17 @@
                         let refsArray = contents.split(",");
 
                         for (let k = 0; k < refsArray.length; k++) {
-                            
-                            for (let l=0;l<senderRefArray.length;l++){
-                                let senderBCV=senderRefArray[l].split(".");
-                                let senderBC=senderBCV[0]+"."+senderBCV[1];
-                                let refsBCV=refsArray[k].split(".");
-                                let refsBC=refsBCV[0]+"."+refsBCV[1];
-                                if (senderBC===refsBC){
-                                    if (referenceFound===false){
-                                        bestWordToOpen=entries[i]["Entry"];
-                                        bestId=id;
-                                    referenceFound=true;
+
+                            for (let l = 0; l < senderRefArray.length; l++) {
+                                let senderBCV = senderRefArray[l].split(".");
+                                let senderBC = senderBCV[0] + "." + senderBCV[1];
+                                let refsBCV = refsArray[k].split(".");
+                                let refsBC = refsBCV[0] + "." + refsBCV[1];
+                                if (senderBC === refsBC) {
+                                    if (referenceFound === false) {
+                                        bestWordToOpen = entries[i]["Entry"];
+                                        bestId = id;
+                                        referenceFound = true;
                                     }
                                 }
                             }
@@ -325,8 +524,8 @@
                             //take note of the current entry, 
                             //later that will element will be toggled to open
                             refsArray[k] = "<span class='osis'>" + refsArray[k] + "</span>";
-                        
-                        
+
+
                         }
                         contents = refsArray.join(", ");
 
@@ -384,8 +583,8 @@
         addEventListenersToNestedMenues();
         closeAllNests();
         console.log(evt.target.parentElement.id);
-        if (bestId!==""){
-            document.getElementById(bestId).style.display="unset";
+        if (bestId !== "") {
+            document.getElementById(bestId).style.display = "unset";
         }
 
         //"bible-contents"   "commentary-contents"
@@ -399,36 +598,38 @@
         //pass the references array
         //go through entries
         //go through
-        if (referenceFound===true){
-            open
-        }
+        // if (referenceFound === true) {
+        //     open
+        // }
     }
 
+
+
     function addEventListenersToNestedMenues() {
-        let nestedMenues=document.getElementsByClassName("nested-menu");
+        let nestedMenues = document.getElementsByClassName("nested-menu");
         for (let nestedmenu of nestedMenues) {
             nestedmenu.addEventListener("click", (evt) => { toggleNest(evt) });
         }
     }
 
-    function closeAllNests(){
+    function closeAllNests() {
         console.log("close all Nests called");
-        let nestedMenues=document.getElementsByClassName("nested-menu");
-        
-        for (let nestedMenu of nestedMenues){
+        let nestedMenues = document.getElementsByClassName("nested-menu");
+
+        for (let nestedMenu of nestedMenues) {
             let siblings = nestedMenu.parentElement.children;
-        for (let sibling of siblings) {
-            if (sibling === nestedMenu) {
-                //alert("found self!");
-            } else {
-                // if (sibling.style.display === "none") {
-                //     sibling.style.display = "inherit";
-                // } else 
-                {
-                    sibling.style.display = "none";
+            for (let sibling of siblings) {
+                if (sibling === nestedMenu) {
+                    //alert("found self!");
+                } else {
+                    // if (sibling.style.display === "none") {
+                    //     sibling.style.display = "inherit";
+                    // } else 
+                    {
+                        sibling.style.display = "none";
+                    }
                 }
             }
-        }
 
         }
 
