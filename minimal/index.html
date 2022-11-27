@@ -11,11 +11,6 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
-        pre {
-            white-space: pre-wrap;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
         #main-container {
             display: flex;
             flex-direction: row;
@@ -52,6 +47,22 @@
         .definition-relatives:hover {
             background-color: green;
         }
+
+        #ascii-map {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 4px;
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+            line-height: 1;
+        }
+
+        /* pre {
+            display: inline-block;
+            font-family: 'Courier New', 'monospace';
+            font-size: 8px;
+            line-height: 1;
+        } */
     </style>
 </head>
 
@@ -79,7 +90,12 @@
         <main id="locations">
             <nav><button>1</button><button>2</button><button>3</button><button>etc</button></nav>
             <div id="map-info">info goes here</div>
-            <div id="map=container">Map goes here</div>
+            <span id="off-map-list"></span>
+            <div id="map-container">
+                <pre id="ascii-map"></pre>
+            </div>
+
+
         </main>
     </div>
 
@@ -89,6 +105,8 @@
 <script src="eastonsBasicNoTags.js"></script>
 <script src="jfbVeryBest.js"></script>
 <script src="constants.js"></script>
+<script src="baseMap.js"></script>
+<!-- <script src="mapStuff.js"></script> -->
 <!-- constants.js contains OSISBOOKS, OSISTOFULLNAME, HEADINGS, PARAGRAPHLOCATIONS -->
 
 <script>
@@ -101,6 +119,12 @@
     let dictionaryContents = document.getElementById("dictionary-contents");
     let seeCommentaryButton = document.getElementById("see-commentary-button");
     let dictionaryWordLoadButton = document.getElementById("dictionary-word-load");
+    let asciiMap = document.getElementById("ascii-map");
+
+    //load map set size of map
+    asciiMap.innerHTML = BASEMAP;
+    setSizeOfAsciiMap(320);//sets to 320px
+
 
     //Generate the keys to the JFB Commentary
     //-----------------------------------------------
@@ -262,6 +286,8 @@
             let baseName = evt.target.innerHTML.replace(/\d/g, "").trim();
             dictionaryInput.value = baseName;
         }
+
+        if (dictionaryInput.value.length < 1) { return; }// make sure a string length of at least 1 is present
 
         ///Make sure its capitalized
         dictionaryInput.value = dictionaryInput.value[0].toUpperCase() + dictionaryInput.value.slice(1);
@@ -480,5 +506,35 @@
             }
         }
     }
+
+    //computes the size of the map, and keeps reducing the size until under the specified width
+    function setSizeOfAsciiMap(pixelWidth) {
+        //pixelWidth = 100; //target width
+        asciiMap.style.fontSize = "20px";
+        let floatFontSize = 20;
+
+        let myWidth =
+            window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.body.clientWidth;
+        console.log(myWidth);
+        // if (myWidth > 960) {
+        //     pixelWidth = 480; //matches breakpoints for tablet
+        // }
+
+        console.log(asciiMap.offsetWidth); //the width of ascii map
+        while (asciiMap.offsetWidth >= pixelWidth) {
+            //map to big, above target
+            floatFontSize = parseFloat(asciiMap.style.fontSize.slice(0, -2));
+            console.log(asciiMap.offsetWidth, floatFontSize);
+            floatFontSize = floatFontSize - 0.5;
+            asciiMap.style.fontSize = floatFontSize + "px"; //reduce map font size
+            if (floatFontSize <= 0.5) {
+                //minimum font size;
+                break;
+            }
+        }
+    }
 </script>
+
 </html>
