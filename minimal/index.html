@@ -11,6 +11,21 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        ol,
+        ul {
+            margin: 0;
+            padding: 0;
+            /* font-weight: normal; */
+        }
+
         #main-container {
             display: flex;
             flex-direction: row;
@@ -48,6 +63,12 @@
             background-color: green;
         }
 
+        #map-container {
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
         #ascii-map {
             font-family: 'Courier New', Courier, monospace;
             font-size: 4px;
@@ -57,12 +78,74 @@
             line-height: 1;
         }
 
-        /* pre {
-            display: inline-block;
-            font-family: 'Courier New', 'monospace';
-            font-size: 8px;
-            line-height: 1;
+        .bullseye {
+            font-size: 1em;
+            font-family: 'Courier New', Courier, monospace;
+            position: absolute;
+            transform: translate(-0.5em, -0.5em);
+            /* transform: translateX(-50%);
+            transform: translateY(-50%); */
+        }
+
+        /* .bulls-eye {
+            color: blue;
+            transform: translateX(-50%);
+            transform: translateY(-50%);
+            background-color: rgba(255, 250, 250, 0.4);
         } */
+
+        .set-1-datapoint,
+        .set-2-datapoint,
+        .set-3-datapoint,
+        .set-4-datapoint {
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            transform: translate(-0.5rem, -0.5rem);
+            color: rgb(0, 0, 0);
+            font-size: 12px;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        #reading-plan-table {
+            font-size: .7em;
+            border-spacing: 0px;
+            /* border-collapse: collapse; */
+            margin: 0;
+            width: 320px;
+            padding: 0;
+            table-layout: fixed;
+            /* overflow-x: scroll; */
+            /* box-sizing: border-box; */
+        }
+
+        #reading-plan-table td {
+            /* border: 1px solid black; */
+            margin: 0;
+            padding: 0;
+            vertical-align: top;
+            word-wrap: break-word;
+            /* overflow: auto;
+            word-wrap: break-word; */
+        }
+
+        #reading-plan-table tr:nth-child(even) {
+            background-color: lightblue;
+        }
+
+        #reading-plan-table tr:nth-child(odd) {
+            background-color: lightgrey;
+        }
+
+        /* ol,
+ul {
+    list-style: none;
+} */
+        #reading-plan-table ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
     </style>
 </head>
 
@@ -71,6 +154,18 @@
             List</button><button>Bible</button><button>Dictionary</button><button>Commentary</button><button>Map</button><button>Help</button>
     </nav>
     <div id="main-container">
+        <main id="reading">
+            <nav>
+                <button onclick="loadReadingProgress();">
+                    Load Progress&#128194;
+                </button>
+                <button onclick="saveReadingProgress();">Save&#128193;</button>
+                <button onclick="toggleReadingDates();">&#128260;Dates</button>
+                <button onclick="switchReadingPlans();">Switch</button>
+            </nav>
+            <h3 id="reading-plan-name"></h3>
+            <table id="reading-plan-table"></table>
+        </main>
         <main id="bible">
             <nav><select id="bible-select"></select><button id="see-commentary-button">See Commentary</button></nav>
             <div id="bible-contents"></div>
@@ -106,11 +201,14 @@
 <script src="jfbVeryBest.js"></script>
 <script src="constants.js"></script>
 <script src="baseMap.js"></script>
+<script src="readingStuff.js"></script>
+<script src="readingPlans.js"></script>
 <!-- <script src="mapStuff.js"></script> -->
 <!-- constants.js contains OSISBOOKS, OSISTOFULLNAME, HEADINGS, PARAGRAPHLOCATIONS -->
 
 <script>
     //Name important global elements
+    let readingPlanTable = document.getElementById("reading-plan-table");
     let bibleSelect = document.getElementById("bible-select");
     let bibleContents = document.getElementById("bible-contents");
     let commentarySelect = document.getElementById("commentary-select");
@@ -181,6 +279,40 @@
     document.getElementById("bible-words").innerHTML = str;
     //----------------------------------------------
 
+    window.onbeforeunload = askConfirm;
+
+    function askConfirm() {
+        return "Close?";
+    }
+
+
+    let showDates = false;
+    loadReadingTable("Chronological", ChronologicalReadingPlan);
+    function loadReadingTable(title, readingPlanObject) {
+        readingPlanTable.innerHTML = makeReadingTable(readingPlanObject);
+        document.getElementById("reading-plan-name").innerHTML = title;
+        showDates = false;
+        addEventListenersToReferences();
+    }
+
+    function switchReadingPlans() {
+        // if (true){
+        if (confirm("Are you sure?\nPlease save any reading plan data before switchinig.")) {
+            console.log("run switching mechanism");
+            console.log(document.getElementById("reading-plan-name").innerHTML);
+            if (document.getElementById("reading-plan-name").innerHTML === "Old Testament/New Testament") {
+                loadReadingTable("Straight Through", StraightReadingPlan);
+            }
+            else if (document.getElementById("reading-plan-name").innerHTML === "Chronological") {
+                loadReadingTable("Old Testament/New Testament", OTNTReadingPlan);
+            }
+            else {
+                loadReadingTable("Chronological", ChronologicalReadingPlan);
+            }
+        }
+    }
+
+
     //Add event listeners to the Bible Selectn process
     bibleSelect.addEventListener("input", showBibleChapter);
     seeCommentaryButton.addEventListener("click", processSeeCommentaryBtn);
@@ -188,11 +320,11 @@
     commentarySelect.addEventListener("input", showCommentaryChapter);
 
     //load initial settings
-    bibleSelect.value="John.3";
+    bibleSelect.value = "John.3";
     showBibleChapter();
-    dictionaryInput.value="Jesus";
+    dictionaryInput.value = "Salem";
     dictionaryWordLoadButton.click();
-    commentarySelect.value="John.3";
+    commentarySelect.value = "John.3";
     showCommentaryChapter();
 
 
@@ -221,6 +353,10 @@
     function processLocationClick(evt) {
         console.log(evt.target.innerHTML);
         document.getElementById("map-info").innerHTML = evt.target.innerHTML;
+        let str = "o" + evt.target.parentElement.id.split("-refs-")[0];
+        let latitude = evt.target.innerHTML.split(",")[0];
+        let longitude = evt.target.innerHTML.split(",")[1];
+        plotDataPoint(str, latitude, longitude);
     }
     //------------------------------------
     function addEventListenersToWords() {//these are tagged words in the Bible, Commentary, or dictionary
@@ -542,6 +678,51 @@
                 break;
             }
         }
+    }
+    function getYFromLatitude(latitude) {
+        //y=mx+b;
+        //yLocation=mLat*latitude+bLat
+        //latitude starts at 34 and goes to 29
+
+        let topLatitude = 34.0;
+        let bottomLatitude = 29.0;
+        //let bottomPixel = 745;
+        let bottomPixel = asciiMap.offsetHeight;
+        console.log("height " + bottomPixel);
+        let topPixel = 0;
+
+        let mLat = (bottomPixel - topPixel) / (bottomLatitude - topLatitude);
+        let bLat = bottomPixel - mLat * bottomLatitude;
+        let yLocation = mLat * latitude + bLat;
+        return yLocation;
+    }
+
+    function getXLocationFromLongitude(longitude) {
+        //y=mx+b;
+        //xLocation=mLong*longitude+bLong
+        //longitude starts at 33.5 and ends at 36.5
+
+        let leftLongitude = 33.5;
+        let rightLongitude = 36.5;
+        let leftPixel = 0;
+        //let rightPixel = 800;
+        let rightPixel = asciiMap.offsetWidth;
+        console.log("width " + rightPixel);
+
+        let mLong = (rightPixel - leftPixel) / (rightLongitude - leftLongitude);
+        let bLong = rightPixel - mLong * rightLongitude;
+        return mLong * longitude + bLong;
+    }
+
+    function plotDataPoint(str, latitude, longitude) {
+        let mapContainer = document.getElementById("map-container");
+        let bullseye = document.createElement("span");
+        bullseye.innerText = str;
+        bullseye.style.position = "absolute";
+        bullseye.classList.add("bullseye");
+        bullseye.style.left = getXLocationFromLongitude(longitude).toString() + "px";
+        bullseye.style.top = getYFromLatitude(latitude).toString() + "px";
+        mapContainer.appendChild(bullseye);
     }
 </script>
 
