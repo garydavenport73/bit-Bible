@@ -2,6 +2,25 @@ html,
 button {
     font-family: Arial, Helvetica, sans-serif;
     font-family: 'Courier New', Courier, monospace;
+    background-color: aliceblue;
+}
+button{
+    border:1px solid grey;
+    background-color:snow;
+    height: 30px;
+}
+nav{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: rgb(68, 180, 255);
+    background-color: snow;
+    background-color: aliceblue;
+    }
+
+h3 span.word, h2 span.word{
+    background-color: rgb(0,124,207);
+    color:snow;
 }
 
 body,
@@ -27,11 +46,24 @@ ul {
 
 main {
     width: 320px;
-    /* background-color: lightblue; */
+   background-color: snow;
     min-height: 450px;
     display: none;
     /* margin-left: auto;
     margin-right: auto; */
+}
+
+
+/* button{
+display: inline-block;
+vertical-align: middle;
+
+} */
+h1,h2,h3{
+    background-color: rgb(0,124,207);
+    color:snow;
+    padding: 5px;
+
 }
 
 .word {
@@ -54,12 +86,18 @@ main {
     background-color: pink;
 }
 
+.word, .osis, .definition-entry, .definition-location, .definition-relatives{
+    background-color: rgb(240, 240, 255);
+}
+
+button:hover,
 .word:hover,
 .osis:hover,
 .definition-entry:hover,
 .definition-location:hover,
 .definition-relatives:hover {
-    background-color: green;
+    background-color: blue;
+    color:snow;
 }
 
 #map-container {

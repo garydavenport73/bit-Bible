@@ -8,7 +8,17 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <style>
- 
+        #courier-button {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        #sans-button {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #times-button {
+            font-family: 'Times New Roman', Times, serif;
+        }
     </style>
 </head>
 
@@ -23,6 +33,9 @@
         <button onclick="showMain('help');">Help</button>
         <button><input type="checkbox" id="show-all-checkbox" onchange="processShowAllCheckBox();">
             <label id="label-for-show-all-checkbox" for="show-all-checkbox">Show All</label></button>
+        <button id="courier-button" onclick="changeFont(this);">A</button>
+        <button id="sans-button" onclick="changeFont(this);">A</button>
+        <button id="times-button" onclick="changeFont(this);">A</button>
     </nav>
     <div id="main-container">
         <main id="reading">
@@ -40,7 +53,7 @@
         </main>
         <main id="bible">
             <h2>Bible</h2>
-            <nav><select id="bible-select"></select><button id="see-commentary-button">See Commentary</button></nav>
+            <nav><select id="bible-select"></select><button id="see-commentary-button">See Commentary</button><button id="audio">🔊</button></nav>
             <div id="bible-contents"></div>
         </main>
         <main id="dictionary">
@@ -95,36 +108,76 @@
 <script src="baseMap.js"></script>
 <script src="readingStuff.js"></script>
 <script src="readingPlans.js"></script>
+<script src="audio.js"></script>
 <!-- <script src="mapStuff.js"></script> -->
 <!-- constants.js contains OSISBOOKS, OSISTOFULLNAME, HEADINGS, PARAGRAPHLOCATIONS -->
 
 <script>
 
-    function processShowAllCheckBox(){
-        let thisCheckBox=document.getElementById("show-all-checkbox");
-        if(thisCheckBox.checked){
-            let mains=document.getElementsByTagName("main");
-        for (let main of mains){
-            main.style.display="block"; 
+    function changeFont(theElement){
+        let buttons=document.getElementsByTagName('button');
+        let id=theElement.id;
+        if(id==="sans-button"){
+            document.getElementsByTagName('html')[0].style.fontFamily="Arial, Helvetica, sans-serif";
+            for (let button of buttons){
+                button.style.fontFamily="Arial, Helvetica, sans-serif";
+                button.style.borderRadius="0.7rem";
+            }
+        }
+        else if(id==="times-button"){
+            document.getElementsByTagName('html')[0].style.fontFamily="'Times New Roman', Times, serif";
+            for (let button of buttons){
+                button.style.fontFamily="'Times New Roman', Times, serif";
+                button.style.borderRadius="0.35rem";
+            }
+        }
+        else{
+            document.getElementsByTagName('html')[0].style.fontFamily="'Courier New', Courier, monospace";
+            for (let button of buttons){
+                button.style.fontFamily="'Courier New', Courier, monospace";
+                button.style.borderRadius="0rem";
+            }        
+        }
+        /*
+        #courier-button {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        #sans-button {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #times-button {
+            font-family: 'Times New Roman', Times, serif;
+        }
+        */
+    }
+
+    function processShowAllCheckBox() {
+        let thisCheckBox = document.getElementById("show-all-checkbox");
+        if (thisCheckBox.checked) {
+            let mains = document.getElementsByTagName("main");
+            for (let main of mains) {
+                main.style.display = "block";
             }
             setSizeOfAsciiMap(320);
         }
-        else{
+        else {
             showMain("bible");
         }
 
     }
-    function showMain(id){
-        if(document.getElementById("show-all-checkbox").checked===true){
+    function showMain(id) {
+        if (document.getElementById("show-all-checkbox").checked === true) {
             return;
         }
-        let mains=document.getElementsByTagName("main");
-        for (let main of mains){
-            if (main.id===id){
-                main.style.display="block";
+        let mains = document.getElementsByTagName("main");
+        for (let main of mains) {
+            if (main.id === id) {
+                main.style.display = "block";
             }
-            else{
-                main.style.display="none";
+            else {
+                main.style.display = "none";
             }
         }
     }
@@ -251,6 +304,7 @@
 
 
     function processSeeCommentaryBtn() {
+        showMain('commentary');
         commentarySelect.value = bibleSelect.value;
         showCommentaryChapter();
     }
@@ -263,6 +317,7 @@
         }
     }
     function processPeopleClick(evt) {
+        showMain('dictionary');
         showDictionaryEntry(evt);
     }
     //------------------------------------
@@ -273,6 +328,7 @@
         }
     }
     function processLocationClick(evt) {
+        showMain('map');
         console.log(evt.target.innerHTML);
         let str = evt.target.parentElement.id.split("-refs-")[0];
         let latitude = evt.target.innerHTML.split(",")[0];
@@ -303,6 +359,7 @@
         }
     }
     function processWordClick(evt) {
+        showMain('dictionary');
         dictionaryInput.value = evt.target.innerHTML;
         showDictionaryEntry(evt);
     }
@@ -314,6 +371,7 @@
         }
     }
     function processOsisRefClick(evt) {
+        showMain('bible');
         console.log("processOsisRefClick called: " + evt.target.innerHTML);
         bibleSelect.value = evt.target.innerHTML.split(".")[0] + "." + evt.target.innerHTML.split(".")[1];
         showBibleChapter();
@@ -768,6 +826,8 @@
             window.open(url);
         }
     }
+
+
 </script>
 
 </html>
