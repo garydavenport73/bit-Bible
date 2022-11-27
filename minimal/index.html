@@ -6,155 +6,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        html {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        body,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        p,
-        ol,
-        ul {
-            margin: 0;
-            padding: 0;
-            /* font-weight: normal; */
-        }
-
-        #main-container {
-            display: flex;
-            flex-direction: row;
-        }
-
-        main {
-            width: 320px;
-        }
-
-        .word {
-            background-color: lightblue;
-        }
-
-        .osis {
-            background-color: lightcoral;
-        }
-
-        .definition-entry {
-            background-color: orange;
-        }
-
-        .definition-location {
-            background-color: yellow;
-        }
-
-        .definition-relatives {
-            background-color: pink;
-        }
-
-        .word:hover,
-        .osis:hover,
-        .definition-entry:hover,
-        .definition-location:hover,
-        .definition-relatives:hover {
-            background-color: green;
-        }
-
-        #map-container {
-            margin: 0;
-            padding: 0;
-            position: relative;
-        }
-
-        #ascii-map {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 4px;
-            margin: 0;
-            padding: 0;
-            display: inline-block;
-            line-height: 1;
-        }
-
-        .bullseye {
-            font-size: 1em;
-            font-family: 'Courier New', Courier, monospace;
-            position: absolute;
-            transform: translate(-0.5em, -0.5em);
-            /* transform: translateX(-50%);
-            transform: translateY(-50%); */
-        }
-
-        /* .bulls-eye {
-            color: blue;
-            transform: translateX(-50%);
-            transform: translateY(-50%);
-            background-color: rgba(255, 250, 250, 0.4);
-        } */
-
-        .set-1-datapoint,
-        .set-2-datapoint,
-        .set-3-datapoint,
-        .set-4-datapoint {
-            position: absolute;
-            margin: 0;
-            padding: 0;
-            transform: translate(-0.5rem, -0.5rem);
-            color: rgb(0, 0, 0);
-            font-size: 12px;
-            background-color: rgba(255, 255, 255, 0.5);
-        }
-
-        #reading-plan-table {
-            font-size: .7em;
-            border-spacing: 0px;
-            /* border-collapse: collapse; */
-            margin: 0;
-            width: 320px;
-            padding: 0;
-            table-layout: fixed;
-            /* overflow-x: scroll; */
-            /* box-sizing: border-box; */
-        }
-
-        #reading-plan-table td {
-            /* border: 1px solid black; */
-            margin: 0;
-            padding: 0;
-            vertical-align: top;
-            word-wrap: break-word;
-            /* overflow: auto;
-            word-wrap: break-word; */
-        }
-
-        #reading-plan-table tr:nth-child(even) {
-            background-color: lightblue;
-        }
-
-        #reading-plan-table tr:nth-child(odd) {
-            background-color: lightgrey;
-        }
-
-        /* ol,
-ul {
-    list-style: none;
-} */
-        #reading-plan-table ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
+ 
     </style>
 </head>
 
 <body>
-    <nav><button>Reading
-            List</button><button>Bible</button><button>Dictionary</button><button>Commentary</button><button>Map</button><button>Help</button>
+    <h1>bitBible<sub>(complete)</sub></h1>
+    <nav>
+        <button onclick="showMain('reading');">Reading List</button>
+        <button onclick="showMain('bible');">Bible</button>
+        <button onclick="showMain('dictionary');">Dictionary</button>
+        <button onclick="showMain('commentary');">Commentary</button>
+        <button onclick="showMain('map');setSizeOfAsciiMap(320)">Map</button>
+        <button onclick="showMain('help');">Help</button>
+        <button><input type="checkbox" id="show-all-checkbox" onchange="processShowAllCheckBox();">
+            <label id="label-for-show-all-checkbox" for="show-all-checkbox">Show All</label></button>
     </nav>
     <div id="main-container">
         <main id="reading">
+            <h2>Reading Plan:</h2>
             <nav>
                 <button onclick="loadReadingProgress();">
                     Load Progress&#128194;
@@ -167,10 +39,12 @@ ul {
             <table id="reading-plan-table"></table>
         </main>
         <main id="bible">
+            <h2>Bible</h2>
             <nav><select id="bible-select"></select><button id="see-commentary-button">See Commentary</button></nav>
             <div id="bible-contents"></div>
         </main>
         <main id="dictionary">
+            <h2>Dictionary</h2>
             <nav> <input type="search" id="dictionary-input" list="bible-words">
                 <button id="dictionary-word-load">🔎</button>
                 <datalist id="bible-words"></datalist>
@@ -178,19 +52,37 @@ ul {
             <div id="dictionary-contents"></div>
         </main>
         <main id="commentary">
+            <h2>Commentary</h2>
             <nav> <select id="commentary-select"></select></nav>
             <div id="commentary-contents"></div>
         </main>
         <datalist id="bible-words"></datalist>
-        <main id="locations">
-            <nav><button>1</button><button>2</button><button>3</button><button>etc</button></nav>
+        <main id="map">
+            <h2>Map</h2>
+            <nav>
+                <button class="btn-select-map" id="map-Abraham">&#9398;</button>
+                <button class="btn-select-map" id="map-Moses">&#9410;</button>
+                <button class="btn-select-map" id="map-12 Tribes">&#9323;</button>
+                <button class="btn-select-map" id="map-Divided Kingdoms">&#10208;</button>
+                <button class="btn-select-map" id="map-Jesus">&#9407;</button>
+                <button onclick="clearBullsEyes();clearBackgroundLocations();">&#8999;</button>
+                <button onclick="openGoogleMap()">&#127760;</button>
+            </nav>
+            <div id="map-name">map name goes here</div>
             <div id="map-info">info goes here</div>
-            <span id="off-map-list"></span>
             <div id="map-container">
                 <pre id="ascii-map"></pre>
             </div>
-
-
+        </main>
+        <main id="help">
+            <h2>Help</h2>
+            <nav>
+                <button>1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>etc...</button>
+            </nav>
+            <p>Help will go here.</p>
         </main>
     </div>
 
@@ -207,6 +99,35 @@ ul {
 <!-- constants.js contains OSISBOOKS, OSISTOFULLNAME, HEADINGS, PARAGRAPHLOCATIONS -->
 
 <script>
+
+    function processShowAllCheckBox(){
+        let thisCheckBox=document.getElementById("show-all-checkbox");
+        if(thisCheckBox.checked){
+            let mains=document.getElementsByTagName("main");
+        for (let main of mains){
+            main.style.display="block"; 
+            }
+            setSizeOfAsciiMap(320);
+        }
+        else{
+            showMain("bible");
+        }
+
+    }
+    function showMain(id){
+        if(document.getElementById("show-all-checkbox").checked===true){
+            return;
+        }
+        let mains=document.getElementsByTagName("main");
+        for (let main of mains){
+            if (main.id===id){
+                main.style.display="block";
+            }
+            else{
+                main.style.display="none";
+            }
+        }
+    }
     //Name important global elements
     let readingPlanTable = document.getElementById("reading-plan-table");
     let bibleSelect = document.getElementById("bible-select");
@@ -326,6 +247,7 @@ ul {
     dictionaryWordLoadButton.click();
     commentarySelect.value = "John.3";
     showCommentaryChapter();
+    showMain('bible');
 
 
     function processSeeCommentaryBtn() {
@@ -352,11 +274,26 @@ ul {
     }
     function processLocationClick(evt) {
         console.log(evt.target.innerHTML);
-        document.getElementById("map-info").innerHTML = evt.target.innerHTML;
-        let str = "o" + evt.target.parentElement.id.split("-refs-")[0];
+        let str = evt.target.parentElement.id.split("-refs-")[0];
         let latitude = evt.target.innerHTML.split(",")[0];
         let longitude = evt.target.innerHTML.split(",")[1];
-        plotDataPoint(str, latitude, longitude);
+        if (locationOffMap(latitude, longitude)) {
+            document.getElementById("map-info").innerHTML = "(off map)" + str + ": " + evt.target.innerHTML;
+        }
+        else {
+            document.getElementById("map-info").innerHTML = str + ": " + evt.target.innerHTML;
+            plotDataPoint("o" + str, latitude, longitude);
+        }
+    }
+
+    function locationOffMap(latitude, longitude) {
+        let xLocation = getXLocationFromLongitude(longitude);
+        let yLocation = getYFromLatitude(latitude);
+        if ((xLocation < 0) || (xLocation > asciiMap.offsetWidth) || (yLocation < 0) || (yLocation > asciiMap.offsetHeight)) {
+            return true;
+        } else {
+            return false;
+        }
     }
     //------------------------------------
     function addEventListenersToWords() {//these are tagged words in the Bible, Commentary, or dictionary
@@ -714,15 +651,122 @@ ul {
         return mLong * longitude + bLong;
     }
 
-    function plotDataPoint(str, latitude, longitude) {
-        let mapContainer = document.getElementById("map-container");
-        let bullseye = document.createElement("span");
-        bullseye.innerText = str;
-        bullseye.style.position = "absolute";
-        bullseye.classList.add("bullseye");
-        bullseye.style.left = getXLocationFromLongitude(longitude).toString() + "px";
-        bullseye.style.top = getYFromLatitude(latitude).toString() + "px";
-        mapContainer.appendChild(bullseye);
+    function plotDataPoint(str, latitude, longitude, className = "bullseye") {
+        let xLocation = getXLocationFromLongitude(longitude);
+        let yLocation = getYFromLatitude(latitude);
+        if ((xLocation < 0) || (xLocation > asciiMap.offsetWidth) || (yLocation < 0) || (yLocation > asciiMap.offsetHeight)) {
+            //plot nothing, it is off map
+        }
+        else {
+            let mapContainer = document.getElementById("map-container");
+            let bullseye = document.createElement("span");
+            bullseye.innerText = str;
+            bullseye.style.position = "absolute";
+            bullseye.classList.add(className);
+            bullseye.style.left = xLocation + "px";
+            bullseye.style.top = yLocation + "px";
+            mapContainer.appendChild(bullseye);
+        }
+    }
+
+
+    function clearBullsEyes() {
+        let bullsEyes = document.getElementsByClassName("bullseye");
+        for (let i = bullsEyes.length - 1; i >= 0; i--) {
+            bullsEyes[i].remove();
+        }
+        document.getElementById("map-info").innerHTML = "&nbsp;";
+        //document.getElementById("off-map-list").innerHTML="";
+    }
+    function clearBackgroundLocations() {
+        let backgroundLocations = document.getElementsByClassName("background-location");
+        for (let i = backgroundLocations.length - 1; i >= 0; i--) {
+            backgroundLocations[i].remove();
+        }
+        document.getElementById("map-name").innerHTML = "&nbsp;";
+        //document.getElementById("off-map-list").innerHTML="";
+    }
+
+
+    let buttonSelectMaps = document.getElementsByClassName("btn-select-map");
+    console.log(buttonSelectMaps);
+    for (let button of buttonSelectMaps) {
+        button.addEventListener("click", addBackgroundLocations);
+    }
+    function addBackgroundLocations(evt) {
+        clearBackgroundLocations();
+        let mapName = evt.target.id.split("map-")[1];
+        console.log(mapName);
+        document.getElementById("map-name").innerHTML = mapName;
+
+
+        if (evt.target.id === "map-Abraham") {
+            plotDataPoint("o Canaan", "31.6935295036883", "34.8438828857684", "background-location");
+            plotDataPoint("o Ur", "30.9625", "46.103056", "background-location");
+            plotDataPoint("o Haran", "36.86", "39.03139", "background-location");
+            plotDataPoint("o Damascus", "33.511612", "36.309102", "background-location");
+            plotDataPoint("o Shechem", "32.22111", "35.25444", "background-location");
+            plotDataPoint("o Bethel", "31.93053921", "35.22103275", "background-location");
+            plotDataPoint("o Dan", "33.24856", "35.65252", "background-location");
+            // plotDataPoint("o Hobah","33.5","36.466667","background-location");
+            plotDataPoint("o Salem", "31.777444", "35.234935", "background-location");
+            plotDataPoint("o Gerar", "31.38176", "34.60698", "background-location");
+            plotDataPoint("o Beersheba", "31.245", "34.84068", "background-location");
+            plotDataPoint("o Egypt", "31.032047", "33.854957", "background-location");
+        } else if (evt.target.id === "map-Moses") {
+            plotDataPoint("o Sinai", "29.5", "34", "background-location");
+            plotDataPoint("o Zin", "31.6935295036883", "34.8438828857684", "background-location");
+            plotDataPoint("o Elim", "29.306194", "32.980924", "background-location");
+            plotDataPoint("o Beer", "30.998062", "35.498547", "background-location");
+            plotDataPoint("o Marah", "29.35", "32.933333", "background-location");
+            plotDataPoint("o Red Sea", "19", "39.5", "background-location");
+            plotDataPoint("o Wilderness of Sin", "28.838778", "33.420573", "background-location");
+        } else if (evt.target.id === "map-12 Tribes") {
+            plotDataPoint("o Kedesh", "32.559061", "35.246206", "background-location");
+            plotDataPoint("o Golan", "32.80007553", "35.9373013", "background-location");
+            plotDataPoint("o Ramoth", "32.049953", "35.733402", "background-location");
+            plotDataPoint("o Bezer", "32.51613741", "36.48829076", "background-location");
+            plotDataPoint("o Hebron", "31.524354", "35.108539", "background-location");
+            plotDataPoint("o Shechem", "32.22111", "35.25444", "background-location");
+            plotDataPoint("o Damascus", "33.511612", "36.309102", "background-location");
+            plotDataPoint("o Ammon", "31.95522", "35.94503", "background-location");
+            plotDataPoint("o Jerusalem", "31.777444", "35.234935", "background-location");
+            plotDataPoint("o Samaria", "32.280231", "35.197929", "background-location");
+        } else if (evt.target.id === "map-Divided Kingdoms") {
+            plotDataPoint("o Shechem", "32.22111", "35.25444", "background-location");
+            plotDataPoint("o Samaria", "32.280231", "35.197929", "background-location");
+            plotDataPoint("o Jerusalem", "31.777444", "35.234935", "background-location");
+            plotDataPoint("o Hebron", "31.524354", "35.108539", "background-location");
+            plotDataPoint("o Gaza", "31.503959", "34.46203", "background-location");
+            plotDataPoint("o Gerar", "31.38176", "34.60698", "background-location");
+            plotDataPoint("o Damascus", "33.511612", "36.309102", "background-location");
+            plotDataPoint("o Jezreel", "32.502074", "35.50196", "background-location");
+        } else if (evt.target.id === "map-Jesus") {
+            plotDataPoint("o Bethlehem", "31.70431", "35.20746", "background-location");
+            plotDataPoint("o Damascus", "33.511612", "36.309102", "background-location");
+            plotDataPoint("o Phillipi", "41.01316", "24.28409", "background-location");
+            plotDataPoint("o Nazareth", "32.701029", "35.300148", "background-location");
+            plotDataPoint("o Jezreel", "32.502074", "35.50196", "background-location");
+            plotDataPoint("o Samaria", "32.280231", "35.197929", "background-location");
+            plotDataPoint("o Sea Galilee", "32.8138046", "35.590564", "background-location");
+            plotDataPoint("o Dead Sea", "31.577850349495", "35.52394311", "background-location");
+            plotDataPoint("o Mt. Ebal", "31.79819", "35.80986", "background-location");
+            plotDataPoint("o Jerusalem", "31.777444", "35.234935", "background-location");
+            plotDataPoint("o Hebron", "31.524354", "35.108539", "background-location");
+            plotDataPoint("o Carmel", "31.422876", "35.132952", "background-location");
+            plotDataPoint("o Gaza", "31.503959", "34.46203", "background-location");
+            plotDataPoint("o Bethel", "31.93053921", "35.22103275", "background-location");
+        }
+    }
+
+    function openGoogleMap() {
+        let location = document.getElementById("map-info").innerText.split(": ")[1];
+        console.log(location);
+        if ((location !== undefined) && (location.indexOf("undefined") === -1)) {
+            let url = "http://maps.google.com/maps?q=" + location;
+            console.log("opening: " + url);
+            window.open(url);
+        }
     }
 </script>
 
