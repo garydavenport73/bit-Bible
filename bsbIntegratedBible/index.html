@@ -25,17 +25,21 @@
 <body>
     <h1>bitBible<sub>(complete)</sub></h1>
     <nav>
-        <button onclick="showMain('reading');">Reading List</button>
-        <button onclick="showMain('bible');">Bible</button>
-        <button onclick="showMain('dictionary');">Dictionary</button>
-        <button onclick="showMain('commentary');">Commentary</button>
-        <button onclick="showMain('map');setSizeOfAsciiMap(320)">Map</button>
-        <button onclick="showMain('help');">Help</button>
+        <button onclick="showMain('reading');">📅</button>
+        <button onclick="showMain('bible');">📖</button>
+        <button onclick="showMain('dictionary');">📘</button>
+        <button onclick="showMain('commentary');">💬</button>
+        <button onclick="showMain('map');setSizeOfAsciiMap(320)">🌍</button>
+        <button onclick="showMain('help');">?</button>
+        </nav>
+        <nav>
+        <button id="courier-button" onclick="changeFont(this);">C</button>
+        <button id="sans-button" onclick="changeFont(this);">S</button>
+        <button id="times-button" onclick="changeFont(this);">T</button>
+        <button id="decrease-font" onclick="changeFont(this);">-</button>
+        <button id="increase-font" onclick="changeFont(this);">+</button>
         <button><input type="checkbox" id="show-all-checkbox" onchange="processShowAllCheckBox();">
-            <label id="label-for-show-all-checkbox" for="show-all-checkbox">Show All</label></button>
-        <button id="courier-button" onclick="changeFont(this);">A</button>
-        <button id="sans-button" onclick="changeFont(this);">A</button>
-        <button id="times-button" onclick="changeFont(this);">A</button>
+            <label id="label-for-show-all-checkbox" for="show-all-checkbox">All</label></button>
     </nav>
     <div id="main-container">
         <main id="reading">
@@ -81,8 +85,8 @@
                 <button onclick="clearBullsEyes();clearBackgroundLocations();">&#8999;</button>
                 <button onclick="openGoogleMap()">&#127760;</button>
             </nav>
-            <div id="map-name">map name goes here</div>
-            <div id="map-info">info goes here</div>
+            <div id="map-name">&nbsp;</div>
+            <div id="map-info">&nbsp;</div>
             <div id="map-container">
                 <pre id="ascii-map"></pre>
             </div>
@@ -116,12 +120,26 @@
 
     function changeFont(theElement){
         let buttons=document.getElementsByTagName('button');
+        let h1s=document.getElementsByTagName('h1');
+        let h2s=document.getElementsByTagName('h2');
+        let h3s=document.getElementsByTagName('h3');
+
+
         let id=theElement.id;
         if(id==="sans-button"){
             document.getElementsByTagName('html')[0].style.fontFamily="Arial, Helvetica, sans-serif";
             for (let button of buttons){
                 button.style.fontFamily="Arial, Helvetica, sans-serif";
                 button.style.borderRadius="0.7rem";
+            }
+            for (let h1 of h1s){
+                h1.style.borderRadius="0.7rem";
+            }
+            for (let h2 of h2s){
+                h2.style.borderRadius="0.7rem";
+            }
+            for (let h3 of h3s){
+                h3.style.borderRadius="0.7rem";
             }
         }
         else if(id==="times-button"){
@@ -130,13 +148,54 @@
                 button.style.fontFamily="'Times New Roman', Times, serif";
                 button.style.borderRadius="0.35rem";
             }
+            for (let h1 of h1s){
+                h1.style.borderRadius="0.35rem";
+            }
+            for (let h2 of h2s){
+                h2.style.borderRadius="0.35rem";
+            }
+            for (let h3 of h3s){
+                h3.style.borderRadius="0.35rem";
+            }
         }
-        else{
+        else if (id==="courier-button"){
             document.getElementsByTagName('html')[0].style.fontFamily="'Courier New', Courier, monospace";
             for (let button of buttons){
                 button.style.fontFamily="'Courier New', Courier, monospace";
                 button.style.borderRadius="0rem";
-            }        
+            }     
+            for (let h1 of h1s){
+                h1.style.borderRadius="0rem";
+            }
+            for (let h2 of h2s){
+                h2.style.borderRadius="0rem";
+            }
+            for (let h3 of h3s){
+                h3.style.borderRadius="0rem";
+            }   
+        }
+        else if (id==="increase-font"){
+            let pageFontSize=document.getElementsByTagName('*')[0].style.fontSize;
+            if (pageFontSize===""){
+                pageFontSize="1rem";
+            }
+            let numberFontSize=Number(pageFontSize.replace("rem",""));
+            numberFontSize=numberFontSize*1.1;
+            pageFontSize=numberFontSize.toString()+"rem";
+            
+            document.getElementsByTagName('*')[0].style.fontSize=pageFontSize;
+      
+        }
+        else if (id==="decrease-font"){
+            let pageFontSize=document.getElementsByTagName('*')[0].style.fontSize;
+            if (pageFontSize===""){
+                pageFontSize="1rem";
+            }
+            let numberFontSize=Number(pageFontSize.replace("rem",""));
+            numberFontSize=numberFontSize/1.1;
+            pageFontSize=numberFontSize.toString()+"rem";
+            
+            document.getElementsByTagName('*')[0].style.fontSize=pageFontSize;       
         }
         /*
         #courier-button {

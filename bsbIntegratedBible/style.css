@@ -4,24 +4,32 @@ button {
     font-family: 'Courier New', Courier, monospace;
     background-color: aliceblue;
 }
-button{
-    border:1px solid grey;
-    background-color:snow;
-    height: 30px;
+
+button,select{
+    border: 1px solid grey;
+    background-color: snow;
+    height: 40px;
+    font-size: 1.1rem;
+    min-width: 34px;
 }
-nav{
+
+nav {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     background-color: rgb(68, 180, 255);
     background-color: snow;
     background-color: aliceblue;
-    }
 
-h3 span.word, h2 span.word{
-    background-color: rgb(0,124,207);
-    color:snow;
 }
+
+h3 span.word,
+h2 span.word {
+    background-color: rgb(0, 124, 207);
+    color: snow;
+}
+
+
 
 body,
 h1,
@@ -46,7 +54,7 @@ ul {
 
 main {
     width: 320px;
-   background-color: snow;
+    background-color: snow;
     min-height: 450px;
     display: none;
     /* margin-left: auto;
@@ -59,13 +67,17 @@ display: inline-block;
 vertical-align: middle;
 
 } */
-h1,h2,h3{
-    background-color: rgb(0,124,207);
-    color:snow;
+h1,
+h2,
+h3 {
+    background-color: rgb(0, 124, 207);
+    color: snow;
     padding: 5px;
 
 }
-
+h1{
+    overflow: hidden;
+}
 .word {
     background-color: lightblue;
 }
@@ -86,7 +98,11 @@ h1,h2,h3{
     background-color: pink;
 }
 
-.word, .osis, .definition-entry, .definition-location, .definition-relatives{
+.word,
+.osis,
+.definition-entry,
+.definition-location,
+.definition-relatives {
     background-color: rgb(240, 240, 255);
 }
 
@@ -97,7 +113,7 @@ button:hover,
 .definition-location:hover,
 .definition-relatives:hover {
     background-color: blue;
-    color:snow;
+    color: snow;
 }
 
 #map-container {
@@ -168,6 +184,7 @@ button:hover,
     table-layout: fixed;
     /* overflow-x: scroll; */
     /* box-sizing: border-box; */
+    border-collapse: collapse;
 }
 
 #reading-plan-table td {
@@ -188,6 +205,18 @@ button:hover,
     background-color: lightgrey;
 }
 
+#reading-plan-table .osis{
+    background-color: transparent;
+}
+#reading-plan-table .osis:hover{
+    background-color: blue;
+    color: snow;
+}
+td{
+    border: 1px solid grey;
+}
+
+
 /* ol,
 ul {
 list-style: none;
@@ -199,16 +228,24 @@ list-style: none;
 }
 
 @media only screen and (max-width: 1000px) {
-main{
-margin-left:auto;
-margin-right:auto;
+    /* main {
+        margin-left: auto;
+        margin-right: auto;
+    } */
+    body{
+        width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
 }
+
+sub {
+    font-size: 0.9rem;
 }
-sub{
-    font-size:0.9rem;
-}
-#show-all-checkbox{
-    padding:0;
-    margin:0;
+
+#show-all-checkbox {
+    padding: 0;
+    margin: 0;
     vertical-align: middle;
 }

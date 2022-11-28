@@ -86,7 +86,7 @@ function toggleReadingDates() {
                 readingDates[i].style.backgroundColor = "orange";
             }
             else { //if app open spans more than one day turns off orange
-                readingDates[i].style.backgroundColor = "inherit";
+                readingDates[i].style.backgroundColor = "unset";
             }
             showDates = true;
         } else {
