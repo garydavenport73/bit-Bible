@@ -31,16 +31,22 @@
         <button onclick="showMain('commentary');">💬</button>
         <button onclick="showMain('map');setSizeOfAsciiMap(320)">🌍</button>
         <button onclick="showMain('help');">?</button>
-        </nav>
         <nav>
-        <button id="courier-button" onclick="changeFont(this);">C</button>
-        <button id="sans-button" onclick="changeFont(this);">S</button>
-        <button id="times-button" onclick="changeFont(this);">T</button>
-        <button id="decrease-font" onclick="changeFont(this);">-</button>
-        <button id="increase-font" onclick="changeFont(this);">+</button>
-        <button><input type="checkbox" id="show-all-checkbox" onchange="processShowAllCheckBox();">
-            <label id="label-for-show-all-checkbox" for="show-all-checkbox">All</label></button>
-    </nav>
+            <button id="initial-second-menu"class="nested-menu">&equiv;</button>
+            <nav class="initial-close">            
+                <button id="courier-button" onclick="changeFont(this);">C</button>
+                <button id="sans-button" onclick="changeFont(this);">S</button>
+                <button id="times-button" onclick="changeFont(this);">T</button>
+                <button id="decrease-font" onclick="changeFont(this);">-</button>
+                <button id="increase-font" onclick="changeFont(this);">+</button>
+                <button>
+                    <input type="checkbox" id="show-all-checkbox" onchange="processShowAllCheckBox();">
+                    <label id="label-for-show-all-checkbox" for="show-all-checkbox">All</label>
+                </button>
+            </nav>
+        </nav>
+        </nav>
+
     <div id="main-container">
         <main id="reading">
             <h2>Reading Plan:</h2>
@@ -696,7 +702,8 @@
             if (sibling === evt.target) {
                 //alert("found self!");
             } else {
-                if (sibling.style.display === "none") {
+                console.log("sibling.style.display: "+sibling.style.display);
+                if ((sibling.style.display === "none")||(sibling.style.display === "")) {
                     sibling.style.display = "inherit";
                 } else {
                     sibling.style.display = "none";

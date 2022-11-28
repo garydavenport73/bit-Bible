@@ -1,7 +1,7 @@
 html,
 button {
     font-family: Arial, Helvetica, sans-serif;
-    font-family: 'Courier New', Courier, monospace;
+    /* font-family: 'Courier New', Courier, monospace; */
     background-color: aliceblue;
 }
 
@@ -29,6 +29,9 @@ h2 span.word {
     color: snow;
 }
 
+.initial-close{
+    display: none;
+}
 
 
 body,
@@ -57,6 +60,7 @@ main {
     background-color: snow;
     min-height: 450px;
     display: none;
+    font-size: 1.1rem;
     /* margin-left: auto;
     margin-right: auto; */
 }
@@ -76,7 +80,9 @@ h3 {
 
 }
 h1{
+    text-align: center;
     overflow: hidden;
+    padding:8px;
 }
 .word {
     background-color: lightblue;
@@ -175,7 +181,7 @@ button:hover,
 }
 
 #reading-plan-table {
-    font-size: .7em;
+    font-size: .75rem;
     border-spacing: 0px;
     /* border-collapse: collapse; */
     margin: 0;
@@ -249,3 +255,16 @@ sub {
     margin: 0;
     vertical-align: middle;
 }
+
+
+
+/* INITIALIZATION */
+html{
+    font-family: Arial, Helvetica, sans-serif;
+}
+button,h1,h2,h3{
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 0.6rem;
+}
+
+
