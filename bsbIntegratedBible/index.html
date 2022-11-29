@@ -23,7 +23,7 @@
 </head>
 
 <body>
-    <h1>bitBible<sub>(complete)</sub></h1>
+    <h1>bitBible<sub>complete</sub></h1>
     <nav>
         <button onclick="showMain('reading');">📅</button>
         <button onclick="showMain('bible');">📖</button>
@@ -32,7 +32,7 @@
         <button onclick="showMain('map');setSizeOfAsciiMap(320)">🌍</button>
         <button onclick="showMain('help');">?</button>
         <nav>
-            <button id="initial-second-menu"class="nested-menu">&equiv;</button>
+            
             <nav class="initial-close">            
                 <button id="courier-button" onclick="changeFont(this);">C</button>
                 <button id="sans-button" onclick="changeFont(this);">S</button>
@@ -41,15 +41,16 @@
                 <button id="increase-font" onclick="changeFont(this);">+</button>
                 <button>
                     <input type="checkbox" id="show-all-checkbox" onchange="processShowAllCheckBox();">
-                    <label id="label-for-show-all-checkbox" for="show-all-checkbox">All</label>
+                    <label id="label-for-show-all-checkbox" for="show-all-checkbox">▦</label>
                 </button>
             </nav>
+            <button id="initial-second-menu"class="nested-menu">&equiv;</button>
         </nav>
         </nav>
 
     <div id="main-container">
         <main id="reading">
-            <h2>Reading Plan:</h2>
+            <h3>Reading Plan</h3>
             <nav>
                 <button onclick="loadReadingProgress();">
                     Load Progress&#128194;
@@ -58,16 +59,16 @@
                 <button onclick="toggleReadingDates();">&#128260;Dates</button>
                 <button onclick="switchReadingPlans();">Switch</button>
             </nav>
-            <h3 id="reading-plan-name"></h3>
+            <h2 id="reading-plan-name"></h2>
             <table id="reading-plan-table"></table>
         </main>
         <main id="bible">
-            <h2>Bible</h2>
-            <nav><select id="bible-select"></select><button id="see-commentary-button">See Commentary</button><button id="audio">🔊</button></nav>
+            <h3>Bible</h3>
+            <nav><select id="bible-select"></select><button id="see-commentary-button">↱💬</button><button id="audio">🔊</button></nav>
             <div id="bible-contents"></div>
         </main>
         <main id="dictionary">
-            <h2>Dictionary</h2>
+            <h3>Dictionary</h3>
             <nav> <input type="search" id="dictionary-input" list="bible-words">
                 <button id="dictionary-word-load">🔎</button>
                 <datalist id="bible-words"></datalist>
@@ -75,13 +76,13 @@
             <div id="dictionary-contents"></div>
         </main>
         <main id="commentary">
-            <h2>Commentary</h2>
+            <h3>Commentary</h3>
             <nav> <select id="commentary-select"></select></nav>
             <div id="commentary-contents"></div>
         </main>
         <datalist id="bible-words"></datalist>
         <main id="map">
-            <h2>Map</h2>
+            <h3>Map</h3>
             <nav>
                 <button class="btn-select-map" id="map-Abraham">&#9398;</button>
                 <button class="btn-select-map" id="map-Moses">&#9410;</button>
@@ -98,7 +99,7 @@
             </div>
         </main>
         <main id="help">
-            <h2>Help</h2>
+            <h3>Help</h3>
             <nav>
                 <button>1</button>
                 <button>2</button>
@@ -124,6 +125,26 @@
 
 <script>
 
+function convertPlainText(txt,obj){
+    //https://www.experts-exchange.com/questions/20954757/Convert-Plain-Text-to-HTML.html
+    //dirklance
+  //this line replaces all double line breaks with a "<p></p>"
+  //it also adds a <p> to the beginning and the </p> to the end
+  //   \r\n stands for a line break, and \s stands for any empty space
+  txt="<p>"+txt.split(/\r\n(\s+)?\r\n/).join("</p><p>")+"</p>";
+  //this line replaces all line breaks with a <br>
+  txt=txt.split("\n").join("<br>");
+  //this line replaces the links
+  //txt=txt.replace(/((http:\/\/)|(www))\.[^\s]+/gi,function(p1){return "<a href=\""+p1+"\">"+p1+"</a>";});
+  //this line replaces all remaining line breaks with an empty space
+  txt=txt.replace(/(\r|\n|\r\n)/gi,"");
+  //this line adds a line breaks between each paragraph
+  txt=txt.split("</p><p>").join("</p>\r\n<p>");
+  //this just outputs the new text
+  //obj.value=txt;
+  return txt;
+}
+
     function changeFont(theElement){
         let buttons=document.getElementsByTagName('button');
         let h1s=document.getElementsByTagName('h1');
@@ -136,49 +157,49 @@
             document.getElementsByTagName('html')[0].style.fontFamily="Arial, Helvetica, sans-serif";
             for (let button of buttons){
                 button.style.fontFamily="Arial, Helvetica, sans-serif";
-                button.style.borderRadius="0.7rem";
+                button.style.borderRadius="5px";
             }
             for (let h1 of h1s){
-                h1.style.borderRadius="0.7rem";
+                h1.style.borderRadius="5px";
             }
-            for (let h2 of h2s){
-                h2.style.borderRadius="0.7rem";
-            }
-            for (let h3 of h3s){
-                h3.style.borderRadius="0.7rem";
-            }
+            // for (let h2 of h2s){
+            //     h2.style.borderRadius="0.7rem";
+            // }
+            // for (let h3 of h3s){
+            //     h3.style.borderRadius="0.7rem";
+            // }
         }
         else if(id==="times-button"){
             document.getElementsByTagName('html')[0].style.fontFamily="'Times New Roman', Times, serif";
             for (let button of buttons){
                 button.style.fontFamily="'Times New Roman', Times, serif";
-                button.style.borderRadius="0.35rem";
+                button.style.borderRadius="10px";
             }
             for (let h1 of h1s){
-                h1.style.borderRadius="0.35rem";
+                h1.style.borderRadius="10px";
             }
-            for (let h2 of h2s){
-                h2.style.borderRadius="0.35rem";
-            }
-            for (let h3 of h3s){
-                h3.style.borderRadius="0.35rem";
-            }
+            // for (let h2 of h2s){
+            //     h2.style.borderRadius="0.35rem";
+            // }
+            // for (let h3 of h3s){
+            //     h3.style.borderRadius="0.35rem";
+            // }
         }
         else if (id==="courier-button"){
             document.getElementsByTagName('html')[0].style.fontFamily="'Courier New', Courier, monospace";
             for (let button of buttons){
                 button.style.fontFamily="'Courier New', Courier, monospace";
-                button.style.borderRadius="0rem";
+                button.style.borderRadius="0px";
             }     
             for (let h1 of h1s){
-                h1.style.borderRadius="0rem";
+                h1.style.borderRadius="0px";
             }
-            for (let h2 of h2s){
-                h2.style.borderRadius="0rem";
-            }
-            for (let h3 of h3s){
-                h3.style.borderRadius="0rem";
-            }   
+            // for (let h2 of h2s){
+            //     h2.style.borderRadius="0rem";
+            // }
+            // for (let h3 of h3s){
+            //     h3.style.borderRadius="0rem";
+            // }   
         }
         else if (id==="increase-font"){
             let pageFontSize=document.getElementsByTagName('*')[0].style.fontSize;
@@ -394,6 +415,7 @@
     }
     function processLocationClick(evt) {
         showMain('map');
+        setSizeOfAsciiMap(320);
         console.log(evt.target.innerHTML);
         let str = evt.target.parentElement.id.split("-refs-")[0];
         let latitude = evt.target.innerHTML.split(",")[0];
@@ -453,7 +475,7 @@
         for (let i = 0; i < 200; i++) {
             if (nestedBible[book][chapter][i.toString()] !== undefined) {
                 let currentBCV = book + "." + chapter + "." + i.toString();
-                if (PARAGRAPHLOCATIONS.includes(currentBCV)) {
+                if (PARAGRAPHLOCATIONS.includes(currentBCV)&&(i>1)) {
                     chapterContents += "<br><br>";
                 }
                 if (HEADINGS[currentBCV] !== undefined) {
@@ -469,8 +491,10 @@
 
     function showCommentaryChapter() {
         let contents = jfb[commentarySelect.value];
-        contents = contents.replace(/ {4,}/g, "&nbsp;&nbsp;&nbsp;&nbsp;");//replaces spaces
-        contents = contents.replace(/\n/g, "<br>");//replaces newlines with breaks
+        contents=convertPlainText(contents);
+        //contents = contents.replace(/\t{1,}/g, "&nbsp;&nbsp;&nbsp;&nbsp;");//replaces spaces
+        //contents = contents.replace(/ {4,}/g, "&nbsp;&nbsp;&nbsp;&nbsp;");//replaces spaces
+        //contents = contents.replace(/\n/g, "<br>");//replaces newlines with breaks
         contents = tagRefsAndWords(contents, "<span class='osis'>", "</span>", "<span class='word'>", "</span>");
         commentaryContents.innerHTML = contents;
         addEventListenersToWords();

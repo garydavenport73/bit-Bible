@@ -1,39 +1,3 @@
-html,
-button {
-    font-family: Arial, Helvetica, sans-serif;
-    /* font-family: 'Courier New', Courier, monospace; */
-    background-color: aliceblue;
-}
-
-button,select{
-    border: 1px solid grey;
-    background-color: snow;
-    height: 40px;
-    font-size: 1.1rem;
-    min-width: 34px;
-}
-
-nav {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    background-color: rgb(68, 180, 255);
-    background-color: snow;
-    background-color: aliceblue;
-
-}
-
-h3 span.word,
-h2 span.word {
-    background-color: rgb(0, 124, 207);
-    color: snow;
-}
-
-.initial-close{
-    display: none;
-}
-
-
 body,
 h1,
 h2,
@@ -46,7 +10,43 @@ ol,
 ul {
     margin: 0;
     padding: 0;
-    /* font-weight: normal; */
+}
+ol,ul{
+    list-style-type: none;
+}
+
+html{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: aliceblue;
+}
+
+
+nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: rgb(68, 180, 255);
+
+}
+h1{
+    box-sizing: border-box;
+    /* width: 320px; */
+    border-radius: 5px;
+    background-color:rgb(0,124,207);
+    color: snow;
+}
+
+h1,h2,h3{
+    text-align: center;
+}
+
+h3 span.word,
+h2 span.word {
+    background-color: snow;
+}
+
+.initial-close{
+    display: none;
 }
 
 #main-container {
@@ -61,34 +61,21 @@ main {
     min-height: 450px;
     display: none;
     font-size: 1.1rem;
-    /* margin-left: auto;
-    margin-right: auto; */
 }
 
 
-/* button{
-display: inline-block;
-vertical-align: middle;
 
-} */
-h1,
-h2,
-h3 {
-    background-color: rgb(0, 124, 207);
-    color: snow;
+h2{
     padding: 5px;
-
+    margin: 5px;   
 }
+
 h1{
-    text-align: center;
     overflow: hidden;
     padding:8px;
 }
-.word {
-    background-color: lightblue;
-}
 
-.osis {
+/* .osis {
     background-color: lightcoral;
 }
 
@@ -102,14 +89,14 @@ h1{
 
 .definition-relatives {
     background-color: pink;
-}
+} */
 
 .word,
 .osis,
 .definition-entry,
 .definition-location,
 .definition-relatives {
-    background-color: rgb(240, 240, 255);
+    background-color: rgb(229,238,246);
 }
 
 button:hover,
@@ -117,8 +104,9 @@ button:hover,
 .osis:hover,
 .definition-entry:hover,
 .definition-location:hover,
-.definition-relatives:hover {
-    background-color: blue;
+.definition-relatives:hover,
+#reading-plan-table .osis:hover {
+    background-color: rgb(0,124,207);
     color: snow;
 }
 
@@ -135,115 +123,74 @@ button:hover,
     padding: 0;
     display: inline-block;
     line-height: 1;
-    background-color: white;
+    background-color: snow;
+}
+
+.bullseye, .background-location{
+    font-size: 1em;
+    font-family: 'Courier New', Courier, monospace;
+    position: absolute;
+    transform: translate(-0.5em, -0.5em);
+    background-color: rgba(255, 250, 250, 0.4);
 }
 
 .bullseye {
-    font-size: 1em;
-    font-family: 'Courier New', Courier, monospace;
-    position: absolute;
-    transform: translate(-0.5em, -0.5em);
     color: blue;
     z-index: 999;
-    background-color: rgba(255, 250, 250, 0.4);
-    /* transform: translateX(-50%);
-    transform: translateY(-50%); */
 }
 
 .background-location {
-    font-size: 1em;
-    font-family: 'Courier New', Courier, monospace;
-    position: absolute;
-    transform: translate(-0.5em, -0.5em);
     color: darkslategray;
-    background-color: rgba(255, 250, 250, 0.4);
     z-index: 998;
-}
-
-/* .bulls-eye {
-    color: blue;
-    transform: translateX(-50%);
-    transform: translateY(-50%);
-    background-color: rgba(255, 250, 250, 0.4);
-} */
-
-.set-1-datapoint,
-.set-2-datapoint,
-.set-3-datapoint,
-.set-4-datapoint {
-    position: absolute;
-    margin: 0;
-    padding: 0;
-    transform: translate(-0.5rem, -0.5rem);
-    color: rgb(0, 0, 0);
-    font-size: 12px;
-    background-color: rgba(255, 255, 255, 0.5);
 }
 
 #reading-plan-table {
     font-size: .75rem;
-    border-spacing: 0px;
-    /* border-collapse: collapse; */
-    margin: 0;
-    width: 320px;
-    padding: 0;
     table-layout: fixed;
-    /* overflow-x: scroll; */
-    /* box-sizing: border-box; */
+    border-spacing: 0px;
     border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 320px;
 }
 
 #reading-plan-table td {
-    /* border: 1px solid black; */
     margin: 0;
     padding: 0;
     vertical-align: top;
     word-wrap: break-word;
-    /* overflow: auto;
-    word-wrap: break-word; */
-}
-
-#reading-plan-table tr:nth-child(even) {
-    background-color: lightblue;
 }
 
 #reading-plan-table tr:nth-child(odd) {
     background-color: lightgrey;
 }
 
+#reading-plan-table tr:nth-child(even) {
+    background-color: rgb(248, 244, 244);
+}
+
 #reading-plan-table .osis{
     background-color: transparent;
 }
-#reading-plan-table .osis:hover{
-    background-color: blue;
-    color: snow;
-}
+
 td{
     border: 1px solid grey;
 }
 
-
-/* ol,
-ul {
-list-style: none;
-} */
-#reading-plan-table ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+main {
+    height: 650px;
+    overflow-y: auto;
 }
-
 @media only screen and (max-width: 1000px) {
-    /* main {
-        margin-left: auto;
-        margin-right: auto;
-    } */
-    body{
+    h1,body{
         width: 320px;
         margin-left: auto;
         margin-right: auto;
     }
-    
+    main {
+        height: unset;
+        overflow-y: unset;
+    }
 }
 
 sub {
@@ -256,15 +203,33 @@ sub {
     vertical-align: middle;
 }
 
-
-
 /* INITIALIZATION */
-html{
+
+button{
     font-family: Arial, Helvetica, sans-serif;
+    background-color: lightgrey;
+    padding: 5px;
+    margin: 1px;
+    font-size: 1.4em;
+    border-radius: 5px;
+    border: 1px solid grey;
+    min-width: 40px;
 }
-button,h1,h2,h3{
-    font-family: Arial, Helvetica, sans-serif;
-    border-radius: 0.6rem;
+
+/* Navs inside of mains */
+main nav{
+    background-color: snow;
 }
+main nav button{
+    padding: 2px;
+    margin: 2px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid grey;
+    min-width: 40px;
+}
+main nav select,main input{
+    font-size: 1rem;
+} 
 
 
