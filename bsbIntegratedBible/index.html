@@ -25,15 +25,14 @@
 <body>
     <h1>bitBible<sub>complete</sub></h1>
     <nav>
-        <button onclick="showMain('reading');">📅</button>
-        <button onclick="showMain('bible');">📖</button>
-        <button onclick="showMain('dictionary');">📘</button>
-        <button onclick="showMain('commentary');">💬</button>
-        <button onclick="showMain('map');setSizeOfAsciiMap(320)">🌍</button>
-        <button onclick="showMain('help');">?</button>
+        <button id="reading-button" onclick="showMain('reading');">📅</button>
+        <button id="bible-button" onclick="showMain('bible');">📖</button>
+        <button id="dictionary-button" onclick="showMain('dictionary');">📘</button>
+        <button id="commentary-button" onclick="showMain('commentary');">💬</button>
+        <button id="map-button" onclick="showMain('map');setSizeOfAsciiMap(320)">🌍</button>
+        <button id="help-button" onclick="showMain('help');">?</button>
         <nav>
-            
-            <nav class="initial-close">            
+            <nav class="initial-close">
                 <button id="courier-button" onclick="changeFont(this);">C</button>
                 <button id="sans-button" onclick="changeFont(this);">S</button>
                 <button id="times-button" onclick="changeFont(this);">T</button>
@@ -44,9 +43,9 @@
                     <label id="label-for-show-all-checkbox" for="show-all-checkbox">▦</label>
                 </button>
             </nav>
-            <button id="initial-second-menu"class="nested-menu">&equiv;</button>
+            <button id="initial-second-menu" class="nested-menu">&equiv;</button>
         </nav>
-        </nav>
+    </nav>
 
     <div id="main-container">
         <main id="reading">
@@ -64,7 +63,13 @@
         </main>
         <main id="bible">
             <h3>Bible</h3>
-            <nav><select id="bible-select"></select><button id="see-commentary-button">↱💬</button><button id="audio">🔊</button></nav>
+            <nav>
+                <select id="bible-select"></select>
+                <button id="see-commentary-button">↱💬</button>
+                <button id="stop-audio">◼</button>
+                <button id="play-audio">▶</button>
+                <button id="pause-audio"><b>||</b></button>
+            </nav>
             <div id="bible-contents"></div>
         </main>
         <main id="dictionary">
@@ -99,6 +104,7 @@
             </div>
         </main>
         <main id="help">
+
             <h3>Help</h3>
             <nav>
                 <button>1</button>
@@ -106,7 +112,245 @@
                 <button>3</button>
                 <button>etc...</button>
             </nav>
-            <p>Help will go here.</p>
+            <hr>
+
+
+            <div>
+
+
+                <h3 class="nested-menu">Main Navigation Buttons</h3>
+                <div class="initial-close">
+                <nav class="help-nav">
+                    <button>📅</button>
+                    <button>📖</button>
+                    <button>📘</button>
+                    <button>💬</button>
+                    <button>🌍</button>
+                    <button>?</button>
+                </nav>
+                <ul>
+                    <li>📅 - Selects the reading plan.</li>
+                    <li>📖 - Selects the Bible.</li>
+                    <li>📘 - Selects the Dictionary</li>
+                    <li>💬 - Selects the Commentary</li>
+                    <li>🌍 - Selects the Map</li>
+                    <li>? - Selects the Help Page</li>
+                </ul>
+            </div>
+            </div>
+
+            <hr>
+
+
+
+
+
+            <div>
+                <h3 class="nested-menu">Custom Menu</h3>
+                <div class="initial-close">
+                <nav class="help-nav">
+                    <button>C</button>
+                    <button>S</button>
+                    <button>T</button>
+                    <button>-</button>
+                    <button>+</button>
+                    <button>
+                        <input type="checkbox">
+                        <label>▦</label>
+                    </button>
+                    <button>≡</button>
+                </nav>
+                <ul>
+                    <li>C - Changes the font to Courier</li>
+                    <li>S - Changes the font to Sans</li>
+                    <li>T - Changes the font to Serif</li>
+                    <li>- - Reduces the font size</li>
+                    <li>+ - Increases the font size</li>
+                    <li>▦ - Expands all content</li>
+                    <li>≡ - Toggles Custom Menu</li>
+                </ul>
+            </div>
+            </div>
+
+            <hr>
+
+
+            <div>
+            <h3 class="nested-menu">Reading Plan Menu</h3>
+            <div class="initial-close">
+            <nav>
+                <button>Load Progress📂</button>
+                <button>Save 📁</button>
+                <button>🔄Dates</button>
+                <button>Switch</button>
+            </nav>
+            <ul>
+                <li>Load Progress📂 - Loads reading progress and custom settings.</li>
+                <li>Save 📁 - Saves reading progress and custome settings.</li>
+                <li>🔄Dates - Will toggle the yearly calendar with the reading plan.</li>
+                <li>Switch - Allows you to switch reading plans from Chronological to Straight through the Bible or Old
+                    Testament/New Testament Selectitons.</li>
+            </ul>
+        </div>
+        </div>
+
+
+
+            <hr>
+
+
+
+
+        <div>
+            <h3 class="nested-menu">Bible Menu Buttons</h3>
+            <div class="initial-close">
+            <nav>
+                <button>↱💬</button>
+                <button>◼</button>
+                <button>▶</button>
+                <button><b>||</b></button>
+            </nav>
+            <ul>
+                <li>↱💬 - Will select and open the commentary corresponding to the current Bible book and chapter.</li>
+                <li>◼ - Will stop audio from playing and reset to the beginning of the chapter.</li>
+                <li>▶ - Will play or resume audio if paused.</li>
+                <li><b>|| Will pause audio at current position in the chapter.</b></li>
+            </ul>
+        </div>
+        </div>
+
+
+
+
+            <hr>
+
+
+            <div>
+            <h3 class="nested-menu">Dictionary Search Box</h3>
+            <div class="initial-close">
+            <nav>
+                <input type="search" disabled value="Jesus">
+                <button>🔎</button>
+                <div id="dictionary-contents">
+                    <div><span class="definition-entry nested-menu">Salem</span>
+                        <div id="Salem-refs-Gen.14.18,Ps.76.2,Heb.7.1,Heb.7.2"><br><b>References</b>: <span
+                                class="osis">Gen.14.18</span>, <span class="osis">Ps.76.2</span>, <span
+                                class="osis">Heb.7.1</span>, <span class="osis">Heb.7.2</span><br><b>Definition</b>:
+                            Peace, commonly supposed to be another name of <span class="word">Jerusalem</span> (<span
+                                class="osis">Gen.14.18</span>); (<span class="osis">Ps.76.2</span>); (<span
+                                class="osis">Heb.7.1</span>), (<span class="osis">Heb.7.2</span>).<br><b>Location</b>:
+                            <span class="definition-location">31.777444,35.234935</span><br><br>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <ul>
+                <li>
+                    <em>
+                        <b>References:</b> some references in the Bible where the word is found. This is not an
+                        exhaustive list.
+                    </em>
+                </li>
+                <li><em>
+                        <b>Definition.</b>
+                    </em>
+                </li>
+                <li>
+                    <em>
+                        <b>Location:</b> Approximate Latitude and Longitude of the location.
+                        When clicked, the map is opened and the location is plotted on the map.
+                    </em>
+                </li>
+            </ul>
+            <hr>
+            <h3>Highlighted Items</h3>
+            <ul>
+                <li>
+                    <span class="osis">John.3.16</span><em>- an example of a highlighted link. Opens up to a Bible book
+                        and chapter.</em>
+                </li>
+                <li><span class="word">God</span><em>- an example of a highlighted dictionary entry. Opens up the
+                        dictionary to the highlighted word.
+                        It will attempt to open up to the best dictionary entry of that word if possible.
+                    </em>
+                </li>
+            </ul>
+            <hr>
+
+        </div>
+        </div>
+
+        <hr>
+
+        <div>
+
+
+            <h3 class="nested-menu">Map Menu</h3>
+            <div class="initial-close">
+            <nav>
+                <button>Ⓐ</button>
+                <button>Ⓜ</button>
+                <button>⑫</button>
+                <button>⟠</button>
+                <button>Ⓙ</button>
+                <button>⌧</button>
+                <button>🌐</button>
+            </nav>
+            <ul>
+                <li>Ⓐ - Overlays places during Abraham's time.</li>
+                <li>Ⓜ - Overlays places during Moses's time.</li>
+                <li>⑫ - Overlays places during the 12 Tribes of Israel.</li>
+                <li>⟠ - Overlays places during the divided Kingdoms of Israel and Judah</li>
+                <li>Ⓙ - Overlays places during Jesus's time.</li>
+                <li>⌧ - Removes plotted places from the map.</li>
+                <li>🌐 - Will launch a web page showing the last plotted location on a map.</li>
+            </ul>
+
+
+        </div>
+    </div>
+            <hr>
+
+            <div>
+            <h3 class="nested-menu">References</h3>
+            <div>
+            <ul>
+                <li><a href="https://viz.bible/" target="_blank">Robert Rouse's (viz.)BIBLE - Inspiring curiosity about the Bible
+                        through data visualization</a>
+                </li>
+
+                <li>.</li>
+                <li>
+                    <a href="https://github.com/openbibleinfo/Bible-Geocoding-Data" target="_blank">openbibleinfo/Bible-Geocoding-Data
+                        Public</a>
+                </li>
+                <li>.</li>
+                <li>
+                    <a href="https://www.openbible.info/geo/" target="_blank">Bible Geocoding</a>
+                </li>
+                <li>.</li>
+                <li>
+                    <a href="https://berean.bible" target="_blank">The Holy Bible, Berean Study Bible, BSB</a>
+                    Copyright ©2016, 2020 by Bible Hub
+                    Used by Permission.
+                    All Rights Reserved Worldwide.
+                </li>
+                <li>.</li>
+                <li>
+                    <a href="https://en.wikipedia.org/wiki/Easton%27s_Bible_Dictionary" target="_blank">Easton's Bible Dictionary (Fair Use)</a>
+                </li>
+                <li>.</li>
+                <li>
+                    <a href="https://en.wikipedia.org/wiki/Jamieson-Fausset-Brown_Bible_Commentary" target="_blank">Jamieson-Fausset-Brown Bible Commentary (Fair Use)</a>
+                </li>
+                <li>.</li>
+
+                <li>
+                    <a href="https://github.com/garydavenport73/bitBible" target="_blank">Author: Gary Davenport bitBible &copy;2022</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
         </main>
     </div>
 
@@ -125,118 +369,87 @@
 
 <script>
 
-function convertPlainText(txt,obj){
-    //https://www.experts-exchange.com/questions/20954757/Convert-Plain-Text-to-HTML.html
-    //dirklance
-  //this line replaces all double line breaks with a "<p></p>"
-  //it also adds a <p> to the beginning and the </p> to the end
-  //   \r\n stands for a line break, and \s stands for any empty space
-  txt="<p>"+txt.split(/\r\n(\s+)?\r\n/).join("</p><p>")+"</p>";
-  //this line replaces all line breaks with a <br>
-  txt=txt.split("\n").join("<br>");
-  //this line replaces the links
-  //txt=txt.replace(/((http:\/\/)|(www))\.[^\s]+/gi,function(p1){return "<a href=\""+p1+"\">"+p1+"</a>";});
-  //this line replaces all remaining line breaks with an empty space
-  txt=txt.replace(/(\r|\n|\r\n)/gi,"");
-  //this line adds a line breaks between each paragraph
-  txt=txt.split("</p><p>").join("</p>\r\n<p>");
-  //this just outputs the new text
-  //obj.value=txt;
-  return txt;
-}
+    function convertPlainText(txt, obj) {
+        //https://www.experts-exchange.com/questions/20954757/Convert-Plain-Text-to-HTML.html
+        //dirklance
+        //this line replaces all double line breaks with a "<p></p>"
+        //it also adds a <p> to the beginning and the </p> to the end
+        //   \r\n stands for a line break, and \s stands for any empty space
+        txt = "<p>" + txt.split(/\r\n(\s+)?\r\n/).join("</p><p>") + "</p>";
+        //this line replaces all line breaks with a <br>
+        txt = txt.split("\n").join("<br>");
+        //this line replaces the links
+        //txt=txt.replace(/((http:\/\/)|(www))\.[^\s]+/gi,function(p1){return "<a href=\""+p1+"\">"+p1+"</a>";});
+        //this line replaces all remaining line breaks with an empty space
+        txt = txt.replace(/(\r|\n|\r\n)/gi, "");
+        //this line adds a line breaks between each paragraph
+        txt = txt.split("</p><p>").join("</p>\r\n<p>");
+        //this just outputs the new text
+        //obj.value=txt;
+        return txt;
+    }
 
-    function changeFont(theElement){
-        let buttons=document.getElementsByTagName('button');
-        let h1s=document.getElementsByTagName('h1');
-        let h2s=document.getElementsByTagName('h2');
-        let h3s=document.getElementsByTagName('h3');
+    function changeFont(theElement) {
+        let buttons = document.getElementsByTagName('button');
+        let h1s = document.getElementsByTagName('h1');
+        // let h2s=document.getElementsByTagName('h2');
+        // let h3s=document.getElementsByTagName('h3');
 
+        let id = theElement.id;
+        if (id === "sans-button") {
+            document.getElementsByTagName('html')[0].style.fontFamily = "Arial, Helvetica, sans-serif";
+            for (let button of buttons) {
+                button.style.fontFamily = "Arial, Helvetica, sans-serif";
+                button.style.borderRadius = "5px";
+            }
+            for (let h1 of h1s) {
+                h1.style.borderRadius = "5px";
+            }
+        }
+        else if (id === "times-button") {
+            document.getElementsByTagName('html')[0].style.fontFamily = "'Times New Roman', Times, serif";
+            for (let button of buttons) {
+                button.style.fontFamily = "'Times New Roman', Times, serif";
+                button.style.borderRadius = "10px";
+            }
+            for (let h1 of h1s) {
+                h1.style.borderRadius = "10px";
+            }
+        }
+        else if (id === "courier-button") {
+            document.getElementsByTagName('html')[0].style.fontFamily = "'Courier New', Courier, monospace";
+            for (let button of buttons) {
+                button.style.fontFamily = "'Courier New', Courier, monospace";
+                button.style.borderRadius = "0px";
+            }
+            for (let h1 of h1s) {
+                h1.style.borderRadius = "0px";
+            }
+        }
+        else if (id === "increase-font") {
+            let pageFontSize = document.getElementsByTagName('*')[0].style.fontSize;
+            if (pageFontSize === "") {
+                pageFontSize = "1rem";
+            }
+            let numberFontSize = Number(pageFontSize.replace("rem", ""));
+            numberFontSize = numberFontSize * 1.1;
+            pageFontSize = numberFontSize.toString() + "rem";
 
-        let id=theElement.id;
-        if(id==="sans-button"){
-            document.getElementsByTagName('html')[0].style.fontFamily="Arial, Helvetica, sans-serif";
-            for (let button of buttons){
-                button.style.fontFamily="Arial, Helvetica, sans-serif";
-                button.style.borderRadius="5px";
-            }
-            for (let h1 of h1s){
-                h1.style.borderRadius="5px";
-            }
-            // for (let h2 of h2s){
-            //     h2.style.borderRadius="0.7rem";
-            // }
-            // for (let h3 of h3s){
-            //     h3.style.borderRadius="0.7rem";
-            // }
+            document.getElementsByTagName('*')[0].style.fontSize = pageFontSize;
+
         }
-        else if(id==="times-button"){
-            document.getElementsByTagName('html')[0].style.fontFamily="'Times New Roman', Times, serif";
-            for (let button of buttons){
-                button.style.fontFamily="'Times New Roman', Times, serif";
-                button.style.borderRadius="10px";
+        else if (id === "decrease-font") {
+            let pageFontSize = document.getElementsByTagName('*')[0].style.fontSize;
+            if (pageFontSize === "") {
+                pageFontSize = "1rem";
             }
-            for (let h1 of h1s){
-                h1.style.borderRadius="10px";
-            }
-            // for (let h2 of h2s){
-            //     h2.style.borderRadius="0.35rem";
-            // }
-            // for (let h3 of h3s){
-            //     h3.style.borderRadius="0.35rem";
-            // }
-        }
-        else if (id==="courier-button"){
-            document.getElementsByTagName('html')[0].style.fontFamily="'Courier New', Courier, monospace";
-            for (let button of buttons){
-                button.style.fontFamily="'Courier New', Courier, monospace";
-                button.style.borderRadius="0px";
-            }     
-            for (let h1 of h1s){
-                h1.style.borderRadius="0px";
-            }
-            // for (let h2 of h2s){
-            //     h2.style.borderRadius="0rem";
-            // }
-            // for (let h3 of h3s){
-            //     h3.style.borderRadius="0rem";
-            // }   
-        }
-        else if (id==="increase-font"){
-            let pageFontSize=document.getElementsByTagName('*')[0].style.fontSize;
-            if (pageFontSize===""){
-                pageFontSize="1rem";
-            }
-            let numberFontSize=Number(pageFontSize.replace("rem",""));
-            numberFontSize=numberFontSize*1.1;
-            pageFontSize=numberFontSize.toString()+"rem";
-            
-            document.getElementsByTagName('*')[0].style.fontSize=pageFontSize;
-      
-        }
-        else if (id==="decrease-font"){
-            let pageFontSize=document.getElementsByTagName('*')[0].style.fontSize;
-            if (pageFontSize===""){
-                pageFontSize="1rem";
-            }
-            let numberFontSize=Number(pageFontSize.replace("rem",""));
-            numberFontSize=numberFontSize/1.1;
-            pageFontSize=numberFontSize.toString()+"rem";
-            
-            document.getElementsByTagName('*')[0].style.fontSize=pageFontSize;       
-        }
-        /*
-        #courier-button {
-            font-family: 'Courier New', Courier, monospace;
+            let numberFontSize = Number(pageFontSize.replace("rem", ""));
+            numberFontSize = numberFontSize / 1.1;
+            pageFontSize = numberFontSize.toString() + "rem";
+
+            document.getElementsByTagName('*')[0].style.fontSize = pageFontSize;
         }
 
-        #sans-button {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        #times-button {
-            font-family: 'Times New Roman', Times, serif;
-        }
-        */
     }
 
     function processShowAllCheckBox() {
@@ -247,10 +460,22 @@ function convertPlainText(txt,obj){
                 main.style.display = "block";
             }
             setSizeOfAsciiMap(320);
+            disableMainNavButtons(true);
         }
         else {
             showMain("bible");
+            disableMainNavButtons(false);
         }
+
+    }
+
+    function disableMainNavButtons(disable = true) {
+        readingButton.disabled = disable;
+        bibleButton.disabled = disable;
+        dictionaryButton.disabled = disable;
+        commentaryButton.disabled = disable;
+        mapButton.disabled = disable;
+        helpButton.disabled = disable;
 
     }
     function showMain(id) {
@@ -278,6 +503,12 @@ function convertPlainText(txt,obj){
     let seeCommentaryButton = document.getElementById("see-commentary-button");
     let dictionaryWordLoadButton = document.getElementById("dictionary-word-load");
     let asciiMap = document.getElementById("ascii-map");
+    let readingButton = document.getElementById("reading-button");
+    let bibleButton = document.getElementById("bible-button");
+    let dictionaryButton = document.getElementById("dictionary-button");
+    let commentaryButton = document.getElementById("commentary-button");
+    let mapButton = document.getElementById("map-button");
+    let helpButton = document.getElementById("help-button");
 
     //load map set size of map
     asciiMap.innerHTML = BASEMAP;
@@ -300,7 +531,8 @@ function convertPlainText(txt,obj){
     let str = "";
     for (let i = 0; i < jfbKeys.length; i++) {
         //console.log(jfbKeys[i]);
-        str += "<option value='" + jfbKeys[i] + "'>" + jfbKeys[i] + "</option>";
+        let bookChapter = jfbKeys[i].split(".")[0] + " " + jfbKeys[i].split(".")[1];
+        str += "<option value='" + jfbKeys[i] + "'>" + bookChapter + "</option>";
     }
     commentarySelect.innerHTML = str;
     //-----------------------------------------------
@@ -320,7 +552,8 @@ function convertPlainText(txt,obj){
     str = "";
     for (let i = 0; i < osis.length; i++) {
         //console.log(osis[i]);
-        str += "<option value='" + osis[i] + "'>" + osis[i] + "</option>";
+        let bookChapter = osis[i].split(".")[0] + " " + osis[i].split(".")[1];
+        str += "<option value='" + osis[i] + "'>" + bookChapter + "</option>";
     }
     bibleSelect.innerHTML = str;
     //-----------------------------------------------
@@ -344,7 +577,6 @@ function convertPlainText(txt,obj){
     function askConfirm() {
         return "Close?";
     }
-
 
     let showDates = false;
     loadReadingTable("Chronological", ChronologicalReadingPlan);
@@ -371,7 +603,6 @@ function convertPlainText(txt,obj){
             }
         }
     }
-
 
     //Add event listeners to the Bible Selectn process
     bibleSelect.addEventListener("input", showBibleChapter);
@@ -475,7 +706,7 @@ function convertPlainText(txt,obj){
         for (let i = 0; i < 200; i++) {
             if (nestedBible[book][chapter][i.toString()] !== undefined) {
                 let currentBCV = book + "." + chapter + "." + i.toString();
-                if (PARAGRAPHLOCATIONS.includes(currentBCV)&&(i>1)) {
+                if (PARAGRAPHLOCATIONS.includes(currentBCV) && (i > 1)) {
                     chapterContents += "<br><br>";
                 }
                 if (HEADINGS[currentBCV] !== undefined) {
@@ -491,7 +722,7 @@ function convertPlainText(txt,obj){
 
     function showCommentaryChapter() {
         let contents = jfb[commentarySelect.value];
-        contents=convertPlainText(contents);
+        contents = convertPlainText(contents);
         //contents = contents.replace(/\t{1,}/g, "&nbsp;&nbsp;&nbsp;&nbsp;");//replaces spaces
         //contents = contents.replace(/ {4,}/g, "&nbsp;&nbsp;&nbsp;&nbsp;");//replaces spaces
         //contents = contents.replace(/\n/g, "<br>");//replaces newlines with breaks
@@ -726,8 +957,8 @@ function convertPlainText(txt,obj){
             if (sibling === evt.target) {
                 //alert("found self!");
             } else {
-                console.log("sibling.style.display: "+sibling.style.display);
-                if ((sibling.style.display === "none")||(sibling.style.display === "")) {
+                console.log("sibling.style.display: " + sibling.style.display);
+                if ((sibling.style.display === "none") || (sibling.style.display === "")) {
                     sibling.style.display = "inherit";
                 } else {
                     sibling.style.display = "none";

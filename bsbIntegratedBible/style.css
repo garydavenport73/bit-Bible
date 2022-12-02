@@ -21,7 +21,7 @@ html{
 }
 
 
-nav {
+nav, .help-nav{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -105,10 +105,19 @@ button:hover,
 .definition-entry:hover,
 .definition-location:hover,
 .definition-relatives:hover,
-#reading-plan-table .osis:hover {
+#reading-plan-table .osis:hover, #help .nested-menu:hover, #help a:hover {
     background-color: rgb(0,124,207);
     color: snow;
 }
+a{
+    text-decoration: none;
+    color:rgb(0,124,207);;
+}
+#help h3{
+    background-color: lightgrey;
+    border-radius: 5px;
+}
+
 
 #map-container {
     margin: 0;
@@ -205,7 +214,7 @@ sub {
 
 /* INITIALIZATION */
 
-button{
+button, .help-nav button{
     font-family: Arial, Helvetica, sans-serif;
     background-color: lightgrey;
     padding: 5px;

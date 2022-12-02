@@ -51,7 +51,7 @@ function displayReadingPlanName() {
 }
 
 function displayBibleName() {
-    document.getElementById("bible-name").innerHTML = bibleName+"<span id='audio'>&#128266;</span>";
+    document.getElementById("bible-name").innerHTML = bibleName + "<span id='audio'>&#128266;</span>";
 }
 
 function getTodaysDate() {
@@ -129,7 +129,13 @@ function saveReadingProgress() {
         }
     }
     saveData["show-dates"] = showDates;
-    saveData["reading-plan-name"]=document.getElementById("reading-plan-name").innerText;
+    saveData["reading-plan-name"] = document.getElementById("reading-plan-name").innerText;
+
+    saveData["font-family"] = document.getElementsByTagName('html')[0].style.fontFamily;
+    saveData["border-radius"] = document.getElementsByTagName('h1')[0].style.borderRadius;
+    saveData["font-size"]=document.getElementsByTagName('*')[0].style.fontSize;
+
+
     //console.log(JSON.stringify(saveData));
     saveStringToTextFile(JSON.stringify(saveData));
 }
@@ -153,6 +159,7 @@ function saveStringToTextFile(
 }
 
 function loadReadingProgress() {
+
     let fileContents = "";
     let inputTypeIsFile = document.createElement("input");
     inputTypeIsFile.type = "file";
@@ -161,18 +168,19 @@ function loadReadingProgress() {
         let fileReader = new FileReader();
         fileReader.onload = function (fileLoadedEvent) {
             readingPlanData = JSON.parse(fileLoadedEvent.target.result);
+            console.log(readingPlanData);
 
 
-            if (readingPlanData["reading-plan-name"]==="Old Testament/New Testament"){
-                loadReadingTable("Old Testament/New Testament",OTNTReadingPlan);
+            if (readingPlanData["reading-plan-name"] === "Old Testament/New Testament") {
+                loadReadingTable("Old Testament/New Testament", OTNTReadingPlan);
             }
-            else if (readingPlanData["reading-plan-name"]==="Straight Through"){
-                loadReadingTable("Straight Through",StraightReadingPlan);
+            else if (readingPlanData["reading-plan-name"] === "Straight Through") {
+                loadReadingTable("Straight Through", StraightReadingPlan);
             }
-            else{
-                loadReadingTable("Chronological",ChronologicalReadingPlan);
+            else {
+                loadReadingTable("Chronological", ChronologicalReadingPlan);
             }
-            
+
             //console.log(readingPlanData);
             for (readingDay in readingPlanData) {
                 let checkBoxId = readingDay;
@@ -197,10 +205,39 @@ function loadReadingProgress() {
                     hideReadingDates();
                 }
             }
+            //change styles also
+            let buttons = document.getElementsByTagName('button');
+            let h1s = document.getElementsByTagName('h1');
+            let h2s = document.getElementsByTagName('h2');
+            let h3s = document.getElementsByTagName('h3');
+            if (readingPlanData["font-family"] != undefined) {
+                document.getElementsByTagName('html')[0].style.fontFamily = readingPlanData["font-family"];
+            }
+
+            for (let button of buttons) {
+                if (readingPlanData["font-family"] != undefined) {
+                    button.style.fontFamily = readingPlanData["font-family"];
+                }
+                if (readingPlanData["border-radius"] != undefined) {
+                    button.style.borderRadius = readingPlanData["border-radius"];
+                }
+            }
+            for (let h1 of h1s) {
+                if (readingPlanData["font-family"] != undefined) {
+                    h1.style.borderRadius = readingPlanData["border-radius"];
+                }
+            }
+
+            if (readingPlanData["font-size"]!=undefined){
+                document.getElementsByTagName('*')[0].style.fontSize=readingPlanData["font-size"];
+            }
+
         };
         fileReader.readAsText(fileInput, "UTF-8");
     });
     inputTypeIsFile.click();
+
+
 }
 
 
