@@ -242,3 +242,14 @@ main nav select,main input{
 } 
 
 
+#courier-button {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#sans-button {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#times-button {
+    font-family: 'Times New Roman', Times, serif;
+}

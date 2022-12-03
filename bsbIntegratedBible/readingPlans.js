@@ -1,3 +1,4 @@
+"use strict";
 let ChronologicalReadingPlan={
 	"Day 1": "Gen.1,Gen.2,Gen.3",
 	"Day 2": "Gen.4,Gen.5,Gen.6,Gen.7",
