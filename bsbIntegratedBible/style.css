@@ -254,3 +254,6 @@ main nav select,main input{
 #times-button {
     font-family: 'Times New Roman', Times, serif;
 }
+.narrow{
+    min-width: 0;
+}

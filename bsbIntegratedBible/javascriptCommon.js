@@ -790,7 +790,7 @@ function processLocationClick(evt) {
 }
 function processWordClick(evt) {
     showMain('dictionary');
-    dictionaryInput.value = evt.target.innerHTML;
+    // dictionaryInput.value = evt.target.innerHTML;
     showDictionaryEntry(evt);
 }
 function processOsisRefClick(evt) {
@@ -838,7 +838,38 @@ function tagRefsAndWords(contents, osisStartTag, osisEndTag, wordStartTag, wordE
     contents = contents.replace(/WORDSTARTTAG/g, wordStartTag).replace(/WORDENDTAG/g, wordEndTag);
     return contents;
 }
-
+function backOneChapterBible(){
+    let osisValue=bibleSelect.value;
+    let currentIndex=osis.indexOf(osisValue);
+    if (currentIndex>0){
+        bibleSelect.value=osis[currentIndex-1];
+        showBibleChapter();
+    }
+}
+function forwardOneChapterBible(){
+    let osisValue=bibleSelect.value;
+    let currentIndex=osis.indexOf(osisValue);
+    if (currentIndex<osis.length-1){
+        bibleSelect.value=osis[currentIndex+1];
+        showBibleChapter();
+    }
+}
+function backOneChapterCommentary(){
+    let osisValue=commentarySelect.value;
+    let currentIndex=osis.indexOf(osisValue);
+    if (currentIndex>0){
+        commentarySelect.value=osis[currentIndex-1];
+        showCommentaryChapter();
+    }
+}
+function forwardOneChapterCommentary(){
+    let osisValue=commentarySelect.value;
+    let currentIndex=osis.indexOf(osisValue);
+    if (currentIndex<osis.length-1){
+        commentarySelect.value=osis[currentIndex+1];
+        showCommentaryChapter();
+    }
+}
 
 ///////////////////////////////////////////////////
 "use strict";
@@ -903,6 +934,10 @@ document.getElementById("toggle-reading-dates").addEventListener("click", toggle
 document.getElementById("switch-reading-plans").addEventListener("click", switchReadingPlans);
 document.getElementById("btn-clear-all-locations").addEventListener("click", clearAllLocations);
 document.getElementById("btn-open-google-map").addEventListener("click", openGoogleMap);
+document.getElementById("bible-chapter-previous").addEventListener("click",backOneChapterBible);
+document.getElementById("bible-chapter-next").addEventListener("click",forwardOneChapterBible);
+document.getElementById("commentary-chapter-previous").addEventListener("click",backOneChapterCommentary);
+document.getElementById("commentary-chapter-next").addEventListener("click",forwardOneChapterCommentary);
 for (let button of buttonSelectMaps) {
     button.addEventListener("click", addBackgroundLocations);
 }

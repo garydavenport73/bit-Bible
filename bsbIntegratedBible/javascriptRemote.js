@@ -18,12 +18,12 @@ function test() {
     let url = 'https://garydavenport.com/logtime/simpleAccounts.php';
     //let url = 'simpleAccounts.php';
     let params = 'email=' + email + '&password=' + password + '&do-this=test';
-    http.ontimeout = function(e) {
+    http.ontimeout = function (e) {
         alert("The request timed out.");
     };
     http.open('POST', url, true);
     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    http.onreadystatechange = function() {
+    http.onreadystatechange = function () {
         if (http.readyState == 4 && http.status == 200) {
             console.log(http.responseText);
             alert("Response received:\n" + http.responseText);
@@ -45,16 +45,16 @@ function showBibleChapter() {
     let url = 'getBookChapter.php';
     //let url = 'simpleAccounts.php';
     let params = 'book=' + book + '&chapter=' + chapter;
-    http.ontimeout = function(e) {
+    http.ontimeout = function (e) {
         alert("The request timed out.");
     };
     http.open('POST', url, true);
     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    http.onreadystatechange = function() {
+    http.onreadystatechange = function () {
         if (http.readyState == 4 && http.status == 200) {
             // console.log(http.responseText);
             // alert("Response received:\n" + http.responseText);
-            let bookChapter=JSON.parse(http.responseText);
+            let bookChapter = JSON.parse(http.responseText);
 
             let chapterContents = "";
             chapterContents = "<h2>" + OSISTOFULLNAME[book].toUpperCase() + " " + chapter.toUpperCase() + "</h2>";
@@ -86,14 +86,14 @@ function showCommentaryChapter() {
     //let url = 'https://garydavenport.com/logtime/simpleAccounts.php';
     let url = 'getJFBChapter.php';
     let params = 'key=' + commentarySelect.value;
-    http.ontimeout = function(e) {
+    http.ontimeout = function (e) {
         alert("The request timed out.");
     };
     http.open('POST', url, true);
     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    http.onreadystatechange = function() {
+    http.onreadystatechange = function () {
         if (http.readyState == 4 && http.status == 200) {
-            console.log(http.responseText);
+            //console.log(http.responseText);
             //alert("Response received:\n" + http.responseText);
 
             let contents = JSON.parse(http.responseText);
@@ -111,32 +111,43 @@ function showCommentaryChapter() {
 }
 
 function showDictionaryEntry(evt) {
-        // console.log("***************************");
-        console.log("showDictionaryCalled", evt);
-        // console.log(evt.target.classList);
-        // console.log(evt.target.parentElement.id);
-        console.log(evt.target.innerHTML);
-        // console.log("***************************");
-    
-        ///Place the right word as the dictionary inpu
-        if (evt.target.classList.contains("definition-relatives")) {//take number off if using relative
-            let baseName = evt.target.innerHTML.replace(/\d/g, "").trim();
-            dictionaryInput.value = baseName;
-        }
-    
-        if (dictionaryInput.value.length < 1) { return; }// make sure a string length of at least 1 is present
-    
-        ///Make sure its capitalized
-        dictionaryInput.value = dictionaryInput.value[0].toUpperCase() + dictionaryInput.value.slice(1);
-    
-        //handle no word in dictionary
-        let wordIndex = dictionaryWords.indexOf(dictionaryInput.value);
-        if (wordIndex === -1) {
-            dictionaryContents.innerHTML = "Word not found!";
-            return;
-        }
-    
-        //
+    let baseName = "";
+    if (evt.target.id === "dictionary-word-load") {
+        baseName = dictionaryInput.value;
+    }
+    else {
+        baseName = evt.target.innerHTML;
+    }
+
+    console.log(baseName);
+    //dictionaryInput.value = evt.target.innerHTML;
+    // console.log("***************************");
+    console.log("showDictionaryCalled", evt);
+    // console.log(evt.target.classList);
+    // console.log(evt.target.parentElement.id);
+    console.log(evt.target.innerHTML);
+    // console.log("***************************");
+
+    ///Place the right word as the dictionary inpu
+    if (evt.target.classList.contains("definition-relatives")) {//take number off if using relative
+        baseName = baseName.replace(/\d/g, "").trim();
+    }
+
+    if (baseName.length < 1) { return; }// make sure a string length of at least 1 is present
+
+    ///Make sure its capitalized
+    baseName = baseName[0].toUpperCase() + baseName.slice(1);
+    //dictionaryInput.value = dictionaryInput.value[0].toUpperCase() + dictionaryInput.value.slice(1);
+    console.log(baseName);
+
+    //handle no word in dictionary
+    let wordIndex = dictionaryWords.indexOf(baseName);
+    if (wordIndex === -1) {
+        dictionaryContents.innerHTML = "Word not found!";
+        return;
+    }
+
+    //
 
 
     let http = new XMLHttpRequest();
@@ -146,29 +157,17 @@ function showDictionaryEntry(evt) {
     //let url = 'https://garydavenport.com/logtime/simpleAccounts.php';
     let url = 'getEastonsWordEntry.php';
     let params = 'index=' + wordIndex;
-    http.ontimeout = function(e) {
+    http.ontimeout = function (e) {
         alert("The request timed out.");
     };
     http.open('POST', url, true);
     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    http.onreadystatechange = function() {
+    http.onreadystatechange = function () {
         if (http.readyState == 4 && http.status == 200) {
-            console.log(http.responseText);
+            //console.log(http.responseText);
             //alert("Response received:\n" + http.responseText);
-
-
-
-
-
-
-
             let entries = JSON.parse(http.responseText);
-
-
-
-
             //let entries = eastons[wordIndex];
-
             let str = ""; //for building html contents
             let senderRefArrayStr = ""; //a csv string of osis references from sending event
             //let referenceFound = false; //a flag that will stop searching once a reference is dound
@@ -176,31 +175,31 @@ function showDictionaryEntry(evt) {
             let bestId = ""; //the id of a div that should be opened
             let referencesCount = 0;
             let matchKnown = false;
-        
+
             if (evt.target.parentElement.id.indexOf("-refs-") !== -1) {//event is coming from contents of definition
                 senderRefArrayStr = evt.target.parentElement.id.split("-refs-")[1];
             }
-        
+
             else if (evt.target.parentElement.id === "bible-contents") {//event is coming from bible chapter verse
                 senderRefArrayStr = bibleSelect.value;
-        
+
             } else if (evt.target.parentElement.id === "commentary-contents") {//event coming from commentary
                 senderRefArrayStr = commentarySelect.value;
             }
-        
+
             if (entries.length === 1) {//there is only one entry, so open that entry
                 bestId = entries[0]["Entry"].split(" ").join("-") + "-refs-" + entries[0]["References"];
                 //referenceFound = true;
                 //matchKnown=true;
             }
-        
+
             let entriesMatching = 0;
-        
+
             //console.log(entries);
             for (let i = 0; i < entries.length; i++) {
-        
+
                 let id = entries[i]["Entry"].split(" ").join("-") + "-refs-" + entries[i]["References"];
-        
+
                 if (evt.target.classList.contains("definition-relatives")) {//event coming from a person click
                     if (entries[i]["Entry"] === evt.target.innerHTML) {//name matches entry best id knwn
                         console.log("coming from a person click");
@@ -211,11 +210,11 @@ function showDictionaryEntry(evt) {
                 }
                 //start building contents of dictionary entry
                 str += "<div><span class='definition-entry nested-menu'>" + entries[i]["Entry"] + "</span><div id='" + id + "'>";
-        
+
                 let contents = "";
                 let entryProperties = Object.keys(entries[i]);
                 for (let j = 0; j < entryProperties.length; j++) {
-        
+
                     if (entryProperties[j] === "Entry") {
                         //do nothing, entry already listed
                     }
@@ -231,7 +230,7 @@ function showDictionaryEntry(evt) {
                                     //also while looping see if the reference is in the senders references
                                     //if so make note of a match.
                                     if (matchKnown === false) {//only look if not already found
-        
+
                                         let refsBCV = refsArray[k].split(".");//removing the verse just match by book chap
                                         let refsBC = refsBCV[0] + "." + refsBCV[1];
                                         //console.log("checking for ",refsBC,"in",senderRefArrayStr);
@@ -251,7 +250,7 @@ function showDictionaryEntry(evt) {
                         else if (entryProperties[j] === "Definition") {
                             contents = tagRefsAndWords(contents, "<span class='osis'>", "</span>", "<span class='word'>", "</span>");
                         }
-        
+
                         else if (entryProperties[j] === "Entry") {
                             contents = "<span class='definition-entry'>" + contents + "</span>";
                         }
@@ -300,43 +299,7 @@ function showDictionaryEntry(evt) {
             if ((bestId !== "") && (entriesMatching === 1)) { //must have just one match to open
                 document.getElementById(bestId).style.display = "unset";
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // contents = convertPlainText(contents);
-            // //contents = contents.replace(/\t{1,}/g, "&nbsp;&nbsp;&nbsp;&nbsp;");//replaces spaces
-            // //contents = contents.replace(/ {4,}/g, "&nbsp;&nbsp;&nbsp;&nbsp;");//replaces spaces
-            // //contents = contents.replace(/\n/g, "<br>");//replaces newlines with breaks
-            // contents = tagRefsAndWords(contents, "<span class='osis'>", "</span>", "<span class='word'>", "</span>");
-            // commentaryContents.innerHTML = contents;
-            // addEventListenersToWords();
-            // addEventListenersToReferences();
+            dictionaryInput.value = baseName;
         }
     }
     http.send(params);

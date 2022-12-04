@@ -38,6 +38,17 @@ function showCommentaryChapter() {
 }
 
 function showDictionaryEntry(evt) {
+
+    let baseName = "";
+    if (evt.target.id === "dictionary-word-load") {
+        baseName = dictionaryInput.value;
+    }
+    else {
+        baseName = evt.target.innerHTML;
+    }
+
+    console.log(baseName);
+    //dictionaryInput.value = evt.target.innerHTML;
     // console.log("***************************");
     console.log("showDictionaryCalled", evt);
     // console.log(evt.target.classList);
@@ -47,17 +58,18 @@ function showDictionaryEntry(evt) {
 
     ///Place the right word as the dictionary inpu
     if (evt.target.classList.contains("definition-relatives")) {//take number off if using relative
-        let baseName = evt.target.innerHTML.replace(/\d/g, "").trim();
-        dictionaryInput.value = baseName;
+        baseName = baseName.replace(/\d/g, "").trim();
     }
 
-    if (dictionaryInput.value.length < 1) { return; }// make sure a string length of at least 1 is present
+    if (baseName.length < 1) { return; }// make sure a string length of at least 1 is present
 
     ///Make sure its capitalized
-    dictionaryInput.value = dictionaryInput.value[0].toUpperCase() + dictionaryInput.value.slice(1);
+    baseName=baseName[0].toUpperCase() + baseName.slice(1);
+    //dictionaryInput.value = dictionaryInput.value[0].toUpperCase() + dictionaryInput.value.slice(1);
+    console.log(baseName);
 
     //handle no word in dictionary
-    let wordIndex = dictionaryWords.indexOf(dictionaryInput.value);
+    let wordIndex = dictionaryWords.indexOf(baseName);
     if (wordIndex === -1) {
         dictionaryContents.innerHTML = "Word not found!";
         return;
@@ -185,6 +197,8 @@ function showDictionaryEntry(evt) {
     }
     console.log("Number of matches: " + entriesMatching);
     dictionaryContents.innerHTML = str;
+
+    dictionaryInput.value = baseName;//taken from the process function
     addEventListenersToWords();
     addEventListenersToPeople();
     addEventListenersToReferences();

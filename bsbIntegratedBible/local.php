@@ -9,9 +9,9 @@
     <link id="favicon-link" rel="icon" type="image/x-icon" href="">
     <!-- <link rel="stylesheet" href="style.css"> -->
     <style>
-    <?php
-    include_once("./style.css");
-    ?>
+        <?php
+        include_once("./style.css");
+        ?>
     </style>
 </head>
 
@@ -54,7 +54,9 @@
         <main id="bible">
             <h3>Bible</h3>
             <nav>
+                <button class="narrow" id="bible-chapter-previous">&lt;</button>
                 <select id="bible-select"></select>
+                <button class="narrow" id="bible-chapter-next">&gt;</button>
                 <button id="see-commentary-button">↱💬</button>
                 <button id="stop-audio">◼</button>
                 <button id="play-audio">▶</button>
@@ -72,7 +74,11 @@
         </main>
         <main id="commentary">
             <h3>Commentary</h3>
-            <nav> <select id="commentary-select"></select></nav>
+            <nav>
+                <button class="narrow" id="commentary-chapter-previous">&lt;</button>
+                <select id="commentary-select"></select>
+                <button class="narrow" id="commentary-chapter-next">&gt;</button>
+            </nav>
             <div id="commentary-contents"></div>
         </main>
         <datalist id="bible-words"></datalist>
@@ -194,14 +200,9 @@
                         <button>🔎</button>
                         <div id="dictionary-contents">
                             <div><span class="definition-entry nested-menu">Salem</span>
-                                <div id="Salem-refs-Gen.14.18,Ps.76.2,Heb.7.1,Heb.7.2"><br><b>References</b>: <span
-                                        class="osis">Gen.14.18</span>, <span class="osis">Ps.76.2</span>, <span
-                                        class="osis">Heb.7.1</span>, <span
-                                        class="osis">Heb.7.2</span><br><b>Definition</b>:
+                                <div id="Salem-refs-Gen.14.18,Ps.76.2,Heb.7.1,Heb.7.2"><br><b>References</b>: <span class="osis">Gen.14.18</span>, <span class="osis">Ps.76.2</span>, <span class="osis">Heb.7.1</span>, <span class="osis">Heb.7.2</span><br><b>Definition</b>:
                                     Peace, commonly supposed to be another name of <span class="word">Jerusalem</span>
-                                    (<span class="osis">Gen.14.18</span>); (<span class="osis">Ps.76.2</span>); (<span
-                                        class="osis">Heb.7.1</span>), (<span
-                                        class="osis">Heb.7.2</span>).<br><b>Location</b>:
+                                    (<span class="osis">Gen.14.18</span>); (<span class="osis">Ps.76.2</span>); (<span class="osis">Heb.7.1</span>), (<span class="osis">Heb.7.2</span>).<br><b>Location</b>:
                                     <span class="definition-location">31.777444,35.234935</span><br><br>
                                 </div>
                             </div>
@@ -277,8 +278,7 @@
                         </li>
                         <li>.</li>
                         <li>
-                            <a href="https://github.com/openbibleinfo/Bible-Geocoding-Data"
-                                target="_blank">openbibleinfo/Bible-Geocoding-Data Public</a>
+                            <a href="https://github.com/openbibleinfo/Bible-Geocoding-Data" target="_blank">openbibleinfo/Bible-Geocoding-Data Public</a>
                         </li>
                         <li>.</li>
                         <li>
@@ -298,8 +298,7 @@
                         </li>
                         <li>.</li>
                         <li>
-                            <a href="https://en.wikipedia.org/wiki/Jamieson-Fausset-Brown_Bible_Commentary"
-                                target="_blank">Jamieson-Fausset-Brown Bible Commentary (Fair Use)</a>
+                            <a href="https://en.wikipedia.org/wiki/Jamieson-Fausset-Brown_Bible_Commentary" target="_blank">Jamieson-Fausset-Brown Bible Commentary (Fair Use)</a>
                         </li>
                         <li>.</li>
                         <li>
@@ -314,17 +313,26 @@
     <!-- Load Bible, Dictionary, and Commentary, and other Constant Arrays-->
     <!-- constants.js contains OSISBOOKS, OSISTOFULLNAME, HEADINGS, PARAGRAPHLOCATIONS -->
     <script>
-    <?php
-    echo("let nestedBible="); include_once("./bsb.json"); echo(";");
-    echo("let eastons="); include_once("./eastons.json"); echo(";");
-    echo("let jfb="); include_once("./jfb.json"); echo(";");
-    include_once("./constants.js");
-    include_once("./baseMap.js");
-    include_once("./readingPlans.js");
-    include_once("./javascriptLocal.js");
-    include_once("./javascriptCommon.js");
-    ?>
-</script>
+        <?php
+        echo ("let nestedBible=");
+        include_once("./bsb.json");
+        echo (";");
+        echo ("let eastons=");
+        include_once("./eastons.json");
+        echo (";");
+        echo ("let jfb=");
+        include_once("./jfb.json");
+        echo (";");
+        echo ("let redLetterReferences=");
+        include_once("./redLetterReferences.json");
+        echo (";");
+        include_once("./constants.js");
+        include_once("./baseMap.js");
+        include_once("./readingPlans.js");
+        include_once("./javascriptLocal.js");
+        include_once("./javascriptCommon.js");
+        ?>
+    </script>
 </body>
 
 </html>
