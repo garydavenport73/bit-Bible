@@ -1,0 +1,19 @@
+fundamental inputs to the program are
+
+    CONSTANTS
+    redLetterReferences.json
+    readingPlans.js
+    jfb.json
+    eastons.json
+    baseMap.js    
+    bsb.json
+
+    need function that takes csv and converts to
+        nestedBible
+        regularBible
+
+    need to make an osis pulpit commentary
+
+    *** Need Master CSV File
+    *** Need file that converts to nestedBible
+    *** Need file that converst to osis to verse
