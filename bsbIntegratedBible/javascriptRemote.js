@@ -67,7 +67,20 @@ function showBibleChapter() {
                     if (HEADINGS[currentBCV] !== undefined) {
                         chapterContents += "<h3>" + HEADINGS[currentBCV] + "</h3>";
                     }
-                    chapterContents += "<sup>" + i.toString() + ".</sup>" + bookChapter[i.toString()];
+                    //chapterContents += "<sup>" + i.toString() + ".</sup>" + bookChapter[i.toString()];
+                    console.log(currentBCV);
+                    if (!useRedLetters) {
+                        chapterContents += "<sup>" + i.toString() + ".</sup>" + bookChapter[i.toString()];
+                    }
+                    else {
+                        if (redLetterReferences.includes(currentBCV)) {
+                            console.log("found red letter");
+                            chapterContents += "<span class='redletter\'><sup>" + i.toString() + ".</sup>" + bookChapter[i.toString()] + "</span>";
+                        } else {
+                            console.log("no red letters");
+                            chapterContents += "<sup>" + i.toString() + ".</sup>" + bookChapter[i.toString()];
+                        }
+                    }
                 }
             }
             chapterContents = tagRefsAndWords(chapterContents, "<span class='osis'>", "</span>", "<span class='word'>", "</span>");

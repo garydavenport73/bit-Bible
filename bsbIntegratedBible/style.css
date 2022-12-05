@@ -257,3 +257,6 @@ main nav select,main input{
 .narrow{
     min-width: 0;
 }
+.redletter{
+    color:rgb(200, 0, 0);
+}

@@ -58,6 +58,12 @@
                 <select id="bible-select"></select>
                 <button class="narrow" id="bible-chapter-next">&gt;</button>
                 <button id="see-commentary-button">↱💬</button>
+                <button>
+                    <input type="checkbox" id="show-red-letters">
+                    <label id="label-for-show-red-letters" for="show-red-letters">Red Letters</label>
+                </button>
+            </nav>
+            <nav>
                 <button id="stop-audio">◼</button>
                 <button id="play-audio">▶</button>
                 <button id="pause-audio"><b>||</b></button>
@@ -176,18 +182,30 @@
             <div>
                 <h3 class="nested-menu">Bible Menu Buttons</h3>
                 <div class="initial-close">
-                    <nav>
-                        <button>↱💬</button>
-                        <button>◼</button>
-                        <button>▶</button>
-                        <button><b>||</b></button>
-                    </nav>
+                <nav>
+                <button class="narrow">&lt;</button>
+                <select>Gen 1</select>
+                <button class="narrow">&gt;</button>
+                <button>↱💬</button>
+                <button>
+                    <input type="checkbox">
+                    <label>Red Letters</label>
+                </button>
+            </nav>
+            <nav>
+                <button>◼</button>
+                <button>▶</button>
+                <button><b>||</b></button>
+            </nav>
                     <ul>
+                        <li>&lt; - previous chapter</li>
+                        <li>&gt; - next chapter</li>
+                        <li><input type="checkbox"><label>Red Letters</label> - Verses that contain Jesus's words shown in red.</li>
                         <li>↱💬 - Will select and open the commentary corresponding to the current Bible book and
                             chapter.</li>
                         <li>◼ - Will stop audio from playing and reset to the beginning of the chapter.</li>
                         <li>▶ - Will play or resume audio if paused.</li>
-                        <li><b>|| Will pause audio at current position in the chapter.</b></li>
+                        <li><b>||</b> - Will pause audio at current position in the chapter.</li>
                     </ul>
                 </div>
             </div>

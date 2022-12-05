@@ -17,7 +17,22 @@ function showBibleChapter() {
             if (HEADINGS[currentBCV] !== undefined) {
                 chapterContents += "<h3>" + HEADINGS[currentBCV] + "</h3>";
             }
-            chapterContents += "<sup>" + i.toString() + ".</sup>" + nestedBible[book][chapter][i.toString()];
+
+
+            console.log(currentBCV);
+
+            if (!useRedLetters) {
+                chapterContents += "<sup>" + i.toString() + ".</sup>" + nestedBible[book][chapter][i.toString()];
+            }
+            else {
+                if (redLetterReferences.includes(currentBCV)) {
+                    console.log("found red letter");
+                    chapterContents += "<span class='redletter\'><sup>" + i.toString() + ".</sup>" + nestedBible[book][chapter][i.toString()] + "</span>";
+                } else {
+                    console.log("no red letters");
+                    chapterContents += "<sup>" + i.toString() + ".</sup>" + nestedBible[book][chapter][i.toString()];
+                }
+            }
         }
     }
     chapterContents = tagRefsAndWords(chapterContents, "<span class='osis'>", "</span>", "<span class='word'>", "</span>");
@@ -64,7 +79,7 @@ function showDictionaryEntry(evt) {
     if (baseName.length < 1) { return; }// make sure a string length of at least 1 is present
 
     ///Make sure its capitalized
-    baseName=baseName[0].toUpperCase() + baseName.slice(1);
+    baseName = baseName[0].toUpperCase() + baseName.slice(1);
     //dictionaryInput.value = dictionaryInput.value[0].toUpperCase() + dictionaryInput.value.slice(1);
     console.log(baseName);
 

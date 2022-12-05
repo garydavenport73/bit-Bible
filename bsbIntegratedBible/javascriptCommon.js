@@ -717,6 +717,20 @@ function processShowAllCheckBox() {
         disableMainNavButtons(false);
     }
 }
+
+function toggleRedLetters(){
+    console.log("toggle red letters");
+    if (document.getElementById("show-red-letters").checked===true){
+        useRedLetters=true;
+        console.log("should use");
+        showBibleChapter();
+    }
+    else{
+        useRedLetters=false;
+        console.log("don't use");
+        showBibleChapter();
+    }
+}
 function disableMainNavButtons(disable = true) {
     readingButton.disabled = disable;
     bibleButton.disabled = disable;
@@ -908,6 +922,7 @@ let buttonSelectMaps = document.getElementsByClassName("btn-select-map");
 let jfbKeys = [];//fill in later with function
 let osis = [];//fill in later with function
 let dictionaryWords = [];//fill in later with function
+let useRedLetters=false;
 //load map set size of map
 asciiMap.innerHTML = BASEMAP;
 setSizeOfAsciiMap(320);//sets to 320px
@@ -938,6 +953,7 @@ document.getElementById("bible-chapter-previous").addEventListener("click",backO
 document.getElementById("bible-chapter-next").addEventListener("click",forwardOneChapterBible);
 document.getElementById("commentary-chapter-previous").addEventListener("click",backOneChapterCommentary);
 document.getElementById("commentary-chapter-next").addEventListener("click",forwardOneChapterCommentary);
+document.getElementById("show-red-letters").addEventListener("change",toggleRedLetters);
 for (let button of buttonSelectMaps) {
     button.addEventListener("click", addBackgroundLocations);
 }
