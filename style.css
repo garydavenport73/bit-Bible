@@ -1,0 +1,262 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul {
+    margin: 0;
+    padding: 0;
+}
+ol,ul{
+    list-style-type: none;
+}
+
+html{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: aliceblue;
+}
+
+
+nav, .help-nav{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: rgb(68, 180, 255);
+
+}
+h1{
+    box-sizing: border-box;
+    /* width: 320px; */
+    border-radius: 5px;
+    background-color:rgb(0,124,207);
+    color: snow;
+}
+
+h1,h2,h3{
+    text-align: center;
+}
+
+h3 span.word,
+h2 span.word {
+    background-color: snow;
+}
+
+.initial-close{
+    display: none;
+}
+
+#main-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+main {
+    width: 320px;
+    background-color: snow;
+    min-height: 450px;
+    display: none;
+    font-size: 1.1rem;
+}
+
+
+
+h2{
+    padding: 5px;
+    margin: 5px;   
+}
+
+h1{
+    overflow: hidden;
+    padding:8px;
+}
+
+/* .osis {
+    background-color: lightcoral;
+}
+
+.definition-entry {
+    background-color: orange;
+}
+
+.definition-location {
+    background-color: yellow;
+}
+
+.definition-relatives {
+    background-color: pink;
+} */
+
+.word,
+.osis,
+.definition-entry,
+.definition-location,
+.definition-relatives {
+    background-color: rgb(229,238,246);
+}
+
+button:hover,
+.word:hover,
+.osis:hover,
+.definition-entry:hover,
+.definition-location:hover,
+.definition-relatives:hover,
+#reading-plan-table .osis:hover, #help .nested-menu:hover, #help a:hover {
+    background-color: rgb(0,124,207);
+    color: snow;
+}
+a{
+    text-decoration: none;
+    color:rgb(0,124,207);;
+}
+#help h3{
+    background-color: lightgrey;
+    border-radius: 5px;
+}
+
+
+#map-container {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+#ascii-map {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 4px;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    line-height: 1;
+    background-color: snow;
+}
+
+.bullseye, .background-location{
+    font-size: 1em;
+    font-family: 'Courier New', Courier, monospace;
+    position: absolute;
+    transform: translate(-0.5em, -0.5em);
+    background-color: rgba(255, 250, 250, 0.4);
+}
+
+.bullseye {
+    color: blue;
+    z-index: 999;
+}
+
+.background-location {
+    color: darkslategray;
+    z-index: 998;
+}
+
+#reading-plan-table {
+    font-size: .75rem;
+    table-layout: fixed;
+    border-spacing: 0px;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 320px;
+}
+
+#reading-plan-table td {
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    word-wrap: break-word;
+}
+
+#reading-plan-table tr:nth-child(odd) {
+    background-color: lightgrey;
+}
+
+#reading-plan-table tr:nth-child(even) {
+    background-color: rgb(248, 244, 244);
+}
+
+#reading-plan-table .osis{
+    background-color: transparent;
+}
+
+td{
+    border: 1px solid grey;
+}
+
+main {
+    height: 650px;
+    overflow-y: auto;
+}
+@media only screen and (max-width: 1000px) {
+    h1,body{
+        width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    main {
+        height: unset;
+        overflow-y: unset;
+    }
+}
+
+sub {
+    font-size: 0.9rem;
+}
+
+#show-all-checkbox {
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+}
+
+/* INITIALIZATION */
+
+button, .help-nav button{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: lightgrey;
+    padding: 5px;
+    margin: 1px;
+    font-size: 1.4em;
+    border-radius: 5px;
+    border: 1px solid grey;
+    min-width: 40px;
+}
+
+/* Navs inside of mains */
+main nav{
+    background-color: snow;
+}
+main nav button{
+    padding: 2px;
+    margin: 2px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid grey;
+    min-width: 40px;
+}
+main nav select,main input{
+    font-size: 1rem;
+} 
+
+
+#courier-button {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#sans-button {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#times-button {
+    font-family: 'Times New Roman', Times, serif;
+}
+.narrow{
+    min-width: 0;
+}
+.redletter{
+    color:rgb(200, 0, 0);
+}

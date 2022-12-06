@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Choose your bitBible</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="bitBible, Bible Study suite, study tools, concordance, commentary, reading schedule, The Pulpit Commentary, Easton's Dictionary">
+    <link rel="stylesheet" href="w3.css">
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <style>
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: "Lato", sans-serif
+        }
+
+        .w3-bar,
+        h1,
+        button {
+            font-family: "Montserrat", sans-serif
+        }
+
+        .large-letter {
+            font-size: 200px
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <div class="w3-top">
+        <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+            <!-- <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" 
+                href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a> -->
+            <!-- <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red"
+                href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu">&equiv;</a> -->
+            <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large sw3-padding-large w3-hover-white w3-large w3-red"
+                href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu">&equiv;</a>
+            <!-- <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a> -->
+            <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Home</a>            
+            <a href="https://github.com/garydavenport73/bitbible"
+                class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">GitHub</a>
+            <a href="https://biblehub.com/"
+                class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">BibleHub</a>
+            <a href="https://bibleproject.com/"
+                class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Bible Project</a>
+            <a href="https://bereanbible.com/"
+                class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Berean Study Bible</a>
+            <a href="https://www.lockman.org/" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">The Lockman Foundation</a>
+            </div>
+
+        <!-- Navbar on small screens -->
+        <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+            <a href="https://github.com/garydavenport73/bitbible"
+                class="w3-bar-item w3-button w3-padding-large">Github</a>
+            <a href="https://biblehub.com/" class="w3-bar-item w3-button w3-padding-large">BibleHub</a>
+            <a href="https://bibleproject.com/" class="w3-bar-item w3-button w3-padding-large">Bible Project</a>
+            <a href="https://bereanbible.com/" class="w3-bar-item w3-button w3-padding-large">Berean Study Bible</a>
+            <a href="https://www.lockman.org/" class="w3-bar-item w3-button w3-padding-large">The Lockman Foundation</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <style>
+        #bible-form {
+            display: flex;
+            flex-direction: column;
+            width: 320px;
+            margin: auto;
+            background-color: snow;
+            padding: 20px;
+
+        }
+
+        #bible-form * {
+            height: 40px;
+            font-size: 1.1rem;
+            color: black;
+        }
+
+        a,
+        select,
+        form,
+        button {
+            border-radius: 10px;
+        }
+    </style>
+    <header class="w3-container w3-red w3-center" style="padding:128px 16px">
+        <h1 class="w3-margin w3-jumbo">bitBible</h1>
+        <p class="w3-xlarge">Options</p>
+
+        <form id="bible-form" action="process-request" method="get">
+            <label for="reading-plan">Choose a Reading Plan:</label>
+            <select id="reading-plan">
+                <option value="Chronological">Chronological (Yearly)</option>
+                <option value="OTNT">Old and New Testament Each Day (Yearly)</option>
+                <option value="Straight">Straight Through (Yearly)</option>
+            </select>
+            <label for="bible">Choose a Bible:</label>
+            <select id="bible">
+                <option value="AKJV" disabled>AKJV (Authorized King James Version)</option>
+                <option value="AMP" disabled>AMP (The Amplified Bible)</option>
+                <option value="ASV">ASV (American Standard Version)</option>
+                <option value="BSB">BSB (Berean Study Bible)</option>
+                <option value="CPDV">CPDV (Catholic Public Domain Version)</option>
+                <option value="DBT">DBT (Darby Bible Translation)</option>
+                <option value="DRB">DRB (Douay-Rheims Bible)</option>
+                <option value="ERV" disabled>ERV (English Revised Version</option>
+                <option value="ESV" disabled>ESV (English Standard Version)</option>
+                <option value="JPSWEY">JPSWEY (JPS Tanakh 1917 OT / Weymouth NT)</option>
+                <option value="KJV">KJV (King James Version)</option>
+                <option value="NASB" disabled>NASB (New American Standard Bible)</option>
+                <option value="NHEB">NHEB (New Heart English Bible)</option>
+                <option value="NIV" disabled>NIV (New International Version)</option>
+                <option value="NKJV" disabled>NKJV (New King James Version)</option>
+                <option value="SLT">SLT (Smith's Literal Translation)</option>
+                <option value="WBT">WBT (Webster Bible Translation)</option>
+                <option value="WEB">WEB (World English Bible)</option>
+                <option value="YLT">YLT (Young's Literal Translation)</option>
+            </select>
+            <!-- <button type="button" onclick="onclick=processSelections();">Go to Bible</button> -->
+        </form>
+
+        </div>
+        <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top"
+            onclick="onclick=processSelections();">Get Your Bible</button>
+    </header>
+
+    <!-- First Grid -->
+    <div class="w3-row-padding w3-padding-64 w3-container">
+        <div class="w3-content">
+            <div class="w3-twothird">
+                <h2>Just what you need.</h2>
+                <h5 class="w3-padding-32">This app was made to have the essentials of a Bible Study app.
+                    You can choose your reading plan, your Bible translation, and it will package it together width
+                    Easton's Bible Dictionary, The Pulpit Commentary, and a holy land map. You can save your reading
+                    progress, and download the app to your device. It will run on anything with a modern web browser.
+                </h5>
+
+                <p class="w3-text-grey">Easton's Bible Dictionary is enhanced, and contains additional information,
+                    like family relationships and geographic locations. The Pulpit Commentary is a long academic project
+                    written over a 30 year period with over 100 authors.
+                </p>
+            </div>
+
+            <!-- <div class="w3-third w3-center"> -->
+            <div class="w3-center">
+                <p class="large-letter">&#128214;</p>
+                <!-- <i class="fa fa-anchor w3-padding-64 w3-text-red"></i> -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Grid -->
+    <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+        <div class="w3-content">
+            <!-- <div class="w3-third w3-center"> -->
+            <!-- <div class="w3-center">
+                <p class="large-letter">&#9749;</p>
+            </div> -->
+
+            <div class="w3-twothird">
+                <h2>Online, offline, and cross-platform</h2>
+                <h5 class="w3-padding-32">The app can be used online or offline, and contains no external dependencies
+                    like images.
+                    Ideally, you can request your reading plan, Bible version, and download the app for use offline.
+                    This is in fact
+                    the intended designed, but you can also use the app as an online web app too.
+                </h5>
+
+                <p class="w3-text-grey">The downloaded app will simply be a single html file about 50mb in size. It can
+                    be copied and shared
+                    and runs on anything with a browser. To get the bitBible app, just simply enter your reading plan
+                    and Bible Version and hit the "Get Your Bible" button.
+                </p>
+                <p class="w3-text-grey">After this, a web based app will open. In the upper navigation bar, hit the
+                    download button and directions for download
+                    will be shown. Read the instructions in order to dowload. For Desktop, Android, Linux, and Windows
+                    users, you will simply download the 50mb file.
+                </p>
+                <p class="w3-text-grey">
+                    For IPhone users, the procedure is slightly different. There is an IPhone users page you will go to,
+                    and in that page all the data is present.
+                    You simply save the page for offline use and further instructions are shown. More detailed
+                    instructions are available at this <a href="https://support.apple.com/en-us/HT200294">Apple Support
+                        page</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Third Grid -->
+    <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+        <div class="w3-content">
+            <!-- <div class="w3-third w3-center"> -->
+            <div class="w3-center">
+                <p class="large-letter">&#9749;</p>
+                <!-- <i class="fa fa-coffee w3-padding-64 w3-text-red w3-margin-right"></i> -->
+            </div>
+
+            <div class="w3-twothird">
+                <h2>Credits and Sources</h2>
+                <h5 class="w3-padding-32">
+                    Thanks to everyone for all the hard and focused work that has made this possible.
+                    Hopefully, no one was missed.  This app is still a work in progress.
+                </h5>
+                <h5>Actively being updated</h5>
+                <p class="w3-text-grey">
+                    <ul>
+                        <li>Data:
+                            <ul>
+                                <li><a href="https://viz.bible/">https://viz.bible/</a> </li>
+                                <li><a href="https://www.openbible.info/geo/">https://www.openbible.info/geo/</a></li> 
+                                <li><a href="https://github.com/robertrouse/theographic-bible-metadata">https://github.com/robertrouse/theographic-bible-metadata</a></li> 
+                            </ul>
+                        </li>
+                        <li>
+                            Bibles:
+                            <ul>
+                                <li><a href="https://www.bereanbible.com/"></a>https://www.bereanbible.com/</li>
+                                <li><a href=""></a></li>
+                                <li><a href=""></a></li>
+                                <li><a href=""></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </p>
+                <h5>Copyright Notices:</h5>
+                <pre>
+https://berean.bible
+The Holy Bible, Berean Study Bible, BSB
+Copyright ©2016, 2020 by Bible Hub
+Used by Permission.
+All Rights Reserved Worldwide.
+
+Public Domain:
+ASV (American Standard Version)
+CPDV (Catholic Public Domain Version)
+DBT (Darby Bible Translation)
+DRB (Douay-Rheims Bible)
+JPJPSWEY (JPS Tanakh 1917 OT / Weymouth NT)
+KJV (King James Version)
+NHEB (New Heart English Bible)
+SLT (Smith's Literal Translation)
+WBT (Webster Bible Translation)
+WEB (World English Bible)
+YLT (Young's Literal Translation)
+Easton's Bible Dictionary
+The Pulpit Commentary
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
+        <h1 class="w3-margin w3-xlarge">Verse of the day:  John 3:16 <i>"For God so loved the world that He gave His one and only Son,
+            that everyone who believes in Him shall not perish but have eternal life."</i></h1>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w3-container w3-padding-64 w3-center w3-opacity">
+        <div class="w3-xlarge w3-padding-32">
+            <!-- <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i> -->
+            <!-- <span w3-hover-opacity>F</span>
+    <span w3-hover-opacity>I</span>
+    <span w3-hover-opacity>S</span>
+    <span w3-hover-opacity>P</span>
+    <span w3-hover-opacity>T</span>
+    <span w3-hover-opacity>L</span> -->
+        </div>
+        <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    </footer>
+
+    <script>
+        // Used to toggle the menu on small screens when clicking on the menu button
+        function myFunction() {
+            var x = document.getElementById("navDemo");
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
+            }
+        }
+        function processSelections() {
+            let bible = document.getElementById("bible");
+            let bibleSelection = bible.options[bible.selectedIndex].value
+            let readingPlan = document.getElementById("reading-plan");
+            let readingPlanSelection = readingPlan.options[readingPlan.selectedIndex].value;
+            //alert(bibleSelection+readingPlanSelection);
+            let myUrl = "bitbibleOnline.php?reading-plan=" + readingPlanSelection + "&bible-name=" + bibleSelection;
+            location.href = myUrl;
+            //alert(myUrl);    
+        }
+    </script>
+
+</body>
+
+</html>
