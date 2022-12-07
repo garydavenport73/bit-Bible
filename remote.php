@@ -182,21 +182,21 @@
             <div>
                 <h3 class="nested-menu">Bible Menu Buttons</h3>
                 <div class="initial-close">
-                <nav>
-                <button class="narrow">&lt;</button>
-                <select>Gen 1</select>
-                <button class="narrow">&gt;</button>
-                <button>↱💬</button>
-                <button>
-                    <input type="checkbox">
-                    <label>Red Letters</label>
-                </button>
-            </nav>
-            <nav>
-                <button>◼</button>
-                <button>▶</button>
-                <button><b>||</b></button>
-            </nav>
+                    <nav>
+                        <button class="narrow">&lt;</button>
+                        <select>Gen 1</select>
+                        <button class="narrow">&gt;</button>
+                        <button>↱💬</button>
+                        <button>
+                            <input type="checkbox">
+                            <label>Red Letters</label>
+                        </button>
+                    </nav>
+                    <nav>
+                        <button>◼</button>
+                        <button>▶</button>
+                        <button><b>||</b></button>
+                    </nav>
                     <ul>
                         <li>&lt; - previous chapter</li>
                         <li>&gt; - next chapter</li>
@@ -333,20 +333,53 @@
     <script>
         <?php
         // echo ("let nestedBible=");
-        // include_once("./bsb.json");
+        // include_once("./BSB.json");
         // echo (";");
+        
         // echo ("let eastons=");
         // include_once("./eastons.json");
         // echo (";");
+
         // echo ("let jfb=");
         // include_once("./jfb.json");
         // echo (";");
-        echo ("let redLetterReferences=");
-        include_once("./redLetterReferences.json");
+
+        echo ("let REDLETTERREFERENCES=");
+        include_once("./REDLETTERREFERENCES.json");
         echo (";");
-        include_once("./constants.js");
-        include_once("./baseMap.js");
-        include_once("./readingPlans.js");
+
+        echo ("let BASEMAP=");
+        include_once("./BASEMAP.txt");
+        echo (";");
+
+        echo ("let HEADINGS=");
+        include_once("./HEADINGS.json");
+        echo (";");
+
+        echo ("let OSISTOFULLNAME=");
+        include_once("./OSISTOFULLNAME.json");
+        echo (";");
+
+        echo ("let OSISBOOKS=");
+        include_once("./OSISBOOKS.json");
+        echo (";");
+
+        echo ("let PARAGRAPHLOCATIONS=");
+        include_once("./PARAGRAPHLOCATIONS.json");
+        echo (";");
+
+        echo ("let CHRONOLOGICALREADINGPLAN=");
+        include_once("./CHRONOLOGICALREADINGPLAN.json");
+        echo (";");
+
+        echo ("let OTNTREADINGPLAN=");
+        include_once("./OTNTREADINGPLAN.json");
+        echo (";");
+
+        echo ("let STRAIGHTREADINGPLAN=");
+        include_once("./STRAIGHTREADINGPLAN.json");
+        echo (";");
+
         include_once("./javascriptRemote.js");
         include_once("./javascriptCommon.js");
         ?>

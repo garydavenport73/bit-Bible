@@ -25,7 +25,7 @@ function showBibleChapter() {
                 chapterContents += "<sup>" + i.toString() + ".</sup>" + nestedBible[book][chapter][i.toString()];
             }
             else {
-                if (redLetterReferences.includes(currentBCV)) {
+                if (REDLETTERREFERENCES.includes(currentBCV)) {
                     console.log("found red letter");
                     chapterContents += "<span class='redletter\'><sup>" + i.toString() + ".</sup>" + nestedBible[book][chapter][i.toString()] + "</span>";
                 } else {

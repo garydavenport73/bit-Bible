@@ -206,13 +206,13 @@ function loadReadingProgress() {
 
 
             if (readingPlanData["reading-plan-name"] === "Old Testament/New Testament") {
-                loadReadingTable("Old Testament/New Testament", OTNTReadingPlan);
+                loadReadingTable("Old Testament/New Testament", OTNTREADINGPLAN);
             }
             else if (readingPlanData["reading-plan-name"] === "Straight Through") {
-                loadReadingTable("Straight Through", StraightReadingPlan);
+                loadReadingTable("Straight Through", STRAIGHTREADINGPLAN);
             }
             else {
-                loadReadingTable("Chronological", ChronologicalReadingPlan);
+                loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
             }
 
             //console.log(readingPlanData);
@@ -285,13 +285,13 @@ function switchReadingPlans() {
         console.log("run switching mechanism");
         console.log(document.getElementById("reading-plan-name").innerHTML);
         if (document.getElementById("reading-plan-name").innerHTML === "Old Testament/New Testament") {
-            loadReadingTable("Straight Through", StraightReadingPlan);
+            loadReadingTable("Straight Through", STRAIGHTREADINGPLAN);
         }
         else if (document.getElementById("reading-plan-name").innerHTML === "Chronological") {
-            loadReadingTable("Old Testament/New Testament", OTNTReadingPlan);
+            loadReadingTable("Old Testament/New Testament", OTNTREADINGPLAN);
         }
         else {
-            loadReadingTable("Chronological", ChronologicalReadingPlan);
+            loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
         }
     }
 }
@@ -979,5 +979,5 @@ dictionaryWordLoadButton.click();
 commentarySelect.value = "Gen.1";
 showCommentaryChapter();
 showMain('bible');
-loadReadingTable("Chronological", ChronologicalReadingPlan);
+loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
 makeFavicon("B", "white", "blue");
