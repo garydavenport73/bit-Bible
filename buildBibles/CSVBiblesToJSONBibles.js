@@ -57,7 +57,6 @@ function makeCSV(thisTable, saveWithHeader = true) { ////This one fixed
         }
         csvString = csvString.slice(0, -1) + "\n"; //remove last comma and add new line
     }
-    //console.log(csvString);
     return (csvString);
 }
 
@@ -68,7 +67,6 @@ function tokenMaker(intSize) {
     for (let i = 0; i < intSize; i++) {
         token += specialString[Math.floor(Math.random() * specialString.length)];
     }
-    //console.log(token);
     return token;
 }
 
@@ -115,8 +113,6 @@ function readCSV(csvString, loadWithHeader = true) {
         }
         newCSVArrayOfArrays.push(tempRowArray); //add each row to the new array
     }
-    //console.log(newCSVArrayOfArrays); //now we have a straight array of arrays of strings in a csv style grid
-    //convert to headers and data.
     let headers = [];
     let data = [];
     if (newCSVArrayOfArrays.length > 0) {
@@ -146,15 +142,12 @@ function readCSV(csvString, loadWithHeader = true) {
             }
         }
     }
-
     let finalTable = {};
     finalTable["headers"] = headers;
     finalTable["data"] = data;
     //console.log(JSON.stringify(finalTable));
     return JSON.parse(JSON.stringify(finalTable));
 }
-
-
 
 function makeBible(bibleName, tableOfBibles) {
     let thisBible = {};
@@ -175,32 +168,25 @@ function makeNestedBible(jsonBible) {
     let currentChapter = "";
     let currentVerse = "";
     for (let i = 0; i < osisReferencesArray.length; i++) {
-
         let book = osisReferencesArray[i].split(".")[0];
         let chapter = osisReferencesArray[i].split(".")[1];
         let verse = osisReferencesArray[i].split(".")[2];
-
         if (currentBook !== book) {//new book, add to books
             currentBook = book;
             newBible[currentBook] = {};
             currentChapter = "";
             currentVerse = "";
         }
-
         if (currentChapter !== chapter) {
             currentChapter = chapter;
             currentVerse = "";
             newBible[currentBook][currentChapter] = {};
         }
-
         if (currentVerse !== verse) {
             currentVerse = verse;
             newBible[currentBook][currentChapter][currentVerse] = jsonBible[osisReferencesArray[i]];
         }
     }
-
-    //console.log(newBible);
-
     return newBible;
 }
 
@@ -245,49 +231,6 @@ function generateBibleChapter(nestedBible, book, chapter) {
             }
         }
     }
-
-    // ///// Variable centering with tabs
-    // let chapterContents = "";
-    // chapterContents = "\n\n\t\t\t" + OSISTOFULLNAME[book].toUpperCase() + " " + chapter.toUpperCase();
-    // console.log(chapterContents);
-    // for (let i = 0; i < 200; i++) {
-
-    //     if (nestedBible[book] !== undefined) {
-    //         if (nestedBible[book][chapter] !== undefined) {
-    //             if (nestedBible[book][chapter][i.toString()] !== undefined) {
-
-    //                 let currentBCV = book + "." + chapter + "." + i.toString();
-    //                 /*
-    //                 heading     paragraph   verse1  to do
-    //                 +           -                   \n\n\t\t heading  \n\n\t[]verse + space
-    //                 +           +                   \n\n\t\t heading  \n\n\t[]verse + space
-    //                 -           -           -       [] verse + space
-    //                 -           -           +       \n\n\t[] verse + space
-    //                 -           +                   \n\t[] verse + space */ 
-
-
-    //                 let headingPresent=(HEADINGS[currentBCV] !== undefined);
-    //                 let paragraphMarkPresent=(PARAGRAPHLOCATIONS.includes(currentBCV));
-    //                 let verse1=(i===1);
-
-    //                 if (headingPresent){
-    //                     //\n\n\t\t\t heading  \n\n    []verse
-    //                     chapterContents+="\n\n\t\t"+HEADINGS[currentBCV]+"\n\n\t["+i.toString()+"]"+nestedBible[book][chapter][i.toString()].trim()+" ";
-    //                 } else if(verse1){
-    //                     //\n\n[] verse
-    //                     chapterContents+="\n\n\t["+i.toString()+"]"+nestedBible[book][chapter][i.toString()].trim()+" ";
-    //                 } else if(paragraphMarkPresent){
-    //                     chapterContents+="\n\t["+i.toString()+"]"+nestedBible[book][chapter][i.toString()].trim()+" ";
-    //                 }
-    //                 else{
-    //                     //[] verse
-    //                     chapterContents+="["+i.toString()+"]"+nestedBible[book][chapter][i.toString()].trim()+" ";
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
     return chapterContents;
 }
 
@@ -307,24 +250,54 @@ function generateChapterBible(nestedBible) {
     return chapterBible;
 }
 let bibleAbbreviation = process.argv[2];
-
-if (bibleAbbreviation != undefined) {
+function make3Bibles(bibleAbbreviation){
+    if (bibleAbbreviation != undefined) {
+        console.log("Processing " + bibleAbbreviation + " Bible...");
+        const fs = require('fs');
+        console.log("Reading in CSV containing Bibles...");
+        let allBiblesCSVString = fs.readFileSync("CSVBibles.csv", "utf8");
+        console.log("Converting csv to json for processing...");
+        let allBiblesTable = readCSV(allBiblesCSVString, true);
+        if (allBiblesTable["headers"].includes(bibleAbbreviation)){
+            console.log("Making JSON Bible with Osis references as keys with Osis reference as key...");
+            let thisBible = makeBible(bibleAbbreviation, allBiblesTable);
+            console.log("Making JSON Bible with Osis references nested keys with [book][chapter][verse]...")
+            let nestedBible = makeNestedBible(thisBible);
+            console.log("Making formatted text Bible...");
+            let chapterBible = generateChapterBible(nestedBible);
+            console.log("Writing Bibles to files...");
+            fs.writeFileSync(bibleAbbreviation + "Verses.json", JSON.stringify(thisBible));
+            fs.writeFileSync(bibleAbbreviation + "Nested.json", JSON.stringify(nestedBible));
+            fs.writeFileSync(bibleAbbreviation + "ChapterBible.json", JSON.stringify(chapterBible));
+            console.log("Finished.");
+        }
+        else{
+            console.log("You need to supply an Bible Abbreviation, (NASB, KJV, etc) or \"All\" as an argument.");
+            console.log(bibleAbbreviation+" not found");
+            allBiblesTable["headers"].splice(0,1);
+            console.log("These Bibles were found: "+allBiblesTable["headers"].toString());
+        }
+    } else {
+        console.log("You need to supply an Bible Abbreviation, (NASB, KJV, etc) or \"All\" as an argument.");
+    }
+}
+if (bibleAbbreviation.toLowerCase()==="all"){
+    console.log("do all");
+    console.log("Processing " + bibleAbbreviation + " Bible...");
     const fs = require('fs');
     console.log("Reading in CSV containing Bibles...");
     let allBiblesCSVString = fs.readFileSync("CSVBibles.csv", "utf8");
     console.log("Converting csv to json for processing...");
     let allBiblesTable = readCSV(allBiblesCSVString, true);
-    console.log("Making JSON Bible with Osis references as keys with Osis reference as key...");
-    let thisBible = makeBible(bibleAbbreviation, allBiblesTable);
-    console.log("Making JSON Bible with Osis references nested keys with [book][chapter][verse]...")
-    let nestedBible = makeNestedBible(thisBible);
-    console.log("Making formatted text Bible...");
-    let chapterBible = generateChapterBible(nestedBible);
-    console.log("Writing Bibles to files...");
-    fs.writeFileSync(bibleAbbreviation + "Verses.json", JSON.stringify(thisBible));
-    fs.writeFileSync(bibleAbbreviation + "Nested.json", JSON.stringify(nestedBible));
-    fs.writeFileSync(bibleAbbreviation + "ChapterBible.json", JSON.stringify(chapterBible));
-    console.log("Finished.")
-} else {
-    console.log("You need to supply an Bible Abbreviation, (NASB, KJV, etc) as an argument.");
+    let headers=allBiblesTable["headers"];
+    console.log(headers);
+    headers.splice(0,1);//removing the "osisRef" from the headers
+    console.log(headers);
+
+    for (let i=0;i<headers.length;i++){
+        make3Bibles(headers[i]);
+    }
+}
+else{
+    make3Bibles(bibleAbbreviation);
 }
