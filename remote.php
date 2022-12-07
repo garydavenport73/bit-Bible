@@ -58,16 +58,20 @@
                 <select id="bible-select"></select>
                 <button class="narrow" id="bible-chapter-next">&gt;</button>
                 <button id="see-commentary-button">↱💬</button>
-                <button>
-                    <input type="checkbox" id="show-red-letters">
-                    <label id="label-for-show-red-letters" for="show-red-letters">Red Letters</label>
-                </button>
             </nav>
             <nav>
                 <button id="stop-audio">◼</button>
                 <button id="play-audio">▶</button>
                 <button id="pause-audio"><b>||</b></button>
+                &nbsp;&nbsp;
+                <button>
+                    <input type="checkbox" id="show-red-letters">
+                    <label id="label-for-show-red-letters" for="show-red-letters">Red Letters</label>
+                </button>
             </nav>
+
+
+
             <div id="bible-contents"></div>
         </main>
         <main id="dictionary">
@@ -335,7 +339,7 @@
         // echo ("let nestedBible=");
         // include_once("./BSB.json");
         // echo (";");
-        
+
         // echo ("let eastons=");
         // include_once("./eastons.json");
         // echo (";");

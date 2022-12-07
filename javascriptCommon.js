@@ -650,7 +650,18 @@ function changeFont(theElement) {
         document.getElementsByTagName('html')[0].style.fontFamily = "Arial, Helvetica, sans-serif";
         for (let button of buttons) {
             button.style.fontFamily = "Arial, Helvetica, sans-serif";
-            button.style.borderRadius = "5px";
+            if (!button.classList.contains("narrow")){
+                button.style.borderRadius = "5px";
+            }
+            else{
+                console.log(button.innerHTML);
+                if (button.innerHTML==="&lt;"){
+                    button.style.borderRadius = "5px 0px 0px 5px";
+                }
+                else if (button.innerHTML==="&gt;"){
+                    button.style.borderRadius = "0px 5px 5px 0px";
+                }
+            }
         }
         for (let h1 of h1s) {
             h1.style.borderRadius = "5px";
@@ -660,7 +671,18 @@ function changeFont(theElement) {
         document.getElementsByTagName('html')[0].style.fontFamily = "'Times New Roman', Times, serif";
         for (let button of buttons) {
             button.style.fontFamily = "'Times New Roman', Times, serif";
-            button.style.borderRadius = "10px";
+            if (!button.classList.contains("narrow")){
+                button.style.borderRadius = "5px";
+            }
+            else{
+                console.log(button.innerHTML);
+                if (button.innerHTML==="&lt;"){
+                    button.style.borderRadius = "5px 0px 0px 5px";
+                }
+                else if (button.innerHTML==="&gt;"){
+                    button.style.borderRadius = "0px 5px 5px 0px";
+                }
+            }
         }
         for (let h1 of h1s) {
             h1.style.borderRadius = "10px";
@@ -670,7 +692,20 @@ function changeFont(theElement) {
         document.getElementsByTagName('html')[0].style.fontFamily = "'Courier New', Courier, monospace";
         for (let button of buttons) {
             button.style.fontFamily = "'Courier New', Courier, monospace";
-            button.style.borderRadius = "0px";
+            if (!button.classList.contains("narrow")){
+                button.style.borderRadius = "0px";
+            }
+            else{
+                console.log(button.innerHTML);
+                if (button.innerHTML==="&lt;"){
+                    // button.style.borderRadius = "5px 0px 0px 5px";
+                    button.style.borderRadius = "0px 0px 0px 0px";
+                }
+                else if (button.innerHTML==="&gt;"){
+                    // button.style.borderRadius = "0px 5px 5px 0px";
+                    button.style.borderRadius = "0px 0px 0px 0px";
+                }
+            }
         }
         for (let h1 of h1s) {
             h1.style.borderRadius = "0px";

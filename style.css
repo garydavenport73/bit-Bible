@@ -11,32 +11,38 @@ ul {
     margin: 0;
     padding: 0;
 }
-ol,ul{
+
+ol,
+ul {
     list-style-type: none;
 }
 
-html{
+html {
     font-family: Arial, Helvetica, sans-serif;
     background-color: aliceblue;
 }
 
 
-nav, .help-nav{
+nav,
+.help-nav {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     background-color: rgb(68, 180, 255);
 
 }
-h1{
+
+h1 {
     box-sizing: border-box;
     /* width: 320px; */
     border-radius: 5px;
-    background-color:rgb(0,124,207);
+    background-color: rgb(0, 124, 207);
     color: snow;
 }
 
-h1,h2,h3{
+h1,
+h2,
+h3 {
     text-align: center;
 }
 
@@ -45,7 +51,7 @@ h2 span.word {
     background-color: snow;
 }
 
-.initial-close{
+.initial-close {
     display: none;
 }
 
@@ -65,14 +71,14 @@ main {
 
 
 
-h2{
+h2 {
     padding: 5px;
-    margin: 5px;   
+    margin: 5px;
 }
 
-h1{
+h1 {
     overflow: hidden;
-    padding:8px;
+    padding: 8px;
 }
 
 /* .osis {
@@ -96,7 +102,7 @@ h1{
 .definition-entry,
 .definition-location,
 .definition-relatives {
-    background-color: rgb(229,238,246);
+    background-color: rgb(229, 238, 246);
 }
 
 button:hover,
@@ -105,15 +111,20 @@ button:hover,
 .definition-entry:hover,
 .definition-location:hover,
 .definition-relatives:hover,
-#reading-plan-table .osis:hover, #help .nested-menu:hover, #help a:hover {
-    background-color: rgb(0,124,207);
+#reading-plan-table .osis:hover,
+#help .nested-menu:hover,
+#help a:hover {
+    background-color: rgb(0, 124, 207);
     color: snow;
 }
-a{
+
+a {
     text-decoration: none;
-    color:rgb(0,124,207);;
+    color: rgb(0, 124, 207);
+    ;
 }
-#help h3{
+
+#help h3 {
     background-color: lightgrey;
     border-radius: 5px;
 }
@@ -136,7 +147,8 @@ a{
     background-color: snow;
 }
 
-.bullseye, .background-location{
+.bullseye,
+.background-location {
     font-size: 1em;
     font-family: 'Courier New', Courier, monospace;
     position: absolute;
@@ -179,11 +191,11 @@ a{
     background-color: rgb(248, 244, 244);
 }
 
-#reading-plan-table .osis{
+#reading-plan-table .osis {
     background-color: transparent;
 }
 
-td{
+td {
     border: 1px solid grey;
 }
 
@@ -191,12 +203,16 @@ main {
     height: 650px;
     overflow-y: auto;
 }
+
 @media only screen and (max-width: 1000px) {
-    h1,body{
+
+    h1,
+    body {
         width: 320px;
         margin-left: auto;
         margin-right: auto;
     }
+
     main {
         height: unset;
         overflow-y: unset;
@@ -215,7 +231,8 @@ sub {
 
 /* INITIALIZATION */
 
-button, .help-nav button{
+button,
+.help-nav button {
     font-family: Arial, Helvetica, sans-serif;
     background-color: lightgrey;
     padding: 5px;
@@ -227,10 +244,11 @@ button, .help-nav button{
 }
 
 /* Navs inside of mains */
-main nav{
+main nav {
     background-color: snow;
 }
-main nav button{
+
+main nav button {
     padding: 2px;
     margin: 2px;
     font-size: 1rem;
@@ -238,10 +256,14 @@ main nav button{
     border: 1px solid grey;
     min-width: 40px;
 }
-main nav select,main input{
-    font-size: 1rem;
-} 
 
+main nav select,
+main input {
+    font-size: 1rem;
+    border-radius: 0px;
+    background-color: snow;
+    border: 1px solid gray;
+}
 
 #courier-button {
     font-family: 'Courier New', Courier, monospace;
@@ -254,9 +276,22 @@ main nav select,main input{
 #times-button {
     font-family: 'Times New Roman', Times, serif;
 }
-.narrow{
+
+.narrow {
     min-width: 0;
+    margin: 0;
 }
-.redletter{
-    color:rgb(200, 0, 0);
+
+#bible-chapter-previous,
+#commentary-chapter-previous {
+    border-radius: 5px 0px 0px 5px;
+}
+
+#bible-chapter-next,
+#commentary-chapter-next {
+    border-radius: 0px 5px 5px 0px;
+}
+
+.redletter {
+    color: rgb(200, 0, 0);
 }
