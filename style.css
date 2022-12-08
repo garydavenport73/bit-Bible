@@ -295,3 +295,7 @@ main input {
 .redletter {
     color: rgb(200, 0, 0);
 }
+
+li.day-of-year {
+    color: darkolivegreen;
+}

@@ -267,7 +267,7 @@ function make3Bibles(bibleAbbreviation){
             let chapterBible = generateChapterBible(nestedBible);
             console.log("Writing Bibles to files...");
             fs.writeFileSync(bibleAbbreviation + "Verses.json", JSON.stringify(thisBible));
-            fs.writeFileSync(bibleAbbreviation + "Nested.json", JSON.stringify(nestedBible));
+            fs.writeFileSync(bibleAbbreviation + ".json", JSON.stringify(nestedBible));
             fs.writeFileSync(bibleAbbreviation + "ChapterBible.json", JSON.stringify(chapterBible));
             console.log("Finished.");
         }

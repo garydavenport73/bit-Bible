@@ -44,7 +44,7 @@ function showBibleChapter() {
     //let password = encodeURIComponent(document.getElementById('test-form-password').value);
     let url = 'getBookChapter.php';
     //let url = 'simpleAccounts.php';
-    let params = 'book=' + book + '&chapter=' + chapter;
+    let params = 'bible='+bibleVersion+'&book=' + book + '&chapter=' + chapter;
     http.ontimeout = function (e) {
         alert("The request timed out.");
     };
@@ -97,8 +97,8 @@ function showCommentaryChapter() {
     //let email = encodeURIComponent(document.getElementById('test-form-email').value);
     //let password = encodeURIComponent(document.getElementById('test-form-password').value);
     //let url = 'https://garydavenport.com/logtime/simpleAccounts.php';
-    let url = 'getJFBChapter.php';
-    let params = 'key=' + commentarySelect.value;
+    let url = 'getCommentaryChapter.php';
+    let params = 'key=' + commentarySelect.value +"&commentary="+commentaryBook;
     http.ontimeout = function (e) {
         alert("The request timed out.");
     };
@@ -106,18 +106,16 @@ function showCommentaryChapter() {
     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     http.onreadystatechange = function () {
         if (http.readyState == 4 && http.status == 200) {
-            //console.log(http.responseText);
-            //alert("Response received:\n" + http.responseText);
-
-            let contents = JSON.parse(http.responseText);
-            contents = convertPlainText(contents);
-            //contents = contents.replace(/\t{1,}/g, "&nbsp;&nbsp;&nbsp;&nbsp;");//replaces spaces
-            //contents = contents.replace(/ {4,}/g, "&nbsp;&nbsp;&nbsp;&nbsp;");//replaces spaces
-            //contents = contents.replace(/\n/g, "<br>");//replaces newlines with breaks
-            contents = tagRefsAndWords(contents, "<span class='osis'>", "</span>", "<span class='word'>", "</span>");
-            commentaryContents.innerHTML = contents;
-            addEventListenersToWords();
-            addEventListenersToReferences();
+            if (http.responseText==="null"){
+                commentaryContents.innerHTML = "No entry for this book, chapter, and verse.";
+            }else {
+                let contents = JSON.parse(http.responseText);
+                contents = convertPlainText(contents);
+                contents = tagRefsAndWords(contents, "<span class='osis'>", "</span>", "<span class='word'>", "</span>");
+                commentaryContents.innerHTML = contents;
+                addEventListenersToWords();
+                addEventListenersToReferences();
+            }
         }
     }
     http.send(params);

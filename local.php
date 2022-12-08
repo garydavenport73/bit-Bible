@@ -332,9 +332,23 @@
     <!-- Load Bible, Dictionary, and Commentary, and other Constant Arrays-->
     <!-- constants.js contains OSISBOOKS, OSISTOFULLNAME, HEADINGS, PARAGRAPHLOCATIONS -->
     <script>
+        let commentaryBook="JFB";
+        let bibleVersion="BSB";
+    </script>
+    <script>
         <?php
+
+        if (isset($_GET["commentary"])){
+            echo("commentaryBook='".$_GET["commentary"]."';");
+            $commentaryBook=$_GET["commentary"];
+        }
+        if (isset($_GET["bible"])){
+            echo("bibleVersion='".$_GET["bible"]."';");
+            $bibleVersion=$_GET["bible"];
+        }
+
         echo ("let nestedBible=");
-        include_once("./BSB.json");
+        include_once("./bibles/".$bibleVersion.".json");
         echo (";");
         
         echo ("let eastons=");
@@ -342,7 +356,7 @@
         echo (";");
 
         echo ("let jfb=");
-        include_once("./jfb.json");
+        include_once("./".$commentaryBook.".json");
         echo (";");
 
         echo ("let REDLETTERREFERENCES=");

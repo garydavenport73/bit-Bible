@@ -1,22 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>bitBible</title>
-</head>
-<body>
-<nav>
-    <ul>
-        <li>
-            <a href="remote.php" target="_blank">Online Version</a>
-        </li>
-        <li>
-            <a href="local.php" target="_blank" download="bitBible.html">Download Offline Version</a>
-        </li>
-    </ul>
+    <style>
+        html {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: aliceblue;
+            font-size: 1.1rem;
+        }
 
-</nav>
+        a {
+            text-decoration: none;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: rgb(0, 124, 207);
+            color: snow;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        body{
+            margin:0;
+            padding: 0;
+        }
+
+        main {
+            box-sizing: border-box;
+            margin: auto;
+            width: 320px;
+            background-color: snow;
+            padding: 3px;
+            border-radius: 5px;
+        }
+
+        .flex-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label,
+        main input,
+        main button,
+        main select {
+            font-size: 1rem;
+            border-radius: 5px;
+            margin: 5px;
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+</head>
+
+<body>
+    <main>
+        <h1>bitBible</h1>
+        <div class="flex-column">
+            <label for="bible-select">Choose a Bible:</label>
+            <select onchange="processSelections();" id="bible-select">
+                <option value="BSB">BSB (Berean Study Bible)</option>
+                <option value="AKJV" disabled>AKJV (Authorized King James Version)</option>
+                <option value="AMP" disabled>AMP (The Amplified Bible)</option>
+                <option value="ASV">ASV (American Standard Version)</option>
+                <option value="CPDV">CPDV (Catholic Public Domain Version)</option>
+                <option value="DBT">DBT (Darby Bible Translation)</option>
+                <option value="DRB">DRB (Douay-Rheims Bible)</option>
+                <option value="ERV" disabled>ERV (English Revised Version</option>
+                <option value="ESV" disabled>ESV (English Standard Version)</option>
+                <option value="JPSWEY">JPSWEY (JPS Tanakh 1917 OT / Weymouth NT)</option>
+                <option value="KJV">KJV (King James Version)</option>
+                <option value="NASB" disabled>NASB (New American Standard Bible)</option>
+                <option value="NHEB">NHEB (New Heart English Bible)</option>
+                <option value="NIV" disabled>NIV (New International Version)</option>
+                <option value="NKJV" disabled>NKJV (New King James Version)</option>
+                <option value="SLT">SLT (Smith's Literal Translation)</option>
+                <option value="WBT">WBT (Webster Bible Translation)</option>
+                <option value="WEB">WEB (World English Bible)</option>
+                <option value="YLT">YLT (Young's Literal Translation)</option>
+            </select>
+            <label for="commentary-select">Choose a Commentary:</label>
+            <select onchange="processSelections();" id="commentary-select">
+                <option value="JFB">Jamieson-Fausset-Brown Bible Commentary</option>
+                <option value="PULPIT">The Pulpit Commentary</option>
+            </select>
+            <h4><em>Note: Greyed out Bible publishers have not granted permission as of yet.</em></h4>
+            <h3 id="link-title"></h3>
+            <h3>Go to the online version.</h3>
+            <button><a id="remote-link" href="remote.php">Open Online Version</a></button>
+            <h3>Download the desktop version.</h3>
+            <button><a id="local-link" href="local.php" download="bitBible.html">Download Desktop Version</a></button>
+            <p>(If using the Jamieson-Fausset-Brown commentary the file will be under 21MB.  This size can generally be shared by email.
+                If using The Pulpit Commentary, the file will be up to 45MB.</p>
+        </div>
+    </main>
+
+    <script>
+        function processSelections() {
+            processSelectionsRemote();
+            processSelectionsLocal();
+        }
+        function processSelectionsRemote() {
+            let bibleSelect = document.getElementById("bible-select");
+            let commentarySelect = document.getElementById("commentary-select");
+            let myUrl = "remote.php?" + "bible=" + bibleSelect.value + "&commentary=" + commentarySelect.value;
+            let remoteLink = document.getElementById("remote-link");
+            remoteLink.href = myUrl;
+            //remoteLink.innerHTML="Get the "+bibleSelect.value+" Bible with the "+commentarySelect.value+" commentary.";  
+        }
+        function processSelectionsLocal() {
+            let bibleSelect = document.getElementById("bible-select");
+            let commentarySelect = document.getElementById("commentary-select");
+            let myUrl = "local.php?" + "bible=" + bibleSelect.value + "&commentary=" + commentarySelect.value;
+            let localLink = document.getElementById("local-link");
+            localLink.href = myUrl;
+            localLink.download = bibleSelect.value + "bitBibleWith" + commentarySelect.value + "Commentary.html";
+            let linkTitle = document.getElementById("link-title");
+            linkTitle.innerHTML = "You are requesting the " + bibleSelect.value + " Bible with the " + commentarySelect.value + " commentary.";
+        }
+        processSelectionsRemote();
+        processSelectionsLocal();
+    </script>
 </body>
+
 </html>

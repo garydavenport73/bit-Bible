@@ -335,7 +335,18 @@
     <!-- Load Bible, Dictionary, and Commentary, and other Constant Arrays-->
     <!-- constants.js contains OSISBOOKS, OSISTOFULLNAME, HEADINGS, PARAGRAPHLOCATIONS -->
     <script>
+        let commentaryBook="JFB";
+        let bibleVersion="BSB";
+    </script>
+    <script>
         <?php
+if (isset($_GET["commentary"])){
+    echo("commentaryBook='".$_GET["commentary"]."';");
+}
+if (isset($_GET["bible"])){
+    echo("bibleVersion='".$_GET["bible"]."';");
+}
+
         // echo ("let nestedBible=");
         // include_once("./BSB.json");
         // echo (";");
