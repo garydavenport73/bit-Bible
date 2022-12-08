@@ -15,6 +15,11 @@
 
         a {
             text-decoration: none;
+            color:black;
+        }
+        button:hover, a:hover{
+            background-color: rgb(0, 124, 207);
+            color:snow;
         }
 
         h1 {
@@ -58,7 +63,19 @@
             padding: 5px;
             text-align: center;
         }
+        #link-title{
+            display:none;
+        }
+        hr{
+            width:100%;
+            /* border: 1px solid black; */
+            height: 5px;
+            background-color: rgb(0, 124, 207);
+            /* margin: 5px;
+            padding: 5px; */
+        }
     </style>
+
     <!-- <link rel="stylesheet" href="style.css"> -->
 </head>
 
@@ -93,14 +110,15 @@
                 <option value="JFB">Jamieson-Fausset-Brown Bible Commentary</option>
                 <option value="PULPIT">The Pulpit Commentary</option>
             </select>
-            <h4><em>Note: Greyed out Bible publishers have not granted permission as of yet.</em></h4>
-            <h3 id="link-title"></h3>
-            <h3>Go to the online version.</h3>
+            <!-- <h4><em>Note: Greyed out Bible publishers have not granted permission as of yet.</em></h4> -->
+            <!-- <h3 id="link-title"></h3> -->
+            <!-- <h3>Go to the online version.</h3> -->
+            <hr>
             <button><a id="remote-link" href="remote.php">Open Online Version</a></button>
-            <h3>Download the desktop version.</h3>
+            <!-- <h3>Download the desktop version.</h3> -->
             <button><a id="local-link" href="local.php" download="bitBible.html">Download Desktop Version</a></button>
-            <p>(If using the Jamieson-Fausset-Brown commentary the file will be under 21MB.  This size can generally be shared by email.
-                If using The Pulpit Commentary, the file will be up to 45MB.</p>
+            <!-- <p>(If using the Jamieson-Fausset-Brown commentary the file will be under 21MB.  This size can generally be shared by email.
+                If using The Pulpit Commentary, the file will be up to 45MB.</p> -->
         </div>
     </main>
 
