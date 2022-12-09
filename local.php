@@ -57,7 +57,8 @@
                 <button class="narrow" id="bible-chapter-previous">&lt;</button>
                 <select id="bible-select"></select>
                 <button class="narrow" id="bible-chapter-next">&gt;</button>
-                <button id="see-commentary-button">↱💬</button>
+                <button class="no-margin" id="refresh-bible-chapter">&#10227;</button>
+                <button id="see-commentary-button" class="no-margin">↱💬</button>
             </nav>
             <nav>
                 <button id="stop-audio">◼</button>
@@ -74,7 +75,7 @@
         <main id="dictionary">
             <h3>Dictionary</h3>
             <nav> <input type="search" id="dictionary-input" list="bible-words">
-                <button id="dictionary-word-load">🔎</button>
+                <button id="dictionary-word-load" class="no-margin">🔎</button>
                 <datalist id="bible-words"></datalist>
             </nav>
             <div id="dictionary-contents"></div>
@@ -85,6 +86,7 @@
                 <button class="narrow" id="commentary-chapter-previous">&lt;</button>
                 <select id="commentary-select"></select>
                 <button class="narrow" id="commentary-chapter-next">&gt;</button>
+                <button class="no-margin" id="refresh-commentary-chapter">&#10227;</button>
             </nav>
             <div id="commentary-contents"></div>
         </main>

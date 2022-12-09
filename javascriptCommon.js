@@ -963,9 +963,11 @@ asciiMap.innerHTML = BASEMAP;
 setSizeOfAsciiMap(320);//sets to 320px
 //Add event listeners to the Bible Selectn process
 bibleSelect.addEventListener("input", showBibleChapter);
+document.getElementById("refresh-bible-chapter").addEventListener("click", showBibleChapter);
 seeCommentaryButton.addEventListener("click", processSeeCommentaryBtn);
 dictionaryWordLoadButton.addEventListener("click", showDictionaryEntry);
 commentarySelect.addEventListener("input", showCommentaryChapter);
+document.getElementById("refresh-commentary-chapter").addEventListener("click", showCommentaryChapter);
 document.getElementById("reading-button").addEventListener("click", () => { showMain("reading"); });
 document.getElementById("bible-button").addEventListener("click", () => { showMain("bible"); });
 document.getElementById("dictionary-button").addEventListener("click", () => { showMain("dictionary"); });

@@ -299,3 +299,7 @@ main input {
 li.day-of-year {
     color: darkolivegreen;
 }
+
+.no-margin{
+    margin:0;
+}
