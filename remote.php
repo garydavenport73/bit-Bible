@@ -47,6 +47,8 @@
                 <button id="save-reading-progress">Save&#128193;</button>
                 <button id="toggle-reading-dates">&#128260;Dates</button>
                 <button id="switch-reading-plans">Switch</button>
+                <button onclick="_shiftDates();">Shift Dates By</button>
+                <input type="number" id="shift-dates" step=1, value=0>
             </nav>
             <h2 id="reading-plan-name"></h2>
             <table id="reading-plan-table"></table>

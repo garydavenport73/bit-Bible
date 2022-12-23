@@ -1,8 +1,8 @@
 "use strict";
 
 //Build the commentary select options from the keys.
-function buildCommentarySelectOptions(){//**will change if not local */
-    let str="";
+function buildCommentarySelectOptions() {//**will change if not local */
+    let str = "";
     for (let i = 0; i < jfbKeys.length; i++) {
         //console.log(jfbKeys[i]);
         let bookChapter = jfbKeys[i].split(".")[0] + " " + jfbKeys[i].split(".")[1];
@@ -12,7 +12,7 @@ function buildCommentarySelectOptions(){//**will change if not local */
 }
 
 //Build the Bible select options
-function buildBibleSelectOptions(){//**will change if not local */
+function buildBibleSelectOptions() {//**will change if not local */
     let str = "";
     for (let i = 0; i < osis.length; i++) {
         //console.log(osis[i]);
@@ -23,7 +23,7 @@ function buildBibleSelectOptions(){//**will change if not local */
 }
 
 //Build the search input for the dictionary
-function buildSearchInputsForDictionary(){//**will change if not local */
+function buildSearchInputsForDictionary() {//**will change if not local */
     let str = "";
     for (let i = 0; i < dictionaryWords.length; i++) {
         str += "<option value='" + dictionaryWords[i] + "'>";
@@ -38,10 +38,12 @@ function buildSearchInputsForDictionary(){//**will change if not local */
 //
 //////////////////////////////////////////////////////////////
 function makeReadingTable(readingPlan) {
+
     //console.log(readingPlan);
     let readingTable = "<tr>";
     let now = new Date();
     let currentYear = now.getFullYear();
+
     for (let day in readingPlan) {
         let intDay = parseInt(day.split("Day").join("").trim());
         //console.log(intDay);
@@ -53,9 +55,20 @@ function makeReadingTable(readingPlan) {
             "'><label><b>" +
             intDay.toString() +
             "</b></label></li>";
+
+
+        //getDateString
+        //change dateString to date object
+        //add/subtract of number of days
+        //change new date to DateString
+
+
         readingTable +=
             "<li class='day-of-year' style='display:none'>" +
+
+            //newDateString+
             getDateString(currentYear, intDay) +
+
             "</li>";
 
         for (let readingChapter of dayArray) {
@@ -80,6 +93,105 @@ function makeReadingTable(readingPlan) {
     return readingTable;
 }
 
+function _shiftDates() {
+    let shiftInteger = parseInt(document.getElementById("shift-dates").value);
+    if (!isNaN(shiftInteger)){
+        shiftDates(shiftInteger);
+    }
+}
+
+function shiftDates(shiftInteger) {
+    let today=getTodaysDate();
+
+    console.log("attempting to shift dates by ", shiftInteger);
+    console.log(typeof(shiftInteger));
+    let listedDates = document.getElementsByClassName("day-of-year");
+
+    for (let listedDate of listedDates) {
+        let thisDateString = listedDate.innerHTML;
+        console.log(thisDateString);
+        // let thisDateString=getDateString(currentYear,intDay);
+        let thisYear = parseInt(thisDateString.split("-")[0]);
+        let thisMonth = parseInt(thisDateString.split("-")[1]) - 1;
+        let thisDay = parseInt(thisDateString.split("-")[2]);
+
+        // console.log(thisDateString);
+        let newDateObject = new Date(thisYear, thisMonth, thisDay + shiftInteger);
+
+        // console.log(newDate.getFullYear(), newDate.getMonth()+1,newDate.getDate());
+
+        let newYear = newDateObject.getFullYear();
+        let newMonth = newDateObject.getMonth() + 1;
+        let newDate=newDateObject.getDate();
+        console.log(newYear,newMonth,newDate);
+
+        let newDateString=newYear.toString()+"-";
+        newDateString+=("0"+newMonth.toString()).slice(-2) + "-";
+        newDateString+=("0"+newDate.toString()).slice(-2);
+        
+        listedDate.innerHTML=newDateString;
+
+        if (listedDate.innerText === today) {
+            //console.log("today found! at", today);
+            listedDate.style.backgroundColor = "orange";
+        }
+        else { //if app open spans more than one day turns off orange
+            listedDate.style.backgroundColor = "unset";
+        }
+
+
+    }
+
+
+    // let thisDateString=getDateString(currentYear,intDay);
+    // let thisYear=parseInt(thisDateString.split("-")[0]);
+    // let thisMonth=parseInt(thisDateString.split("-")[1])-1;
+    // let thisDay=parseInt(thisDateString.split("-")[2]);
+
+    // console.log(thisDateString);
+    // let newDate = new Date(thisYear,thisMonth,thisDay+shiftDay);
+
+    // console.log(newDate.getFullYear(), newDate.getMonth()+1,newDate.getDate());
+
+    // let newDateString=newDate.getFullYear().toString()+"-";
+    // newDateString+=("0"+(newDate.getMonth()+1).toString()).slice(-2) + "-";
+    // newDateString+=("0" + newDate.getDate().toString()).slice(-2);
+    // console.log(newDateString);
+
+}
+
+function switchReadingPlans() {
+    // if (true){
+    if (confirm("Are you sure?\nPlease save any reading plan data before switchinig.")) {
+        console.log("run switching mechanism");
+        console.log(document.getElementById("reading-plan-name").innerHTML);
+        if (document.getElementById("reading-plan-name").innerHTML === "Old Testament/New Testament") {
+            loadReadingTable("Straight Through", STRAIGHTREADINGPLAN);
+        }
+        else if (document.getElementById("reading-plan-name").innerHTML === "Chronological") {
+            loadReadingTable("Old Testament/New Testament", OTNTREADINGPLAN);
+        }
+        else {
+            loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
+        }
+    }
+
+
+
+
+}
+
+function getDateString(year, dayInteger) {
+    const d = new Date(year, 0, dayInteger);
+    return (
+        d.getFullYear().toString() +
+        "-" +
+        ("0" + (d.getMonth() + 1).toString()).slice(-2) +
+        "-" +
+        ("0" + d.getDate().toString()).slice(-2)
+    );
+}
+
 function displayReadingPlanName() {
     document.getElementById("reading-plan-name").innerHTML = readingPlanName;
 }
@@ -96,16 +208,6 @@ function getTodaysDate() {
     return today;
 }
 
-function getDateString(year, dayInteger) {
-    const d = new Date(year, 0, dayInteger);
-    return (
-        d.getFullYear().toString() +
-        "-" +
-        ("0" + (d.getMonth() + 1).toString()).slice(-2) +
-        "-" +
-        ("0" + d.getDate().toString()).slice(-2)
-    );
-}
 
 function toggleReadingDates() {
     let readingDates = document.getElementsByClassName("day-of-year");
@@ -272,29 +374,29 @@ function loadReadingProgress() {
     inputTypeIsFile.click();
 }
 
+function refreshReadingDates() {
+    if (readingPlanData["reading-plan-name"] === "Old Testament/New Testament") {
+        loadReadingTable("Old Testament/New Testament", OTNTREADINGPLAN);
+    }
+    else if (readingPlanData["reading-plan-name"] === "Straight Through") {
+        loadReadingTable("Straight Through", STRAIGHTREADINGPLAN);
+    }
+    else {
+        loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
+    }
+
+}
+
 function loadReadingTable(title, readingPlanObject) {
     readingPlanTable.innerHTML = makeReadingTable(readingPlanObject);
     document.getElementById("reading-plan-name").innerHTML = title;
+    //****************changed */
     showDates = false;
+    //********************************** */
     addEventListenersToReferences();
 }
 
-function switchReadingPlans() {
-    // if (true){
-    if (confirm("Are you sure?\nPlease save any reading plan data before switchinig.")) {
-        console.log("run switching mechanism");
-        console.log(document.getElementById("reading-plan-name").innerHTML);
-        if (document.getElementById("reading-plan-name").innerHTML === "Old Testament/New Testament") {
-            loadReadingTable("Straight Through", STRAIGHTREADINGPLAN);
-        }
-        else if (document.getElementById("reading-plan-name").innerHTML === "Chronological") {
-            loadReadingTable("Old Testament/New Testament", OTNTREADINGPLAN);
-        }
-        else {
-            loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
-        }
-    }
-}
+
 //////////////////////////////////////////////////////////////
 //
 //                SECTION ENDS
@@ -650,15 +752,15 @@ function changeFont(theElement) {
         document.getElementsByTagName('html')[0].style.fontFamily = "Arial, Helvetica, sans-serif";
         for (let button of buttons) {
             button.style.fontFamily = "Arial, Helvetica, sans-serif";
-            if (!button.classList.contains("narrow")){
+            if (!button.classList.contains("narrow")) {
                 button.style.borderRadius = "5px";
             }
-            else{
+            else {
                 console.log(button.innerHTML);
-                if (button.innerHTML==="&lt;"){
+                if (button.innerHTML === "&lt;") {
                     button.style.borderRadius = "5px 0px 0px 5px";
                 }
-                else if (button.innerHTML==="&gt;"){
+                else if (button.innerHTML === "&gt;") {
                     button.style.borderRadius = "0px 5px 5px 0px";
                 }
             }
@@ -671,15 +773,15 @@ function changeFont(theElement) {
         document.getElementsByTagName('html')[0].style.fontFamily = "'Times New Roman', Times, serif";
         for (let button of buttons) {
             button.style.fontFamily = "'Times New Roman', Times, serif";
-            if (!button.classList.contains("narrow")){
+            if (!button.classList.contains("narrow")) {
                 button.style.borderRadius = "5px";
             }
-            else{
+            else {
                 console.log(button.innerHTML);
-                if (button.innerHTML==="&lt;"){
+                if (button.innerHTML === "&lt;") {
                     button.style.borderRadius = "5px 0px 0px 5px";
                 }
-                else if (button.innerHTML==="&gt;"){
+                else if (button.innerHTML === "&gt;") {
                     button.style.borderRadius = "0px 5px 5px 0px";
                 }
             }
@@ -692,16 +794,16 @@ function changeFont(theElement) {
         document.getElementsByTagName('html')[0].style.fontFamily = "'Courier New', Courier, monospace";
         for (let button of buttons) {
             button.style.fontFamily = "'Courier New', Courier, monospace";
-            if (!button.classList.contains("narrow")){
+            if (!button.classList.contains("narrow")) {
                 button.style.borderRadius = "0px";
             }
-            else{
+            else {
                 console.log(button.innerHTML);
-                if (button.innerHTML==="&lt;"){
+                if (button.innerHTML === "&lt;") {
                     // button.style.borderRadius = "5px 0px 0px 5px";
                     button.style.borderRadius = "0px 0px 0px 0px";
                 }
-                else if (button.innerHTML==="&gt;"){
+                else if (button.innerHTML === "&gt;") {
                     // button.style.borderRadius = "0px 5px 5px 0px";
                     button.style.borderRadius = "0px 0px 0px 0px";
                 }
@@ -753,15 +855,15 @@ function processShowAllCheckBox() {
     }
 }
 
-function toggleRedLetters(){
+function toggleRedLetters() {
     console.log("toggle red letters");
-    if (document.getElementById("show-red-letters").checked===true){
-        useRedLetters=true;
+    if (document.getElementById("show-red-letters").checked === true) {
+        useRedLetters = true;
         console.log("should use");
         showBibleChapter();
     }
-    else{
-        useRedLetters=false;
+    else {
+        useRedLetters = false;
         console.log("don't use");
         showBibleChapter();
     }
@@ -887,35 +989,35 @@ function tagRefsAndWords(contents, osisStartTag, osisEndTag, wordStartTag, wordE
     contents = contents.replace(/WORDSTARTTAG/g, wordStartTag).replace(/WORDENDTAG/g, wordEndTag);
     return contents;
 }
-function backOneChapterBible(){
-    let osisValue=bibleSelect.value;
-    let currentIndex=osis.indexOf(osisValue);
-    if (currentIndex>0){
-        bibleSelect.value=osis[currentIndex-1];
+function backOneChapterBible() {
+    let osisValue = bibleSelect.value;
+    let currentIndex = osis.indexOf(osisValue);
+    if (currentIndex > 0) {
+        bibleSelect.value = osis[currentIndex - 1];
         showBibleChapter();
     }
 }
-function forwardOneChapterBible(){
-    let osisValue=bibleSelect.value;
-    let currentIndex=osis.indexOf(osisValue);
-    if (currentIndex<osis.length-1){
-        bibleSelect.value=osis[currentIndex+1];
+function forwardOneChapterBible() {
+    let osisValue = bibleSelect.value;
+    let currentIndex = osis.indexOf(osisValue);
+    if (currentIndex < osis.length - 1) {
+        bibleSelect.value = osis[currentIndex + 1];
         showBibleChapter();
     }
 }
-function backOneChapterCommentary(){
-    let osisValue=commentarySelect.value;
-    let currentIndex=osis.indexOf(osisValue);
-    if (currentIndex>0){
-        commentarySelect.value=osis[currentIndex-1];
+function backOneChapterCommentary() {
+    let osisValue = commentarySelect.value;
+    let currentIndex = osis.indexOf(osisValue);
+    if (currentIndex > 0) {
+        commentarySelect.value = osis[currentIndex - 1];
         showCommentaryChapter();
     }
 }
-function forwardOneChapterCommentary(){
-    let osisValue=commentarySelect.value;
-    let currentIndex=osis.indexOf(osisValue);
-    if (currentIndex<osis.length-1){
-        commentarySelect.value=osis[currentIndex+1];
+function forwardOneChapterCommentary() {
+    let osisValue = commentarySelect.value;
+    let currentIndex = osis.indexOf(osisValue);
+    if (currentIndex < osis.length - 1) {
+        commentarySelect.value = osis[currentIndex + 1];
         showCommentaryChapter();
     }
 }
@@ -957,7 +1059,7 @@ let buttonSelectMaps = document.getElementsByClassName("btn-select-map");
 let jfbKeys = [];//fill in later with function
 let osis = [];//fill in later with function
 let dictionaryWords = [];//fill in later with function
-let useRedLetters=false;
+let useRedLetters = false;
 //load map set size of map
 asciiMap.innerHTML = BASEMAP;
 setSizeOfAsciiMap(320);//sets to 320px
@@ -986,11 +1088,11 @@ document.getElementById("toggle-reading-dates").addEventListener("click", toggle
 document.getElementById("switch-reading-plans").addEventListener("click", switchReadingPlans);
 document.getElementById("btn-clear-all-locations").addEventListener("click", clearAllLocations);
 document.getElementById("btn-open-google-map").addEventListener("click", openGoogleMap);
-document.getElementById("bible-chapter-previous").addEventListener("click",backOneChapterBible);
-document.getElementById("bible-chapter-next").addEventListener("click",forwardOneChapterBible);
-document.getElementById("commentary-chapter-previous").addEventListener("click",backOneChapterCommentary);
-document.getElementById("commentary-chapter-next").addEventListener("click",forwardOneChapterCommentary);
-document.getElementById("show-red-letters").addEventListener("change",toggleRedLetters);
+document.getElementById("bible-chapter-previous").addEventListener("click", backOneChapterBible);
+document.getElementById("bible-chapter-next").addEventListener("click", forwardOneChapterBible);
+document.getElementById("commentary-chapter-previous").addEventListener("click", backOneChapterCommentary);
+document.getElementById("commentary-chapter-next").addEventListener("click", forwardOneChapterCommentary);
+document.getElementById("show-red-letters").addEventListener("change", toggleRedLetters);
 for (let button of buttonSelectMaps) {
     button.addEventListener("click", addBackgroundLocations);
 }

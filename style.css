@@ -278,7 +278,7 @@ main input {
 }
 
 .narrow {
-    min-width: 0;
+    min-width: 2rem;
     margin: 0;
 }
 
@@ -302,4 +302,8 @@ li.day-of-year {
 
 .no-margin{
     margin:0;
+}
+
+#shift-dates{
+    max-width: 4rem;
 }
