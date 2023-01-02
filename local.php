@@ -406,6 +406,11 @@
         echo ("let STRAIGHTREADINGPLAN=");
         include_once("./STRAIGHTREADINGPLAN.json");
         echo (";");
+
+        echo ("let CHRONOLOGICALNT260=");
+        include_once("./CHRONOLOGICALNT260.json");
+        echo (";");
+
         include_once("./javascriptLocal.js");
         include_once("./javascriptCommon.js");
         ?>
