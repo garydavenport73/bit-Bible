@@ -45,10 +45,18 @@
             <nav>
                 <button id="load-reading-progress">Load Progress&#128194;</button>
                 <button id="save-reading-progress">Save&#128193;</button>
-                <button id="toggle-reading-dates">&#128260;Dates</button>
-                <button id="switch-reading-plans">Switch</button>
-                <button onclick="_shiftDates();">Shift Dates By</button>
-                <input type="number" id="shift-dates" step=1, value=0>
+            </nav>
+            <nav>
+                <!-- Currently, toggle-reading-dates controls showing of dates in table, nested-menu controls open and close of each other -->
+                <button id="toggle-reading-dates">&equiv; Dates</button>
+                <nav id="reading-menu" class="initial-close">
+                    <button id="last-check-to-today-button">Today is Last Checked Box</button>
+                    <button id="reset-dates">Reset to Defaults</button>
+                    <div>
+                    <button onclick="_shiftDates();">Shift By:</button><input type="number" id="shift-by-integer" value="0" step="1">
+                    </div>
+                    <button id="switch-reading-plans">Switch Plans</button>
+                </nav>
             </nav>
             <h2 id="reading-plan-name"></h2>
             <table id="reading-plan-table"></table>
@@ -336,17 +344,17 @@
     <!-- Load Bible, Dictionary, and Commentary, and other Constant Arrays-->
     <!-- constants.js contains OSISBOOKS, OSISTOFULLNAME, HEADINGS, PARAGRAPHLOCATIONS -->
     <script>
-        let commentaryBook="JFB";
-        let bibleVersion="BSB";
+        let commentaryBook = "JFB";
+        let bibleVersion = "BSB";
     </script>
     <script>
         <?php
-if (isset($_GET["commentary"])){
-    echo("commentaryBook='".$_GET["commentary"]."';");
-}
-if (isset($_GET["bible"])){
-    echo("bibleVersion='".$_GET["bible"]."';");
-}
+        if (isset($_GET["commentary"])) {
+            echo ("commentaryBook='" . $_GET["commentary"] . "';");
+        }
+        if (isset($_GET["bible"])) {
+            echo ("bibleVersion='" . $_GET["bible"] . "';");
+        }
 
         // echo ("let nestedBible=");
         // include_once("./BSB.json");

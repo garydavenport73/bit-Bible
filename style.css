@@ -304,6 +304,13 @@ li.day-of-year {
     margin:0;
 }
 
-#shift-dates{
+#shift-by-integer{
     max-width: 4rem;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+#reading-menu{
+    background-color: rgb(248, 244, 244);
+    border: 1px solid lightgrey;
 }
