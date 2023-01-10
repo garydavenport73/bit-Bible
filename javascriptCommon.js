@@ -156,9 +156,20 @@ function setLastCheckedToSomeDate(someDate) {
 }
 
 function setLastCheckedToToday() {
-    let someDate = getTodaysDate();
-    console.log(someDate);
-    setLastCheckedToSomeDate(someDate);
+    let isChecked=false;
+    for (let i = 0; i <366; i++) {
+        if (document.getElementById("reading-check-" + i.toString()) !== null) {
+            if (document.getElementById("reading-check-" + i.toString()).checked) {
+                isChecked=true;
+            }
+        }
+    }
+    if (isChecked){
+        let someDate = getTodaysDate();
+        console.log(someDate);
+        setLastCheckedToSomeDate(someDate);
+    }
+
 }
 
 function _getDateOfLastChecked(lastChecked) {
@@ -263,20 +274,62 @@ function shiftDates(shiftInteger) {
 }
 
 function switchReadingPlans() {
+
+    //CHRON -> OT/NT -> ST -> NTCHRON
+
+    // if (document.getElementById("reading-plan-name").innerHTML === "Chronological") {
+    //     loadReadingTable("Old Testament/New Testament", OTNTREADINGPLAN)
+    // }
+    // else if (document.getElementById("reading-plan-name").innerHTML === "Old Testament/New Testament") {
+    //     loadReadingTable("Straight Through", STRAIGHTREADINGPLAN);
+    // }
+    // else if (document.getElementById("reading-plan-name").innerHTML === "Straight Through") {
+    //     loadReadingTable("Chronological NT 260 Days", CHRONOLOGICALNT260);
+    // }
+    // else if (document.getElementById("reading-plan-name").innerHTML === "Chronological NT 260 Days") {
+    //     loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
+    // }
+    // else {
+    //     loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
+    // }
+
+
+
+
     // if (true){
     if (confirm("Are you sure?\nPlease save any reading plan data before switching.")) {
         //console.log("run switching mechanism");
         //console.log(document.getElementById("reading-plan-name").innerHTML);
-        if (document.getElementById("reading-plan-name").innerHTML === "Old Testament/New Testament") {
+
+
+        if (document.getElementById("reading-plan-name").innerHTML === "Chronological") {
+            loadReadingTable("Old Testament/New Testament", OTNTREADINGPLAN)
+        }
+        else if (document.getElementById("reading-plan-name").innerHTML === "Old Testament/New Testament") {
             loadReadingTable("Straight Through", STRAIGHTREADINGPLAN);
         }
-        else if (document.getElementById("reading-plan-name").innerHTML === "Chronological") {
-            loadReadingTable("Old Testament/New Testament", OTNTREADINGPLAN);
+        else if (document.getElementById("reading-plan-name").innerHTML === "Straight Through") {
+            loadReadingTable("Chronological NT 260 Days", CHRONOLOGICALNT260);
+        }
+        else if (document.getElementById("reading-plan-name").innerHTML === "Chronological NT 260 Days") {
+            loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
         }
         else {
             loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
         }
-        document.getElementById("reading-menu").style.display="none";
+        document.getElementById("reading-menu").style.display="none";    
+
+
+        // if (document.getElementById("reading-plan-name").innerHTML === "Old Testament/New Testament") {
+        //     loadReadingTable("Straight Through", STRAIGHTREADINGPLAN);
+        // }
+        // else if (document.getElementById("reading-plan-name").innerHTML === "Chronological") {
+        //     loadReadingTable("Old Testament/New Testament", OTNTREADINGPLAN);
+        // }
+        // else {
+        //     loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
+        // }
+        // document.getElementById("reading-menu").style.display="none";
     }
 
 
@@ -437,6 +490,12 @@ function loadReadingProgress() {
             else if (readingPlanData["reading-plan-name"] === "Straight Through") {
                 loadReadingTable("Straight Through", STRAIGHTREADINGPLAN);
             }
+            else if (readingPlanData["reading-plan-name"] === "Chronological NT 260 Days") {
+                loadReadingTable("Chronological NT 260 Days", CHRONOLOGICALNT260);
+            }
+            //loadReadingTable("Chronological NT 260 Days", CHRONOLOGICALNT260);
+
+
             else {
                 loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
             }
@@ -513,6 +572,15 @@ function refreshReadingDates() {
     else if (readingPlanData["reading-plan-name"] === "Straight Through") {
         loadReadingTable("Straight Through", STRAIGHTREADINGPLAN);
     }
+    else if (readingPlanData["reading-plan-name"] === "Straight Through") {
+        loadReadingTable("Straight Through", STRAIGHTREADINGPLAN);
+    }
+    else if (readingPlanData["reading-plan-name"] === "Chronological NT 260 Days") {
+        loadReadingTable("Chronological NT 260 Days", CHRONOLOGICALNT260);
+    }
+    
+
+
     else {
         loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
     }

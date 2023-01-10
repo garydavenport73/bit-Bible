@@ -45,6 +45,7 @@
             <nav>
                 <button id="load-reading-progress">Load Progress&#128194;</button>
                 <button id="save-reading-progress">Save&#128193;</button>
+                <button id="switch-reading-plans">Switch Plans</button>
             </nav>
             <nav>
                 <!-- Currently, toggle-reading-dates controls showing of dates in table, nested-menu controls open and close of each other -->
@@ -55,7 +56,6 @@
                     <div>
                     <button onclick="_shiftDates();">Shift By:</button><input type="number" id="shift-by-integer" value="0" step="1">
                     </div>
-                    <button id="switch-reading-plans">Switch Plans</button>
                 </nav>
             </nav>
             <h2 id="reading-plan-name"></h2>
@@ -406,6 +406,11 @@
         echo ("let STRAIGHTREADINGPLAN=");
         include_once("./STRAIGHTREADINGPLAN.json");
         echo (";");
+
+        echo ("let CHRONOLOGICALNT260=");
+        include_once("./CHRONOLOGICALNT260.json");
+        echo (";");
+
         include_once("./javascriptLocal.js");
         include_once("./javascriptCommon.js");
         ?>
