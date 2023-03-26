@@ -57,7 +57,7 @@ function showBibleChapter() {
             let bookChapter = JSON.parse(http.responseText);
 
             let chapterContents = "";
-            chapterContents = "<h2>" + OSISTOFULLNAME[book].toUpperCase() + " " + chapter.toUpperCase() + "</h2>";
+            chapterContents = "<h2>" + OSISTOFULLNAME[book].toUpperCase() + " " + chapter + "</h2>";
             for (let i = 0; i < 200; i++) {
                 if (bookChapter[i.toString()] !== undefined) {
                     let currentBCV = book + "." + chapter + "." + i.toString();
@@ -314,10 +314,6 @@ function showDictionaryEntry(evt) {
         }
     }
     http.send(params);
-
-
-
-
 
 }
 function generateJFBKeys() {//**will change if not local */

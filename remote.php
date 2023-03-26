@@ -65,7 +65,9 @@
             <h3>Bible</h3>
             <nav>
                 <button class="narrow" id="bible-chapter-previous">&lt;</button>
-                <select id="bible-select"></select>
+                <select id="bible-select" disabled></select>
+                <select id="bible-book-select"></select>
+                <select id="bible-chapter-select"></select>
                 <button class="narrow" id="bible-chapter-next">&gt;</button>
                 <button class="no-margin" id="refresh-bible-chapter">&#10227;</button>
                 <button id="see-commentary-button" class="no-margin">↱💬</button>
@@ -93,8 +95,10 @@
         <main id="commentary">
             <h3>Commentary</h3>
             <nav>
-                <button class="narrow" id="commentary-chapter-previous">&lt;</button>
-                <select id="commentary-select"></select>
+            <button class="narrow" id="commentary-chapter-previous">&lt;</button>
+                <select id="commentary-select" disabled></select>
+                <select id="commentary-book-select"></select>
+                <select id="commentary-chapter-select"></select>
                 <button class="narrow" id="commentary-chapter-next">&gt;</button>
                 <button class="no-margin" id="refresh-commentary-chapter">&#10227;</button>
             </nav>
@@ -386,6 +390,10 @@
 
         echo ("let OSISBOOKS=");
         include_once("./OSISBOOKS.json");
+        echo (";");
+
+        echo ("let BOOKLENGTHS=");
+        include_once("./BOOKLENGTHS.json");
         echo (";");
 
         echo ("let PARAGRAPHLOCATIONS=");

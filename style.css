@@ -314,3 +314,7 @@ li.day-of-year {
     background-color: rgb(248, 244, 244);
     border: 1px solid lightgrey;
 }
+
+#bible-select, #commentary-select{
+    display: none;
+}

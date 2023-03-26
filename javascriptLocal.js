@@ -7,7 +7,7 @@ function showBibleChapter() {
     console.log(book, chapter);
 
     let chapterContents = "";
-    chapterContents = "<h2>" + OSISTOFULLNAME[book].toUpperCase() + " " + chapter.toUpperCase() + "</h2>";
+    chapterContents = "<h2>" + OSISTOFULLNAME[book].toUpperCase() + " " + chapter + "</h2>";
     for (let i = 0; i < 200; i++) {
         if (nestedBible[book][chapter][i.toString()] !== undefined) {
             let currentBCV = book + "." + chapter + "." + i.toString();

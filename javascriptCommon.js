@@ -8,7 +8,19 @@ function buildCommentarySelectOptions() {//**will change if not local */
         let bookChapter = jfbKeys[i].split(".")[0] + " " + jfbKeys[i].split(".")[1];
         str += "<option value='" + jfbKeys[i] + "'>" + bookChapter + "</option>";
     }
+
+    // let strBookHTML="";
+    // let currentBook=jfbKeys[i].split(".")[0];
+
+    // for (let i=0;jfbKeys.length;i++){
+
+    
+
+    // }
+
     commentarySelect.innerHTML = str;
+    console.log("jfbKeys");
+    console.log(jfbKeys);
 }
 
 //Build the Bible select options
@@ -1150,17 +1162,33 @@ function processWordClick(evt) {
 function processOsisRefClick(evt) {
     showMain('bible');
     console.log("processOsisRefClick called: " + evt.target.innerHTML);
-    bibleSelect.value = evt.target.innerHTML.split(".")[0] + "." + evt.target.innerHTML.split(".")[1];
-    showBibleChapter();
+    let book=evt.target.innerHTML.split(".")[0];
+    let chapter=evt.target.innerHTML.split(".")[1];
+    bibleBookSelect.value=book;
+    bibleChapterSelect.value=chapter;
+    //bibleSelect.value = evt.target.innerHTML.split(".")[0] + "." + evt.target.innerHTML.split(".")[1];
+    
+    showBibleChapterUsingDoubleSelect();
+    //showBibleChapter();
 }
 //------------------------------------
 //////////////////////////////////////////////
 
 
 function processSeeCommentaryBtn() {
+    let chapter=bibleChapterSelect.value;
+    let book=bibleBookSelect.value;
+    if (chapter===""){
+        return;
+    }
+
+
+    commentaryBookSelect.value=book;
+    commentaryChapterSelect.value=chapter;
+
+    showCommentaryChapterUsingDoubleSelect();
+
     showMain('commentary');
-    commentarySelect.value = bibleSelect.value;
-    showCommentaryChapter();
 }
 
 //takes a section of text and adds around osis references and eastons words
@@ -1193,35 +1221,51 @@ function tagRefsAndWords(contents, osisStartTag, osisEndTag, wordStartTag, wordE
     return contents;
 }
 function backOneChapterBible() {
-    let osisValue = bibleSelect.value;
+    if (bibleChapterSelect.value===""){
+        return;
+    }
+    let osisValue = bibleBookSelect.value + "." + bibleChapterSelect.value;
     let currentIndex = osis.indexOf(osisValue);
     if (currentIndex > 0) {
-        bibleSelect.value = osis[currentIndex - 1];
-        showBibleChapter();
+        bibleBookSelect.value=osis[currentIndex - 1].split(".")[0];
+        bibleChapterSelect.value=osis[currentIndex - 1].split(".")[1];
+        showBibleChapterUsingDoubleSelect();
     }
 }
 function forwardOneChapterBible() {
-    let osisValue = bibleSelect.value;
+    if (bibleChapterSelect.value===""){
+        return;
+    }
+    let osisValue = bibleBookSelect.value + "." + bibleChapterSelect.value;
     let currentIndex = osis.indexOf(osisValue);
     if (currentIndex < osis.length - 1) {
-        bibleSelect.value = osis[currentIndex + 1];
-        showBibleChapter();
+        bibleBookSelect.value=osis[currentIndex + 1].split(".")[0];
+        bibleChapterSelect.value=osis[currentIndex + 1].split(".")[1];
+        showBibleChapterUsingDoubleSelect();
     }
 }
 function backOneChapterCommentary() {
-    let osisValue = commentarySelect.value;
+    if (commentaryChapterSelect.value===""){
+        return;
+    }
+    let osisValue = commentaryBookSelect.value + "." + commentaryChapterSelect.value;
     let currentIndex = osis.indexOf(osisValue);
     if (currentIndex > 0) {
-        commentarySelect.value = osis[currentIndex - 1];
-        showCommentaryChapter();
+        commentaryBookSelect.value=osis[currentIndex - 1].split(".")[0];
+        commentaryChapterSelect.value=osis[currentIndex - 1].split(".")[1];
+        showCommentaryChapterUsingDoubleSelect();
     }
 }
 function forwardOneChapterCommentary() {
-    let osisValue = commentarySelect.value;
+    if (commentaryChapterSelect.value===""){
+        return;
+    }
+    let osisValue = commentaryBookSelect.value + "." + commentaryChapterSelect.value;
     let currentIndex = osis.indexOf(osisValue);
     if (currentIndex < osis.length - 1) {
-        commentarySelect.value = osis[currentIndex + 1];
-        showCommentaryChapter();
+        commentaryBookSelect.value=osis[currentIndex + 1].split(".")[0];
+        commentaryChapterSelect.value=osis[currentIndex + 1].split(".")[1];
+        showCommentaryChapterUsingDoubleSelect();
     }
 }
 
@@ -1233,8 +1277,12 @@ function forwardOneChapterCommentary() {
 //Name important global elements
 let readingPlanTable = document.getElementById("reading-plan-table");
 let bibleSelect = document.getElementById("bible-select");
+let bibleBookSelect = document.getElementById("bible-book-select");
+let bibleChapterSelect = document.getElementById("bible-chapter-select");
 let bibleContents = document.getElementById("bible-contents");
 let commentarySelect = document.getElementById("commentary-select");
+let commentaryChapterSelect = document.getElementById("commentary-chapter-select");
+let commentaryBookSelect = document.getElementById("commentary-book-select");
 let commentaryContents = document.getElementById("commentary-contents");
 let dictionaryInput = document.getElementById("dictionary-input");
 let dictionaryContents = document.getElementById("dictionary-contents");
@@ -1268,11 +1316,26 @@ asciiMap.innerHTML = BASEMAP;
 setSizeOfAsciiMap(320);//sets to 320px
 //Add event listeners to the Bible Selectn process
 bibleSelect.addEventListener("input", showBibleChapter);
-document.getElementById("refresh-bible-chapter").addEventListener("click", showBibleChapter);
+
+
+bibleBookSelect.addEventListener("input", populateBibleChapterSelect);
+
+//populate Bible Chapter Select will find the greatest value of that bible book and fill in the chapter
+bibleChapterSelect.addEventListener("input",showBibleChapterUsingDoubleSelect);
+
+commentaryBookSelect.addEventListener("input",populateCommentaryChapterSelect);
+
+commentaryChapterSelect.addEventListener("input",showCommentaryChapterUsingDoubleSelect);
+
+
+
+
+//document.getElementById("refresh-bible-chapter").addEventListener("click", showBibleChapter);
+document.getElementById("refresh-bible-chapter").addEventListener("click", showBibleChapterUsingDoubleSelect);
 seeCommentaryButton.addEventListener("click", processSeeCommentaryBtn);
 dictionaryWordLoadButton.addEventListener("click", showDictionaryEntry);
-commentarySelect.addEventListener("input", showCommentaryChapter);
-document.getElementById("refresh-commentary-chapter").addEventListener("click", showCommentaryChapter);
+commentarySelect.addEventListener("input", showCommentaryChapterUsingDoubleSelect);
+document.getElementById("refresh-commentary-chapter").addEventListener("click", showCommentaryChapterUsingDoubleSelect);
 document.getElementById("reading-button").addEventListener("click", () => { showMain("reading"); });
 document.getElementById("bible-button").addEventListener("click", () => { showMain("bible"); });
 document.getElementById("dictionary-button").addEventListener("click", () => { showMain("dictionary"); });
@@ -1308,9 +1371,104 @@ generateJFBKeys();
 //Build the commentary select options from the keys.
 buildCommentarySelectOptions();
 //Generate the osis keys from the nested Bible
-buildOsisBibleKeys();
+buildOsisBibleKeys();  ////NEED TO CHANGE THIS TO GENERATE BASED ON NUM of chapters in each book
 //Build the Bible select options
 buildBibleSelectOptions();
+
+
+//fill in the first Select option for books using double select
+function buildBibleBookSelect(){
+    //osis keys are build either by remote or local
+        //osis keys are build either by remote or local
+
+    //
+    let str = "";
+    for (let i = 0; i < OSISBOOKS.length; i++) {
+        str += "<option value='" + OSISBOOKS[i] + "'>" + OSISBOOKS[i] + "</option>";
+    }
+    bibleBookSelect.innerHTML = str;
+    bibleBookSelect.value="Gen";
+    commentaryBookSelect.innerHTML = str;
+    commentaryChapterSelect.value="Gen";
+}
+buildBibleBookSelect();
+
+
+function populateBibleChapterSelect(){
+    console.log("called");
+    let book=bibleBookSelect.value;
+    console.log("book is",book);
+    let numberOfChapters=BOOKLENGTHS[book];
+    console.log("number of chapters",numberOfChapters);
+    let str = "";
+    for (let i = 1; i < numberOfChapters+1; i++) {
+        str += "<option value='" + i.toString() + "'>" + i.toString() + "</option>";
+    }
+    bibleChapterSelect.innerHTML = str;
+    bibleChapterSelect.value="";
+    bibleContents.innerHTML="Pick a chapter.";
+    showBibleChapterUsingDoubleSelect();
+}
+
+function populateCommentaryChapterSelect(){
+    let book=commentaryBookSelect.value;
+    let str="";
+    for (let i=0;i<200;i++){
+        if (jfbKeys.includes(book+"."+i.toString())){
+            console.log("includes",book+"."+i.toString());
+            str += "<option value='" + i.toString() + "'>" + i.toString() + "</option>";
+        }
+    }
+    commentaryChapterSelect.innerHTML=str;
+    commentaryChapterSelect.value="";
+    commentaryContents.innerHTML="Pick a chapter.";
+    showCommentaryChapterUsingDoubleSelect();
+}
+
+function showCommentaryChapterUsingDoubleSelect(){
+    console.log("called");
+    let book = commentaryBookSelect.value;
+    let chapter = commentaryChapterSelect.value;
+    // console.log("chapter!!!!!!!!!!!!");
+    // console.log(chapter);
+    if (chapter===""){
+        return;
+    }
+    console.log(book,typeof(book));
+    console.log(chapter,typeof(chapter));
+    let osisRef=book+"."+chapter;
+    console.log(osisRef);
+    commentarySelect.value=osisRef;
+    showCommentaryChapter();
+
+}
+
+populateBibleChapterSelect();
+populateCommentaryChapterSelect();
+
+//populate Bible Chapter using double Select
+function showBibleChapterUsingDoubleSelect(){
+    console.log("called");
+    let book = bibleBookSelect.value;
+    let chapter=bibleChapterSelect.value;
+    if (chapter===""){
+        return;
+    }
+    console.log(book,typeof(book));
+    console.log(chapter,typeof(chapter));
+    let osisRef=book+"."+chapter;
+    console.log(osisRef);
+    bibleSelect.value=osisRef;
+    showBibleChapter();
+}
+
+showBibleChapterUsingDoubleSelect();
+
+
+
+
+
+
 //Generate the dictionary words from the Eastons Dictionary
 generateDictionaryWords();
 //Build the search input for the dictionary
@@ -1318,10 +1476,14 @@ buildSearchInputsForDictionary();
 //----------------------------------------------
 //load initial settings
 bibleSelect.value = "Gen.1";
+bibleBookSelect.value="Gen";
+bibleChapterSelect.value="1";
 showBibleChapter();
 dictionaryInput.value = "Jerusalem";
 dictionaryWordLoadButton.click();
 commentarySelect.value = "Gen.1";
+commentaryBookSelect.value="Gen";
+commentaryChapterSelect.value="1";
 showCommentaryChapter();
 showMain('bible');
 loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
