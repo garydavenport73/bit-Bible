@@ -14,7 +14,7 @@ function buildCommentarySelectOptions() {//**will change if not local */
 
     // for (let i=0;jfbKeys.length;i++){
 
-    
+
 
     // }
 
@@ -168,15 +168,15 @@ function setLastCheckedToSomeDate(someDate) {
 }
 
 function setLastCheckedToToday() {
-    let isChecked=false;
-    for (let i = 0; i <366; i++) {
+    let isChecked = false;
+    for (let i = 0; i < 366; i++) {
         if (document.getElementById("reading-check-" + i.toString()) !== null) {
             if (document.getElementById("reading-check-" + i.toString()).checked) {
-                isChecked=true;
+                isChecked = true;
             }
         }
     }
-    if (isChecked){
+    if (isChecked) {
         let someDate = getTodaysDate();
         console.log(someDate);
         setLastCheckedToSomeDate(someDate);
@@ -329,7 +329,7 @@ function switchReadingPlans() {
         else {
             loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
         }
-        document.getElementById("reading-menu").style.display="none";    
+        document.getElementById("reading-menu").style.display = "none";
 
 
         // if (document.getElementById("reading-plan-name").innerHTML === "Old Testament/New Testament") {
@@ -399,16 +399,16 @@ function toggleReadingDates() {
         }
     }
 
-    if (showDates===true){
-        document.getElementById("reading-menu").style.display="inherit";
+    if (showDates === true) {
+        document.getElementById("reading-menu").style.display = "inherit";
         // document.getElementById("reset-dates").style.display="inherit";
         // document.getElementById("switch-reading-plans").style.display="inherit";
         // <button id="last-check-to-today-button" class="initial-close">Shift Dates</button>
         // <button id="reset-dates" class="initial-close">Reset Shift</button>
         // <button id="switch-reading-plans" class="initial-close">Switch Plans</button>
     }
-    else{
-        document.getElementById("reading-menu").style.display="none";
+    else {
+        document.getElementById("reading-menu").style.display = "none";
         // document.getElementById("reset-dates").style.display="none";
         // document.getElementById("switch-reading-plans").style.display="none"
     }
@@ -520,7 +520,7 @@ function loadReadingProgress() {
                         readingPlanData[readingDay];
                 }
             }
-            if (readingPlanData["last-checked-date"]!==-1){
+            if (readingPlanData["last-checked-date"] !== -1) {
                 setLastCheckedToSomeDate(readingPlanData["last-checked-date"]);
             }
             if (readingPlanData["show-dates"] != undefined) {
@@ -534,11 +534,11 @@ function loadReadingProgress() {
 
                 if (showDates === true) {
                     showReadingDates();
-                    document.getElementById("reading-menu").style.display="inherit";
+                    document.getElementById("reading-menu").style.display = "inherit";
                 } else {
                     console.log("calling hideReadingDates");
                     hideReadingDates();
-                    document.getElementById("reading-menu").style.display="none";
+                    document.getElementById("reading-menu").style.display = "none";
                 }
             }
             //change styles also
@@ -563,8 +563,8 @@ function loadReadingProgress() {
                     h1.style.borderRadius = readingPlanData["border-radius"];
                 }
             }
-            if (readingPlanData["border-radius"] != undefined){
-                document.getElementById("shift-by-integer").style.borderRadius=readingPlanData["border-radius"];
+            if (readingPlanData["border-radius"] != undefined) {
+                document.getElementById("shift-by-integer").style.borderRadius = readingPlanData["border-radius"];
             }
 
             if (readingPlanData["font-size"] != undefined) {
@@ -590,7 +590,7 @@ function refreshReadingDates() {
     else if (readingPlanData["reading-plan-name"] === "Chronological NT 260 Days") {
         loadReadingTable("Chronological NT 260 Days", CHRONOLOGICALNT260);
     }
-    
+
 
 
     else {
@@ -627,6 +627,7 @@ function stop() {
 }
 function play() {
     warnNoSynth();
+    uttersArr = [];
     if ((myPauseProperty === true) && (synth.speaking === true)) {//alredy started not ended
         //speech somewhere in the middle, and paused, needs resumed
         synth.resume();
@@ -634,45 +635,69 @@ function play() {
     }
     else if (synth.speaking === false) {
         let myText = document.getElementById("bible-contents").innerText;
+
+
         myText = myText.replace(/\d\d?\d?\./g, " "); //remove verse numbers
 
-        // https://stackoverflow.com/questions/18087416/split-string-in-half-by-word
-        // https://stackoverflow.com/users/69083/guffa
-        let middle = Math.floor(myText.length / 2);
-        let before = myText.lastIndexOf('. ', middle);
-        let after = myText.indexOf('. ', middle);
-        
-        if (middle - before < after - middle) {
-            middle = before;
-        } else {
-            middle = after;
+        console.log("character count", myText.length);
+
+        let n = parseInt(myText.length / 2048);
+        if (n === 0) {
+            n = 1;
         }
-        
-        var myText1 = myText.substring(0, middle + 1);
-        var myText2 = myText.substring(middle+1);
 
-        console.log(myText1);
-        console.log(myText2);
+        console.log("splitting text into "+n.toString()+" groups.");
 
+        let wordGroups = splitParagraphIntoNWordGroups(n, myText);
+        console.log(wordGroups);
 
-        //not started or has ended, expects to start play
-        utterThis1 = new SpeechSynthesisUtterance(myText1);
-        utterThis1.addEventListener("end",actOnUtter1End);
-        utterThis2 = new SpeechSynthesisUtterance(myText2);
+        let thisUtterance;
+        for (let i = 0; i < wordGroups.length; i++) {
+            thisUtterance = new SpeechSynthesisUtterance(wordGroups[i] + ". ");
+            uttersArr.push(thisUtterance);
+        }
 
-        let currentUtter=utterThis1;
-        
+        currentUtter = uttersArr[0];
+        currentUtterIndex = 0;
+        currentUtter.addEventListener("end", actOnUtterEnd);
+
         synth.speak(currentUtter);
-        
-        
+        //synth.speak(mySentences);
+
         myPauseProperty = false;
     }
 }
 
-function actOnUtter1End(){
-    if ((myPauseProperty===false)&&(true)){
-        let currentUtter=utterThis2;
-        synth.speak(currentUtter);
+function splitParagraphIntoNWordGroups(n, paragraph) {
+    let words = paragraph.split(" ");
+    let length = words.length;
+    let wordGroupLengthInt = parseInt(length / n);
+    //let wordGroupLengthRemainder = length % n;
+    let wordGroups = [];
+    for (let i = 0; i < n; i++) {
+        let str = "";
+        for (let j = i * wordGroupLengthInt; j < (i + 1) * wordGroupLengthInt; j++) {
+            str += words[j] + " ";
+        }
+        wordGroups.push(str);
+    }
+    let remainderString = "";
+    for (let i = wordGroupLengthInt * n; i < words.length; i++) {
+        remainderString += words[i] + " ";
+    }
+    remainderString = remainderString.substring(0, remainderString.length - 1);
+    wordGroups[wordGroups.length - 1] = wordGroups[wordGroups.length - 1] + remainderString;
+    return wordGroups;
+}
+
+function actOnUtterEnd() {
+    if ((myPauseProperty === false) && (true)) {
+        if (currentUtterIndex < uttersArr.length - 1) {
+            currentUtter = uttersArr[currentUtterIndex + 1];
+            currentUtter.addEventListener("end", actOnUtterEnd);
+            currentUtterIndex += 1;
+            synth.speak(currentUtter);
+        }
     }
 }
 
@@ -1018,7 +1043,7 @@ function changeFont(theElement) {
         for (let h1 of h1s) {
             h1.style.borderRadius = "5px";
         }
-        document.getElementById("shift-by-integer").style.borderRadius ="5px";
+        document.getElementById("shift-by-integer").style.borderRadius = "5px";
     }
     else if (id === "times-button") {
         document.getElementsByTagName('html')[0].style.fontFamily = "'Times New Roman', Times, serif";
@@ -1040,7 +1065,7 @@ function changeFont(theElement) {
         for (let h1 of h1s) {
             h1.style.borderRadius = "10px";
         }
-        document.getElementById("shift-by-integer").style.borderRadius ="5px";
+        document.getElementById("shift-by-integer").style.borderRadius = "5px";
     }
     else if (id === "courier-button") {
         document.getElementsByTagName('html')[0].style.fontFamily = "'Courier New', Courier, monospace";
@@ -1064,7 +1089,7 @@ function changeFont(theElement) {
         for (let h1 of h1s) {
             h1.style.borderRadius = "0px";
         }
-        document.getElementById("shift-by-integer").style.borderRadius ="0px";
+        document.getElementById("shift-by-integer").style.borderRadius = "0px";
     }
     else if (id === "increase-font") {
         let pageFontSize = document.getElementsByTagName('*')[0].style.fontSize;
@@ -1200,12 +1225,12 @@ function processWordClick(evt) {
 function processOsisRefClick(evt) {
     showMain('bible');
     console.log("processOsisRefClick called: " + evt.target.innerHTML);
-    let book=evt.target.innerHTML.split(".")[0];
-    let chapter=evt.target.innerHTML.split(".")[1];
-    bibleBookSelect.value=book;
-    bibleChapterSelect.value=chapter;
+    let book = evt.target.innerHTML.split(".")[0];
+    let chapter = evt.target.innerHTML.split(".")[1];
+    bibleBookSelect.value = book;
+    bibleChapterSelect.value = chapter;
     //bibleSelect.value = evt.target.innerHTML.split(".")[0] + "." + evt.target.innerHTML.split(".")[1];
-    
+
     showBibleChapterUsingDoubleSelect();
     //showBibleChapter();
 }
@@ -1214,15 +1239,15 @@ function processOsisRefClick(evt) {
 
 
 function processSeeCommentaryBtn() {
-    let chapter=bibleChapterSelect.value;
-    let book=bibleBookSelect.value;
-    if (chapter===""){
+    let chapter = bibleChapterSelect.value;
+    let book = bibleBookSelect.value;
+    if (chapter === "") {
         return;
     }
 
 
-    commentaryBookSelect.value=book;
-    commentaryChapterSelect.value=chapter;
+    commentaryBookSelect.value = book;
+    commentaryChapterSelect.value = chapter;
 
     showCommentaryChapterUsingDoubleSelect();
 
@@ -1259,50 +1284,50 @@ function tagRefsAndWords(contents, osisStartTag, osisEndTag, wordStartTag, wordE
     return contents;
 }
 function backOneChapterBible() {
-    if (bibleChapterSelect.value===""){
+    if (bibleChapterSelect.value === "") {
         return;
     }
     let osisValue = bibleBookSelect.value + "." + bibleChapterSelect.value;
     let currentIndex = osis.indexOf(osisValue);
     if (currentIndex > 0) {
-        bibleBookSelect.value=osis[currentIndex - 1].split(".")[0];
-        bibleChapterSelect.value=osis[currentIndex - 1].split(".")[1];
+        bibleBookSelect.value = osis[currentIndex - 1].split(".")[0];
+        bibleChapterSelect.value = osis[currentIndex - 1].split(".")[1];
         showBibleChapterUsingDoubleSelect();
     }
 }
 function forwardOneChapterBible() {
-    if (bibleChapterSelect.value===""){
+    if (bibleChapterSelect.value === "") {
         return;
     }
     let osisValue = bibleBookSelect.value + "." + bibleChapterSelect.value;
     let currentIndex = osis.indexOf(osisValue);
     if (currentIndex < osis.length - 1) {
-        bibleBookSelect.value=osis[currentIndex + 1].split(".")[0];
-        bibleChapterSelect.value=osis[currentIndex + 1].split(".")[1];
+        bibleBookSelect.value = osis[currentIndex + 1].split(".")[0];
+        bibleChapterSelect.value = osis[currentIndex + 1].split(".")[1];
         showBibleChapterUsingDoubleSelect();
     }
 }
 function backOneChapterCommentary() {
-    if (commentaryChapterSelect.value===""){
+    if (commentaryChapterSelect.value === "") {
         return;
     }
     let osisValue = commentaryBookSelect.value + "." + commentaryChapterSelect.value;
     let currentIndex = osis.indexOf(osisValue);
     if (currentIndex > 0) {
-        commentaryBookSelect.value=osis[currentIndex - 1].split(".")[0];
-        commentaryChapterSelect.value=osis[currentIndex - 1].split(".")[1];
+        commentaryBookSelect.value = osis[currentIndex - 1].split(".")[0];
+        commentaryChapterSelect.value = osis[currentIndex - 1].split(".")[1];
         showCommentaryChapterUsingDoubleSelect();
     }
 }
 function forwardOneChapterCommentary() {
-    if (commentaryChapterSelect.value===""){
+    if (commentaryChapterSelect.value === "") {
         return;
     }
     let osisValue = commentaryBookSelect.value + "." + commentaryChapterSelect.value;
     let currentIndex = osis.indexOf(osisValue);
     if (currentIndex < osis.length - 1) {
-        commentaryBookSelect.value=osis[currentIndex + 1].split(".")[0];
-        commentaryChapterSelect.value=osis[currentIndex + 1].split(".")[1];
+        commentaryBookSelect.value = osis[currentIndex + 1].split(".")[0];
+        commentaryChapterSelect.value = osis[currentIndex + 1].split(".")[1];
         showCommentaryChapterUsingDoubleSelect();
     }
 }
@@ -1343,9 +1368,9 @@ let stopButton = document.getElementById("stop-audio");
 stopButton.addEventListener("click", stop);
 const synth = window.speechSynthesis;
 let myPauseProperty = false;
-let utterThis1;
-let utterThis2;
 let currentUtter;
+let currentUtterIndex;
+let uttersArr = [];
 
 let buttonSelectMaps = document.getElementsByClassName("btn-select-map");
 let jfbKeys = [];//fill in later with function
@@ -1362,11 +1387,11 @@ bibleSelect.addEventListener("input", showBibleChapter);
 bibleBookSelect.addEventListener("input", populateBibleChapterSelect);
 
 //populate Bible Chapter Select will find the greatest value of that bible book and fill in the chapter
-bibleChapterSelect.addEventListener("input",showBibleChapterUsingDoubleSelect);
+bibleChapterSelect.addEventListener("input", showBibleChapterUsingDoubleSelect);
 
-commentaryBookSelect.addEventListener("input",populateCommentaryChapterSelect);
+commentaryBookSelect.addEventListener("input", populateCommentaryChapterSelect);
 
-commentaryChapterSelect.addEventListener("input",showCommentaryChapterUsingDoubleSelect);
+commentaryChapterSelect.addEventListener("input", showCommentaryChapterUsingDoubleSelect);
 
 
 
@@ -1418,9 +1443,9 @@ buildBibleSelectOptions();
 
 
 //fill in the first Select option for books using double select
-function buildBibleBookSelect(){
+function buildBibleBookSelect() {
     //osis keys are build either by remote or local
-        //osis keys are build either by remote or local
+    //osis keys are build either by remote or local
 
     //
     let str = "";
@@ -1428,58 +1453,58 @@ function buildBibleBookSelect(){
         str += "<option value='" + OSISBOOKS[i] + "'>" + OSISBOOKS[i] + "</option>";
     }
     bibleBookSelect.innerHTML = str;
-    bibleBookSelect.value="Gen";
+    bibleBookSelect.value = "Gen";
     commentaryBookSelect.innerHTML = str;
-    commentaryChapterSelect.value="Gen";
+    commentaryChapterSelect.value = "Gen";
 }
 buildBibleBookSelect();
 
 
-function populateBibleChapterSelect(){
+function populateBibleChapterSelect() {
     console.log("called");
-    let book=bibleBookSelect.value;
-    console.log("book is",book);
-    let numberOfChapters=BOOKLENGTHS[book];
-    console.log("number of chapters",numberOfChapters);
+    let book = bibleBookSelect.value;
+    console.log("book is", book);
+    let numberOfChapters = BOOKLENGTHS[book];
+    console.log("number of chapters", numberOfChapters);
     let str = "";
-    for (let i = 1; i < numberOfChapters+1; i++) {
+    for (let i = 1; i < numberOfChapters + 1; i++) {
         str += "<option value='" + i.toString() + "'>" + i.toString() + "</option>";
     }
     bibleChapterSelect.innerHTML = str;
-    bibleChapterSelect.value="";
-    bibleContents.innerHTML="Pick a chapter.";
+    bibleChapterSelect.value = "";
+    bibleContents.innerHTML = "Pick a chapter.";
     showBibleChapterUsingDoubleSelect();
 }
 
-function populateCommentaryChapterSelect(){
-    let book=commentaryBookSelect.value;
-    let str="";
-    for (let i=0;i<200;i++){
-        if (jfbKeys.includes(book+"."+i.toString())){
-            console.log("includes",book+"."+i.toString());
+function populateCommentaryChapterSelect() {
+    let book = commentaryBookSelect.value;
+    let str = "";
+    for (let i = 0; i < 200; i++) {
+        if (jfbKeys.includes(book + "." + i.toString())) {
+            console.log("includes", book + "." + i.toString());
             str += "<option value='" + i.toString() + "'>" + i.toString() + "</option>";
         }
     }
-    commentaryChapterSelect.innerHTML=str;
-    commentaryChapterSelect.value="";
-    commentaryContents.innerHTML="Pick a chapter.";
+    commentaryChapterSelect.innerHTML = str;
+    commentaryChapterSelect.value = "";
+    commentaryContents.innerHTML = "Pick a chapter.";
     showCommentaryChapterUsingDoubleSelect();
 }
 
-function showCommentaryChapterUsingDoubleSelect(){
+function showCommentaryChapterUsingDoubleSelect() {
     console.log("called");
     let book = commentaryBookSelect.value;
     let chapter = commentaryChapterSelect.value;
     // console.log("chapter!!!!!!!!!!!!");
     // console.log(chapter);
-    if (chapter===""){
+    if (chapter === "") {
         return;
     }
-    console.log(book,typeof(book));
-    console.log(chapter,typeof(chapter));
-    let osisRef=book+"."+chapter;
+    console.log(book, typeof (book));
+    console.log(chapter, typeof (chapter));
+    let osisRef = book + "." + chapter;
     console.log(osisRef);
-    commentarySelect.value=osisRef;
+    commentarySelect.value = osisRef;
     showCommentaryChapter();
 
 }
@@ -1488,18 +1513,18 @@ populateBibleChapterSelect();
 populateCommentaryChapterSelect();
 
 //populate Bible Chapter using double Select
-function showBibleChapterUsingDoubleSelect(){
+function showBibleChapterUsingDoubleSelect() {
     console.log("called");
     let book = bibleBookSelect.value;
-    let chapter=bibleChapterSelect.value;
-    if (chapter===""){
+    let chapter = bibleChapterSelect.value;
+    if (chapter === "") {
         return;
     }
-    console.log(book,typeof(book));
-    console.log(chapter,typeof(chapter));
-    let osisRef=book+"."+chapter;
+    console.log(book, typeof (book));
+    console.log(chapter, typeof (chapter));
+    let osisRef = book + "." + chapter;
     console.log(osisRef);
-    bibleSelect.value=osisRef;
+    bibleSelect.value = osisRef;
     showBibleChapter();
 }
 
@@ -1517,14 +1542,14 @@ buildSearchInputsForDictionary();
 //----------------------------------------------
 //load initial settings
 bibleSelect.value = "Gen.1";
-bibleBookSelect.value="Gen";
-bibleChapterSelect.value="1";
+bibleBookSelect.value = "Gen";
+bibleChapterSelect.value = "1";
 showBibleChapter();
 dictionaryInput.value = "Jerusalem";
 dictionaryWordLoadButton.click();
 commentarySelect.value = "Gen.1";
-commentaryBookSelect.value="Gen";
-commentaryChapterSelect.value="1";
+commentaryBookSelect.value = "Gen";
+commentaryChapterSelect.value = "1";
 showCommentaryChapter();
 showMain('bible');
 loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
