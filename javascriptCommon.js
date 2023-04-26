@@ -622,18 +622,19 @@ function loadReadingTable(title, readingPlanObject) {
 
 function stop() {
     warnNoSynth();
+    uttersArr=[];
     myPauseProperty = false;
     synth.cancel(currentUtter);
 }
 function play() {
     warnNoSynth();
-    uttersArr = [];
     if ((myPauseProperty === true) && (synth.speaking === true)) {//alredy started not ended
         //speech somewhere in the middle, and paused, needs resumed
         synth.resume();
         myPauseProperty = false;
     }
     else if (synth.speaking === false) {
+        uttersArr = [];
         let myText = document.getElementById("bible-contents").innerText;
 
 
