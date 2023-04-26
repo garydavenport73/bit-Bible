@@ -318,3 +318,8 @@ li.day-of-year {
 #bible-select, #commentary-select{
     display: none;
 }
+
+/* TEMPORARY UNTIL PAUSE ISSUE FIXED */
+#pause-audio{
+    display: none;
+}

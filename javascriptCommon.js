@@ -633,6 +633,7 @@ function play() {
         synth.resume();
         myPauseProperty = false;
     }
+
     else if (synth.speaking === false) {
         uttersArr = [];
         let myText = document.getElementById("bible-contents").innerText;
