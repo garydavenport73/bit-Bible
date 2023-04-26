@@ -623,7 +623,7 @@ function loadReadingTable(title, readingPlanObject) {
 function stop() {
     warnNoSynth();
     myPauseProperty = false;
-    synth.cancel(utterThis);
+    synth.cancel(currentUtter);
 }
 function play() {
     warnNoSynth();
@@ -635,12 +635,50 @@ function play() {
     else if (synth.speaking === false) {
         let myText = document.getElementById("bible-contents").innerText;
         myText = myText.replace(/\d\d?\d?\./g, " "); //remove verse numbers
+
+        // https://stackoverflow.com/questions/18087416/split-string-in-half-by-word
+        // https://stackoverflow.com/users/69083/guffa
+        let middle = Math.floor(myText.length / 2);
+        let before = myText.lastIndexOf('. ', middle);
+        let after = myText.indexOf('. ', middle);
+        
+        if (middle - before < after - middle) {
+            middle = before;
+        } else {
+            middle = after;
+        }
+        
+        var myText1 = myText.substring(0, middle + 1);
+        var myText2 = myText.substring(middle+1);
+
+        console.log(myText1);
+        console.log(myText2);
+
+
         //not started or has ended, expects to start play
-        utterThis = new SpeechSynthesisUtterance(myText);
-        synth.speak(utterThis);
+        utterThis1 = new SpeechSynthesisUtterance(myText1);
+        utterThis1.addEventListener("end",actOnUtter1End);
+        utterThis2 = new SpeechSynthesisUtterance(myText2);
+
+        let currentUtter=utterThis1;
+        
+        synth.speak(currentUtter);
+        
+        
         myPauseProperty = false;
     }
 }
+
+function actOnUtter1End(){
+    if ((myPauseProperty===false)&&(true)){
+        let currentUtter=utterThis2;
+        synth.speak(currentUtter);
+    }
+}
+
+
+
+
 function pause() {
     warnNoSynth();
     if ((myPauseProperty === true) && (synth.speaking === true)) {
@@ -1305,7 +1343,10 @@ let stopButton = document.getElementById("stop-audio");
 stopButton.addEventListener("click", stop);
 const synth = window.speechSynthesis;
 let myPauseProperty = false;
-let utterThis;
+let utterThis1;
+let utterThis2;
+let currentUtter;
+
 let buttonSelectMaps = document.getElementsByClassName("btn-select-map");
 let jfbKeys = [];//fill in later with function
 let osis = [];//fill in later with function
