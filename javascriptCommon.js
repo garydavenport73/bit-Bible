@@ -1277,6 +1277,7 @@ function processWordClick(evt) {
     showMain('dictionary');
     // dictionaryInput.value = evt.target.innerHTML;
     showDictionaryEntry(evt);
+    document.getElementById('search-result-list').innerHTML="";
 }
 function processOsisRefClick(evt) {
     showMain('bible');
@@ -1599,6 +1600,35 @@ showBibleChapterUsingDoubleSelect();
 generateDictionaryWords();
 //Build the search input for the dictionary
 buildSearchInputsForDictionary();
+
+////////////AUTOCOMPLETE////////////////
+let searchBox = document.getElementById('dictionary-input');
+searchBox.addEventListener('input', generateList);
+function generateList() {
+    let prefix = searchBox.value;
+    let wordResultList = [];
+    if (prefix.trim()===""){
+        document.getElementById('search-result-list').innerHTML ="";
+        return;
+    }
+    for (let i = 0; i < dictionaryWords.length; i++) {
+        if (dictionaryWords[i].toLowerCase().indexOf(prefix.toLowerCase()) !== -1) {
+            wordResultList.push(dictionaryWords[i]);
+        }
+    }
+    console.log(wordResultList);
+    document.getElementById('search-result-list').innerHTML = buildUnorderedList(wordResultList);
+    addEventListenersToWords();
+}
+function buildUnorderedList(arr) {
+    let str = "";
+    for (let i = 0; i < arr.length; i++) {
+        str += "<li class='word generated-search-list-element'>" + arr[i] + "</li>";
+    }
+    return str;
+}
+//////////////////////////////////////
+
 //----------------------------------------------
 //load initial settings
 bibleSelect.value = "Gen.1";

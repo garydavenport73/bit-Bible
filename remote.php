@@ -85,11 +85,17 @@
             <div id="bible-contents"></div>
         </main>
         <main id="dictionary">
-            <h3>Dictionary</h3>
-            <nav> <input type="search" id="dictionary-input" list="bible-words">
+        <h3>Dictionary</h3>
+            <!-- <nav> <input type="search" id="dictionary-input" list="bible-words">
                 <button id="dictionary-word-load" class="no-margin">🔎</button>
                 <datalist id="bible-words"></datalist>
-            </nav>
+            </nav> -->
+            <div id="autocomplete-div">
+                <input type="text" id="dictionary-input">
+                <button id="dictionary-word-load" class="no-margin">🔎</button>
+                <ul id="search-result-list">
+                </ul>
+            </div>
             <div id="dictionary-contents"></div>
         </main>
         <main id="commentary">

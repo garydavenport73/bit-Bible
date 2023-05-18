@@ -54,7 +54,7 @@
                     <button id="last-check-to-today-button">Today is Last Checked Box</button>
                     <button id="reset-dates">Reset to Defaults</button>
                     <div>
-                    <button onclick="_shiftDates();">Shift By:</button><input type="number" id="shift-by-integer" value="0" step="1">
+                        <button onclick="_shiftDates();">Shift By:</button><input type="number" id="shift-by-integer" value="0" step="1">
                     </div>
                 </nav>
             </nav>
@@ -86,10 +86,16 @@
         </main>
         <main id="dictionary">
             <h3>Dictionary</h3>
-            <nav> <input type="search" id="dictionary-input" list="bible-words">
+            <!-- <nav> <input type="search" id="dictionary-input" list="bible-words">
                 <button id="dictionary-word-load" class="no-margin">🔎</button>
                 <datalist id="bible-words"></datalist>
-            </nav>
+            </nav> -->
+            <div id="autocomplete-div">
+                <input type="text" id="dictionary-input">
+                <button id="dictionary-word-load" class="no-margin">🔎</button>
+                <ul id="search-result-list">
+                </ul>
+            </div>
             <div id="dictionary-contents"></div>
         </main>
         <main id="commentary">
@@ -119,13 +125,13 @@
             <div id="map-name">&nbsp;</div>
             <div id="map-info">&nbsp;</div>
             <div id="map-container">
-            <!-- <pre id="ascii-map"></pre> -->
-            <img id="base-64-map" src="
+                <!-- <pre id="ascii-map"></pre> -->
+                <img id="base-64-map" src="
             <?php
             include_once("./base64Map.txt");
             ?>
             " alt="Holy Land Map">
-                </div>
+            </div>
         </main>
         <main id="help">
             <h3>Help</h3>
@@ -362,15 +368,13 @@
         if (isset($_GET["commentary"])) {
             echo ("commentaryBook='" . $_GET["commentary"] . "';");
             $commentaryBook = $_GET["commentary"];
-        }
-        else{
+        } else {
             $commentaryBook = "JFB";
         }
         if (isset($_GET["bible"])) {
             echo ("bibleVersion='" . $_GET["bible"] . "';");
             $bibleVersion = $_GET["bible"];
-        }
-        else{
+        } else {
             $bibleVersion = "BSB";
         }
 

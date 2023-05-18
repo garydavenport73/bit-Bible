@@ -323,3 +323,20 @@ li.day-of-year {
 #pause-audio{
     display: none;
 }
+
+
+#dictionary-word-load{
+    display: none;
+}
+#search-result-list{
+    border: 1px solid grey;
+    position: absolute;
+    width: 320px;
+}
+#search-result-list li:nth-child(odd){
+    background-color: snow;
+}
+#search-result-list li:hover{
+    color: black;
+    background-color:lightgrey;
+}

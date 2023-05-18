@@ -103,7 +103,11 @@ function showDictionaryEntry(evt) {
     let referencesCount = 0;
     let matchKnown = false;
 
-    if (evt.target.parentElement.id.indexOf("-refs-") !== -1) {//event is coming from contents of definition
+    if (evt.target.classList.contains("generated-search-list-element")){
+        console.log("was from generated list");
+    }
+
+    else if (evt.target.parentElement.id.indexOf("-refs-") !== -1) {//event is coming from contents of definition
         senderRefArrayStr = evt.target.parentElement.id.split("-refs-")[1];
     }
 
