@@ -358,9 +358,15 @@
             echo ("commentaryBook='" . $_GET["commentary"] . "';");
             $commentaryBook = $_GET["commentary"];
         }
+        else{
+            $commentaryBook = "JFB";
+        }
         if (isset($_GET["bible"])) {
             echo ("bibleVersion='" . $_GET["bible"] . "';");
             $bibleVersion = $_GET["bible"];
+        }
+        else{
+            $bibleVersion = "BSB";
         }
 
         echo ("let nestedBible=");
