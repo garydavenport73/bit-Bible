@@ -735,6 +735,8 @@ function warnNoSynth() {
 "use strict";
 //computes the size of the map, and keeps reducing the size until under the specified width
 function setSizeOfAsciiMap(pixelWidth) {
+    
+    return;
     //pixelWidth = 100; //target width
     asciiMap.style.fontSize = "20px";
     let floatFontSize = 20;
@@ -769,7 +771,21 @@ function getYFromLatitude(latitude) {
     let topLatitude = 34.0;
     let bottomLatitude = 29.0;
     //let bottomPixel = 745;
-    let bottomPixel = asciiMap.offsetHeight;
+
+
+
+
+
+
+
+
+    ////////////CHANGE HERE TO IMAGE //////////////
+
+    //->    let bottomPixel = asciiMap.offsetHeight;
+    let bottomPixel = base64Map.offsetHeight;
+
+
+
     console.log("height " + bottomPixel);
     let topPixel = 0;
 
@@ -787,8 +803,11 @@ function getXLocationFromLongitude(longitude) {
     let leftLongitude = 33.5;
     let rightLongitude = 36.5;
     let leftPixel = 0;
-    //let rightPixel = 800;
-    let rightPixel = asciiMap.offsetWidth;
+    //let rightPixel = 800;//////
+    ////////////CHANGE HERE TO IMAGE //////////////
+
+    //->let rightPixel = asciiMap.offsetWidth;
+    let rightPixel = base64Map.offsetWidth;
     console.log("width " + rightPixel);
 
     let mLong = (rightPixel - leftPixel) / (rightLongitude - leftLongitude);
@@ -799,9 +818,16 @@ function getXLocationFromLongitude(longitude) {
 function plotDataPoint(str, latitude, longitude, className = "bullseye") {
     let xLocation = getXLocationFromLongitude(longitude);
     let yLocation = getYFromLatitude(latitude);
-    if ((xLocation < 0) || (xLocation > asciiMap.offsetWidth) || (yLocation < 0) || (yLocation > asciiMap.offsetHeight)) {
+
+    // CHANGED to IMAGE BELOW
+    // if ((xLocation < 0) || (xLocation > asciiMap.offsetWidth) || (yLocation < 0) || (yLocation > asciiMap.offsetHeight)) {
+    //     //plot nothing, it is off map
+    // }
+
+    if ((xLocation < 0) || (xLocation > base64Map.offsetWidth) || (yLocation < 0) || (yLocation > base64Map.offsetHeight)) {
         //plot nothing, it is off map
     }
+
     else {
         let mapContainer = document.getElementById("map-container");
         let bullseye = document.createElement("span");
@@ -913,9 +939,15 @@ function openGoogleMap() {
 function locationOffMap(latitude, longitude) {
     let xLocation = getXLocationFromLongitude(longitude);
     let yLocation = getYFromLatitude(latitude);
-    if ((xLocation < 0) || (xLocation > asciiMap.offsetWidth) || (yLocation < 0) || (yLocation > asciiMap.offsetHeight)) {
+    // if ((xLocation < 0) || (xLocation > asciiMap.offsetWidth) || (yLocation < 0) || (yLocation > asciiMap.offsetHeight)) {
+    //     return true;
+    // } 
+    ///////////////////CHANGED HERE FOR IMAGE ////////////////////////////
+    if ((xLocation < 0) || (xLocation > base64Map.offsetWidth) || (yLocation < 0) || (yLocation > base64Map.offsetHeight)) {
         return true;
-    } else {
+    } 
+    else 
+    {
         return false;
     }
 }
@@ -1353,7 +1385,8 @@ let dictionaryInput = document.getElementById("dictionary-input");
 let dictionaryContents = document.getElementById("dictionary-contents");
 let seeCommentaryButton = document.getElementById("see-commentary-button");
 let dictionaryWordLoadButton = document.getElementById("dictionary-word-load");
-let asciiMap = document.getElementById("ascii-map");
+//let asciiMap = document.getElementById("ascii-map");
+let base64Map=document.getElementById("base-64-map");
 let readingButton = document.getElementById("reading-button");
 let bibleButton = document.getElementById("bible-button");
 let dictionaryButton = document.getElementById("dictionary-button");
@@ -1380,8 +1413,11 @@ let osis = [];//fill in later with function
 let dictionaryWords = [];//fill in later with function
 let useRedLetters = false;
 //load map set size of map
-asciiMap.innerHTML = BASEMAP;
-setSizeOfAsciiMap(320);//sets to 320px
+//////////////////CHANGES HERE////////////////////////
+//asciiMap.innerHTML = BASEMAP;
+//setSizeOfAsciiMap(320);//sets to 320px->
+//
+//////////////////////////////////////////////////
 //Add event listeners to the Bible Selectn process
 bibleSelect.addEventListener("input", showBibleChapter);
 

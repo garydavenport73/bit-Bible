@@ -119,8 +119,15 @@
             <div id="map-name">&nbsp;</div>
             <div id="map-info">&nbsp;</div>
             <div id="map-container">
-                <pre id="ascii-map"></pre>
-            </div>
+            <!-- <pre id="ascii-map"></pre> -->
+            <img id="base-64-map" src="
+            <?php
+            //swithc
+            
+            include_once("./base64Map.txt");
+            ?>
+            " alt="Holy Land Map">
+                </div>
         </main>
         <main id="help">
             <h3>Help</h3>
