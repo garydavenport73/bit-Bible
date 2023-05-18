@@ -119,7 +119,12 @@
             <div id="map-name">&nbsp;</div>
             <div id="map-info">&nbsp;</div>
             <div id="map-container">
-                <pre id="ascii-map"></pre>
+            <!-- <pre id="ascii-map"></pre> -->
+            <img id="base-64-map" src="
+            <?php
+            include_once("./base64Map.txt");
+            ?>
+            " alt="Holy Land Map">
             </div>
         </main>
         <main id="help">
@@ -348,8 +353,9 @@
     <!-- Load Bible, Dictionary, and Commentary, and other Constant Arrays-->
     <!-- constants.js contains OSISBOOKS, OSISTOFULLNAME, HEADINGS, PARAGRAPHLOCATIONS -->
     <script>
-        let commentaryBook = "JFB";
-        let bibleVersion = "BSB";
+        let commentaryBook = "JFB"; //used when using showCommentaryChapter() in remote.js
+        let bibleVersion = "BSB"; //used when using showBibleChapter() but also a double check 
+        //in getBookChapter.php
     </script>
     <script>
         <?php

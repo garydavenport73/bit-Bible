@@ -927,13 +927,14 @@ function addBackgroundLocations(evt) {
 }
 
 function openGoogleMap() {
-    let location = document.getElementById("map-info").innerText.split(": ")[1];
-    console.log(location);
-    if ((location !== undefined) && (location.indexOf("undefined") === -1)) {
-        let url = "http://maps.google.com/maps?q=" + location;
-        console.log("opening: " + url);
-        window.open(url);
-    }
+    // let location = document.getElementById("map-info").innerText.split(": ")[1];
+    // console.log(location);
+    // if ((location !== undefined) && (location.indexOf("undefined") === -1)) {
+    //     let url = "http://maps.google.com/maps?q=" + location;
+    //     console.log("opening: " + url);
+    //     window.open(url);
+    // }
+    console.log("Set to doing nothing");
 }
 
 function locationOffMap(latitude, longitude) {
@@ -1243,13 +1244,34 @@ function processLocationClick(evt) {
     let str = evt.target.parentElement.id.split("-refs-")[0];
     let latitude = evt.target.innerHTML.split(",")[0];
     let longitude = evt.target.innerHTML.split(",")[1];
+
+
     if (locationOffMap(latitude, longitude)) {
         document.getElementById("map-info").innerHTML = "(off map)" + str + ": " + evt.target.innerHTML;
+
+        //right here, rebuild a link inside the element
+
+        //ex: link inside a button
+        //<button><a href="https://www.garydavenport.com/bitoffice/bitOffice.html" target="_blank">Try out bitOffice</a></button>
+
+        //str="<button id='btn-open-google-map'><a href="+"hi"+">&#127760;</a></button>";
+
     }
     else {
         document.getElementById("map-info").innerHTML = str + ": " + evt.target.innerHTML;
         plotDataPoint("o" + str, latitude, longitude);
     }
+
+    //let location = document.getElementById("map-info").innerText.split(": ")[1];
+    //console.log(location);
+    // if ((location !== undefined) && (location.indexOf("undefined") === -1)) {
+    //     let url = "http://maps.google.com/maps?q=" + location;
+    //     console.log("opening: " + url);
+    //     window.open(url);
+    // }
+    let url="http://maps.google.com/maps?q=" + evt.target.innerHTML;
+    document.getElementById("btn-open-google-map").innerHTML="<a href="+url+" target='_blank'>&#127760;</a>";
+
 }
 function processWordClick(evt) {
     showMain('dictionary');

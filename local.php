@@ -122,8 +122,6 @@
             <!-- <pre id="ascii-map"></pre> -->
             <img id="base-64-map" src="
             <?php
-            //swithc
-            
             include_once("./base64Map.txt");
             ?>
             " alt="Holy Land Map">
