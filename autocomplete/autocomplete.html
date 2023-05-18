@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="autocomplete-div">
+        <input type="text" id="search-box">
+        <ul id="search-result-list">
+            <li>aardvark</li>
+            <li>ant</li>
+        </ul>
+    </div>
+</body>
+<script src="dictionary.js"></script>
+<script>
+    let searchBox = document.getElementById('search-box');
+    searchBox.addEventListener('input', generateList);
+    function generateList() {
+        let prefix = searchBox.value;
+        let wordResultList = [];
+        for (let i=0;i<dictionaryWords.length;i++){
+            if (dictionaryWords[i].toLowerCase().indexOf(prefix.toLowerCase())!==-1){
+                wordResultList.push(dictionaryWords[i]);
+            }
+        }
+        console.log(wordResultList);
+        document.getElementById('search-result-list').innerHTML=buildUnorderedList(wordResultList);
+        addEventListenersToWords();
+    }
+    function buildUnorderedList(arr){
+        let str="";
+        for (let i=0;i<arr.length;i++){
+            str+="<li class='word'>"+arr[i]+"</li>";
+        }
+        return str;
+    }
+    function addEventListenersToWords(){
+        return;
+    }
+</script>
+
+</html>

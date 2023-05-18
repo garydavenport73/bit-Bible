@@ -1,6 +1,6 @@
 to do on bitBible App->
-change from ASCII map to image
-might as well change the google map launch mechanism
+X change from ASCII map to image  DONE
+X might as well change the google map launch mechanism
 remove event listener from btn-launch-google-maps
 
 to do bitBible Android

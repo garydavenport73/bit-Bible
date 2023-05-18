@@ -1,0 +1,32 @@
+Quick Answer - Merge Branch into Master
+If you're looking for a quick answer, to merge a branch into the master branch - you checkout master and merge some_branch:
+
+$ git checkout new-branch
+# ...develop some code...
+
+$ git add .
+$ git commit –m "Some commit message"
+$ git checkout master
+Switched to branch 'master'
+$ git merge new-branch
+You always checkout the branch you're merging into, and merge a branch that already has changes.
+
+
+MORE ADVANCED BELOW FOR COPYING OVER BRANCH
+
+
+
+
+The problem with the other two answers is that the new master doesn't have the old master as an ancestor, so when you push it, everyone else will get messed up. This is what you want to do:
+
+git checkout better_branch
+git merge --strategy=ours master    # keep the content of this branch, but record a merge
+git checkout master
+git merge better_branch             # fast-forward master up to the merge
+If you want your history to be a little clearer, I'd recommend adding some information to the merge commit message to make it clear what you've done. Change the second line to:
+
+git merge --strategy=ours --no-commit master
+git commit          # add information to the template merge message
+
+
+
