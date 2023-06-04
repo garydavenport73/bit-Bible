@@ -1285,6 +1285,9 @@ function processOsisRefClick(evt) {
     let book = evt.target.innerHTML.split(".")[0];
     let chapter = evt.target.innerHTML.split(".")[1];
     bibleBookSelect.value = book;
+
+    populateBibleChapterSelect();
+
     bibleChapterSelect.value = chapter;
     //bibleSelect.value = evt.target.innerHTML.split(".")[0] + "." + evt.target.innerHTML.split(".")[1];
 
@@ -1297,13 +1300,14 @@ function processOsisRefClick(evt) {
 
 function processSeeCommentaryBtn() {
     let chapter = bibleChapterSelect.value;
-    let book = bibleBookSelect.value;
+
     if (chapter === "") {
         return;
     }
-
+    let book = bibleBookSelect.value;
 
     commentaryBookSelect.value = book;
+    populateCommentaryChapterSelect();
     commentaryChapterSelect.value = chapter;
 
     showCommentaryChapterUsingDoubleSelect();
@@ -1341,50 +1345,54 @@ function tagRefsAndWords(contents, osisStartTag, osisEndTag, wordStartTag, wordE
     return contents;
 }
 function backOneChapterBible() {
-    if (bibleChapterSelect.value === "") {
+    if ((bibleBookSelect.value === "") ||(bibleChapterSelect.value==="")) {
         return;
     }
     let osisValue = bibleBookSelect.value + "." + bibleChapterSelect.value;
     let currentIndex = osis.indexOf(osisValue);
     if (currentIndex > 0) {
         bibleBookSelect.value = osis[currentIndex - 1].split(".")[0];
+        populateBibleChapterSelect();
         bibleChapterSelect.value = osis[currentIndex - 1].split(".")[1];
         showBibleChapterUsingDoubleSelect();
     }
 }
 function forwardOneChapterBible() {
-    if (bibleChapterSelect.value === "") {
+    if ((bibleBookSelect.value === "") ||(bibleChapterSelect.value==="")) {
         return;
     }
     let osisValue = bibleBookSelect.value + "." + bibleChapterSelect.value;
     let currentIndex = osis.indexOf(osisValue);
     if (currentIndex < osis.length - 1) {
         bibleBookSelect.value = osis[currentIndex + 1].split(".")[0];
+        populateBibleChapterSelect();
         bibleChapterSelect.value = osis[currentIndex + 1].split(".")[1];
         showBibleChapterUsingDoubleSelect();
     }
 }
 function backOneChapterCommentary() {
-    if (commentaryChapterSelect.value === "") {
+    if ((commentaryBookSelect.value === "") ||(commentaryChapterSelect.value==="")) {
         return;
     }
-    let osisValue = commentaryBookSelect.value + "." + commentaryChapterSelect.value;
-    let currentIndex = osis.indexOf(osisValue);
+    let jfbKeysValue = commentaryBookSelect.value + "." + commentaryChapterSelect.value;
+    let currentIndex = jfbKeys.indexOf(jfbKeysValue);
     if (currentIndex > 0) {
-        commentaryBookSelect.value = osis[currentIndex - 1].split(".")[0];
-        commentaryChapterSelect.value = osis[currentIndex - 1].split(".")[1];
+        commentaryBookSelect.value = jfbKeys[currentIndex - 1].split(".")[0];
+        populateCommentaryChapterSelect();
+        commentaryChapterSelect.value = jfbKeys[currentIndex - 1].split(".")[1];
         showCommentaryChapterUsingDoubleSelect();
     }
 }
 function forwardOneChapterCommentary() {
-    if (commentaryChapterSelect.value === "") {
+    if ((commentaryBookSelect.value === "") ||(commentaryChapterSelect.value==="")) {
         return;
     }
-    let osisValue = commentaryBookSelect.value + "." + commentaryChapterSelect.value;
-    let currentIndex = osis.indexOf(osisValue);
-    if (currentIndex < osis.length - 1) {
-        commentaryBookSelect.value = osis[currentIndex + 1].split(".")[0];
-        commentaryChapterSelect.value = osis[currentIndex + 1].split(".")[1];
+    let jfbKeysValue = commentaryBookSelect.value + "." + commentaryChapterSelect.value;
+    let currentIndex = jfbKeys.indexOf(jfbKeysValue);
+    if (currentIndex < jfbKeys.length - 1) {
+        commentaryBookSelect.value = jfbKeys[currentIndex + 1].split(".")[0];
+        populateCommentaryChapterSelect();
+        commentaryChapterSelect.value = jfbKeys[currentIndex + 1].split(".")[1];
         showCommentaryChapterUsingDoubleSelect();
     }
 }
@@ -1534,7 +1542,7 @@ function populateBibleChapterSelect() {
     bibleChapterSelect.innerHTML = str;
     bibleChapterSelect.value = "";
     bibleContents.innerHTML = "Pick a chapter.";
-    showBibleChapterUsingDoubleSelect();
+    // showBibleChapterUsingDoubleSelect();
 }
 
 function populateCommentaryChapterSelect() {
@@ -1549,7 +1557,7 @@ function populateCommentaryChapterSelect() {
     commentaryChapterSelect.innerHTML = str;
     commentaryChapterSelect.value = "";
     commentaryContents.innerHTML = "Pick a chapter.";
-    showCommentaryChapterUsingDoubleSelect();
+    //showCommentaryChapterUsingDoubleSelect();
 }
 
 function showCommentaryChapterUsingDoubleSelect() {
