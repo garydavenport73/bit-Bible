@@ -42,24 +42,32 @@
     <div id="main-container">
         <main id="reading">
             <h3>Reading Plan</h3>
-            <nav>
+            <!-- <nav>
                 <button id="load-reading-progress">Load Progress&#128194;</button>
                 <button id="save-reading-progress">Save&#128193;</button>
                 <button id="switch-reading-plans">Switch Plans</button>
             </nav>
             <nav>
-                <!-- Currently, toggle-reading-dates controls showing of dates in table, nested-menu controls open and close of each other -->
+                Currently, toggle-reading-dates controls showing of dates in table, nested-menu controls open and close of each other
                 <button id="toggle-reading-dates">&equiv; Dates</button>
                 <nav id="reading-menu" class="initial-close">
                     <button id="last-check-to-today-button">Today is Last Checked Box</button>
                     <button id="reset-dates">Reset to Defaults</button>
                     <div>
-                    <button onclick="_shiftDates();">Shift By:</button><input type="number" id="shift-by-integer" value="0" step="1">
+                        <button onclick="_shiftDates();">Shift By:</button><input type="number" id="shift-by-integer" value="0" step="1">
                     </div>
                 </nav>
+            </nav> -->
+            <nav>
+                <button id="switch-reading-plans">Switch Plans</button>
+                <nav>
+                    <button id="download-reading-progress">Download Progress</button>
+                    <button id="upload-reading-progress">Upload Progress</button>
+                </nav>
             </nav>
-            <h2 id="reading-plan-name"></h2>
+                        <h2 id="reading-plan-name"></h2>
             <table id="reading-plan-table"></table>
+            <div id="flex-reading-plan"></div>
         </main>
         <main id="bible">
             <h3>Bible</h3>

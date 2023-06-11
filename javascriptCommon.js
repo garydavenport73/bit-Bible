@@ -105,12 +105,12 @@ function makeReadingTable(readingPlan) {
     return readingTable;
 }
 
-function _shiftDates() {
-    let shiftInteger = parseInt(document.getElementById("shift-by-integer").value);
-    if (!isNaN(shiftInteger)) {
-        shiftDates(shiftInteger);
-    }
-}
+// function _shiftDates() {
+//     let shiftInteger = parseInt(document.getElementById("shift-by-integer").value);
+//     if (!isNaN(shiftInteger)) {
+//         shiftDates(shiftInteger);
+//     }
+// }
 
 function resetDates() {
     let now = new Date();
@@ -286,67 +286,21 @@ function shiftDates(shiftInteger) {
 }
 
 function switchReadingPlans() {
-
-    //CHRON -> OT/NT -> ST -> NTCHRON
-
-    // if (document.getElementById("reading-plan-name").innerHTML === "Chronological") {
-    //     loadReadingTable("Old Testament/New Testament", OTNTREADINGPLAN)
-    // }
-    // else if (document.getElementById("reading-plan-name").innerHTML === "Old Testament/New Testament") {
-    //     loadReadingTable("Straight Through", STRAIGHTREADINGPLAN);
-    // }
-    // else if (document.getElementById("reading-plan-name").innerHTML === "Straight Through") {
-    //     loadReadingTable("Chronological NT 260 Days", CHRONOLOGICALNT260);
-    // }
-    // else if (document.getElementById("reading-plan-name").innerHTML === "Chronological NT 260 Days") {
-    //     loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
-    // }
-    // else {
-    //     loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
-    // }
-
-
-
-
-    // if (true){
-    if (confirm("Are you sure?\nPlease save any reading plan data before switching.")) {
-        //console.log("run switching mechanism");
-        //console.log(document.getElementById("reading-plan-name").innerHTML);
-
-
-        if (document.getElementById("reading-plan-name").innerHTML === "Chronological") {
-            loadReadingTable("Old Testament/New Testament", OTNTREADINGPLAN)
-        }
-        else if (document.getElementById("reading-plan-name").innerHTML === "Old Testament/New Testament") {
-            loadReadingTable("Straight Through", STRAIGHTREADINGPLAN);
-        }
-        else if (document.getElementById("reading-plan-name").innerHTML === "Straight Through") {
-            loadReadingTable("Chronological NT 260 Days", CHRONOLOGICALNT260);
-        }
-        else if (document.getElementById("reading-plan-name").innerHTML === "Chronological NT 260 Days") {
-            loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
-        }
-        else {
-            loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
-        }
-        document.getElementById("reading-menu").style.display = "none";
-
-
-        // if (document.getElementById("reading-plan-name").innerHTML === "Old Testament/New Testament") {
-        //     loadReadingTable("Straight Through", STRAIGHTREADINGPLAN);
-        // }
-        // else if (document.getElementById("reading-plan-name").innerHTML === "Chronological") {
-        //     loadReadingTable("Old Testament/New Testament", OTNTREADINGPLAN);
-        // }
-        // else {
-        //     loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
-        // }
-        // document.getElementById("reading-menu").style.display="none";
+    if (document.getElementById("reading-plan-name").innerHTML === "Chronological") { loadReadingTable("Old Testament/New Testament", OTNTREADINGPLAN) }
+    else if (document.getElementById("reading-plan-name").innerHTML === "Old Testament/New Testament") {
+        loadReadingTable("Straight Through", STRAIGHTREADINGPLAN);
     }
-
-
-
-
+    else if (document.getElementById("reading-plan-name").innerHTML === "Straight Through") {
+        loadReadingTable("Chronological NT 260 Days", CHRONOLOGICALNT260);
+    }
+    else if (document.getElementById("reading-plan-name").innerHTML === "Chronological NT 260 Days") {
+        loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
+    }
+    else {
+        loadReadingTable("Chronological", CHRONOLOGICALREADINGPLAN);
+    }
+    addEventListenersToChapterCheckboxes();
+    fillChapterCheckBoxValues();
 }
 
 function getDateString(year, dayInteger) {
@@ -563,9 +517,9 @@ function loadReadingProgress() {
                     h1.style.borderRadius = readingPlanData["border-radius"];
                 }
             }
-            if (readingPlanData["border-radius"] != undefined) {
-                document.getElementById("shift-by-integer").style.borderRadius = readingPlanData["border-radius"];
-            }
+            // if (readingPlanData["border-radius"] != undefined) {
+            //     document.getElementById("shift-by-integer").style.borderRadius = readingPlanData["border-radius"];
+            // }
 
             if (readingPlanData["font-size"] != undefined) {
                 document.getElementsByTagName('*')[0].style.fontSize = readingPlanData["font-size"];
@@ -600,12 +554,130 @@ function refreshReadingDates() {
 }
 
 function loadReadingTable(title, readingPlanObject) {
-    readingPlanTable.innerHTML = makeReadingTable(readingPlanObject);
+    buildFlexReadingPlanTable(readingPlanObject);
     document.getElementById("reading-plan-name").innerHTML = title;
-    //****************changed */
-    showDates = false;
-    //********************************** */
     addEventListenersToReferences();
+
+
+    //readingPlanTable.innerHTML = makeReadingTable(readingPlanObject);
+    //document.getElementById("reading-plan-name").innerHTML = title;
+    //showDates = false;
+    //addEventListenersToReferences();
+}
+
+
+function createReadChapters() {
+    readChapters = {};
+    for (let i = 0; i < osis.length; i++) {
+        readChapters[osis[i]] = false;
+    }
+    console.log(readChapters);
+}
+
+function updateReadChapters(evt) {
+    console.log(evt.target.id);
+    let box = document.getElementById(evt.target.id);
+    let bookChap = evt.target.id.replace("-checkbox", "");
+    readChapters[bookChap] = box["checked"];
+    console.log(readChapters[bookChap]);
+}
+
+function addEventListenersToChapterCheckboxes() {
+    let boxes = document.getElementsByClassName("chapter-checkbox");
+    for (let i = 0; i < boxes.length; i++) {
+        boxes[i].addEventListener("input", (evt) => updateReadChapters(evt));
+    }
+}
+function buildFlexReadingPlanTable(readingPlan) {
+    document.getElementById("flex-reading-plan").innerHTML = "";
+    let str = "";
+    console.log("readingPlan");
+    
+    //let osisUsedKeys=JSON.parse(JSON.stringify(osis));
+    let osisUsedKeys=[];//keep a list of used chapters, do not repeat during build
+    for (let i = 0; i < 366; i++) {
+        let day = "Day " + i.toString();
+        if (readingPlan.hasOwnProperty(day)) {
+            console.log(day, readingPlan[day]);
+            let dayReadingList = readingPlan[day].trim().split(",");
+            for (let i = 0; i < dayReadingList.length; i++) {//remove whitspace
+                dayReadingList[i] = dayReadingList[i].trim();
+            }
+            str += "<div>\n";
+            str += "<b class='align-center'>" + day + "</b>";
+            for (let i = 0; i < dayReadingList.length; i++) {//remove whitspace
+                let thisChapterArray = dayReadingList[i].split(".");//just want book and chapter, omit verses
+                let thisChapter=thisChapterArray[0]+"."+thisChapterArray[1];
+
+                //want to eliminate the verses cut down to chapter
+
+                if (osisUsedKeys.includes(thisChapter)===false){
+                    str += "<span><input class='chapter-checkbox' type='checkbox' id='" + thisChapter + "-checkbox'><label class='osis'>" + thisChapter + "</label></span>";
+                    osisUsedKeys.push(thisChapter);
+                }
+                else{
+                    str += "<span><input style='visibility:hidden;'type='checkbox'><label class='osis'>" + thisChapter + "</label></span>";
+                }                        
+                //str+="<span><input class='chapter-checkbox' type='checkbox' id='"+thisChapter+"-checkbox'><label for='"+thisChapter+"-checkbox' class='osis'>"+thisChapter+"</label></span>";
+                
+            }
+            str += "</div>";
+
+            //     <div>
+            //     <b>Day 1</b>
+            //     <span><input class="chapter-checkbox" type="checkbox" id="Gen.1-checkbox"><label for="Gen.1-checkbox">Gen.1</label></span>
+            //     <span><input class="chapter-checkbox" type="checkbox" id="Gen.2-checkbox"><label
+            //             for="Gen.2-checkbox">Gen.2</label></span>
+            //     <span><input class="chapter-checkbox" type="checkbox" id="Gen.3-checkbox"><label
+            //             for="Gen.3-checkbox">Gen.3</label></span>
+            // </div>
+        }
+        else (console.log(i, "no day"));
+    }
+    document.getElementById("flex-reading-plan").innerHTML = str;
+}
+
+function fillChapterCheckBoxValues() {
+    console.log("fillChapterCheckBoxValues() called");
+    let checkboxes = document.getElementsByClassName("chapter-checkbox");
+    //console.log(checkboxes);
+    for (let i = 0; i < checkboxes.length; i++) {
+        let osisID = checkboxes[i]["id"].replace("-checkbox", "");
+
+        console.log(i, osisID);
+        if ((readChapters[osisID]!==undefined)&&(readChapters[osisID] === true)) {
+            console.log(osisID + "was checked");
+            checkboxes[i]["checked"] = true;
+        }
+        else {
+            checkboxes[i]["checked"] = false;
+        }
+    }
+}
+
+function downloadReadingProgress(){
+    console.log("downloadReadingProgress called");
+    saveStringToTextFile(JSON.stringify(readChapters),"readingProgress",".json");
+}
+
+function uploadReadingProgress(){
+    console.log("uploadReadingProgress called");
+    let fileContents = "";
+    let inputTypeIsFile = document.createElement("input");
+    inputTypeIsFile.type = "file";
+    inputTypeIsFile.addEventListener("change", function () {
+        let fileInput = inputTypeIsFile.files[0];
+        let fileReader = new FileReader();
+        fileReader.onload = function (fileLoadedEvent) {
+            let savedData = JSON.parse(fileLoadedEvent.target.result);
+            //console.log(readingPlanData);
+            readChapters={};
+            readChapters=savedData;
+            fillChapterCheckBoxValues();
+        };
+        fileReader.readAsText(fileInput, "UTF-8");
+    });
+    inputTypeIsFile.click();
 }
 
 
@@ -1078,7 +1150,7 @@ function changeFont(theElement) {
         for (let h1 of h1s) {
             h1.style.borderRadius = "5px";
         }
-        document.getElementById("shift-by-integer").style.borderRadius = "5px";
+        // document.getElementById("shift-by-integer").style.borderRadius = "5px";
     }
     else if (id === "times-button") {
         document.getElementsByTagName('html')[0].style.fontFamily = "'Times New Roman', Times, serif";
@@ -1100,7 +1172,7 @@ function changeFont(theElement) {
         for (let h1 of h1s) {
             h1.style.borderRadius = "10px";
         }
-        document.getElementById("shift-by-integer").style.borderRadius = "5px";
+        // document.getElementById("shift-by-integer").style.borderRadius = "5px";
     }
     else if (id === "courier-button") {
         document.getElementsByTagName('html')[0].style.fontFamily = "'Courier New', Courier, monospace";
@@ -1124,7 +1196,7 @@ function changeFont(theElement) {
         for (let h1 of h1s) {
             h1.style.borderRadius = "0px";
         }
-        document.getElementById("shift-by-integer").style.borderRadius = "0px";
+        // document.getElementById("shift-by-integer").style.borderRadius = "0px";
     }
     else if (id === "increase-font") {
         let pageFontSize = document.getElementsByTagName('*')[0].style.fontSize;
@@ -1483,9 +1555,9 @@ document.getElementById("times-button").addEventListener("click", (evt) => { cha
 document.getElementById("decrease-font").addEventListener("click", (evt) => { changeFont(evt.target); });
 document.getElementById("increase-font").addEventListener("click", (evt) => { changeFont(evt.target); });
 document.getElementById("show-all-checkbox").addEventListener("change", processShowAllCheckBox);
-document.getElementById("load-reading-progress").addEventListener("click", loadReadingProgress);
-document.getElementById("save-reading-progress").addEventListener("click", saveReadingProgress);
-document.getElementById("toggle-reading-dates").addEventListener("click", toggleReadingDates);
+//document.getElementById("load-reading-progress").addEventListener("click", loadReadingProgress);
+//document.getElementById("save-reading-progress").addEventListener("click", saveReadingProgress);
+//document.getElementById("toggle-reading-dates").addEventListener("click", toggleReadingDates);
 document.getElementById("switch-reading-plans").addEventListener("click", switchReadingPlans);
 document.getElementById("btn-clear-all-locations").addEventListener("click", clearAllLocations);
 document.getElementById("btn-open-google-map").addEventListener("click", openGoogleMap);
@@ -1494,8 +1566,8 @@ document.getElementById("bible-chapter-next").addEventListener("click", forwardO
 document.getElementById("commentary-chapter-previous").addEventListener("click", backOneChapterCommentary);
 document.getElementById("commentary-chapter-next").addEventListener("click", forwardOneChapterCommentary);
 document.getElementById("show-red-letters").addEventListener("change", toggleRedLetters);
-document.getElementById("last-check-to-today-button").addEventListener("click", setLastCheckedToToday);
-document.getElementById("reset-dates").addEventListener("click", resetDates);
+//document.getElementById("last-check-to-today-button").addEventListener("click", setLastCheckedToToday);
+//document.getElementById("reset-dates").addEventListener("click", resetDates);
 
 for (let button of buttonSelectMaps) {
     button.addEventListener("click", addBackgroundLocations);
@@ -1510,6 +1582,14 @@ buildOsisBibleKeys();  ////NEED TO CHANGE THIS TO GENERATE BASED ON NUM of chapt
 //Build the Bible select options
 buildBibleSelectOptions();
 
+///////////NEW SINCE ADDING NEW FLEX CHAPTER SCHEDULE AND SAVE FORMAT
+document.getElementById("download-reading-progress").addEventListener("click",downloadReadingProgress);
+document.getElementById("upload-reading-progress").addEventListener("click",uploadReadingProgress);
+let readChapters={};
+createReadChapters();
+addEventListenersToChapterCheckboxes();
+fillChapterCheckBoxValues();
+////////////////////////////////////////////////////////////////////
 
 //fill in the first Select option for books using double select
 function buildBibleBookSelect() {

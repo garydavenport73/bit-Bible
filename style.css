@@ -340,3 +340,31 @@ li.day-of-year {
     color: black;
     background-color:lightgrey;
 }
+
+#flex-reading-plan {
+    font-size: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid grey;
+    text-align: left;
+}
+
+#flex-reading-plan div {
+    min-width: 5rem;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    border: 1px solid grey;
+}
+
+.align-center {
+    text-align: center;
+}
+
+#old-computer-icon {
+    position: fixed;
+    bottom: 0;
+    right:0;
+}
