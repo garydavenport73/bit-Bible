@@ -82,6 +82,13 @@ text-align: center;
             margin-right: auto;
 width: 100%;
         }
+        footer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, 0%);
+}
        
 
     </style>
@@ -131,6 +138,7 @@ width: 100%;
                 If using The Pulpit Commentary, the file will be up to 45MB.</p> -->
         </div>
     </main>
+    <footer id="visit-counter"></footer>
 
     <script>
         function processSelections() {
@@ -158,6 +166,19 @@ width: 100%;
         processSelectionsRemote();
         processSelectionsLocal();
     </script>
+    <?php
+///////////////Page counter/////////////////////    
+$pageName=basename(__FILE__,".php");
+$countFileName=$pageName."-count.txt";
+$int=0;
+$contents=file_get_contents($countFileName);
+$int = (int)$contents;
+$int=$int+1;
+file_put_contents($countFileName,(string)($int));
+//require_once($pageName.".html");
+echo ("<script>document.getElementById('visit-counter').innerHTML='".$int." visits.'</script>");
+////////////////////////////////////////////////
+?>
 </body>
 
 </html>
